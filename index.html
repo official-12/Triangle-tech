@@ -1,1102 +1,230 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Triangle Tech — Building Modern Web Experiences</title>
-  <meta name="description" content="Triangle Tech — building and maintaining professional, colorful, high-performance websites and digital products." />
-  <meta name="theme-color" content="#071032" />
-
-  <!-- Tailwind (via CDN) for rapid, consistent styling -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- GSAP for polished animations -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triangle Tech</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://kit.fontawesome.com/a2e0e6e6b1.js" crossorigin="anonymous"></script>
   <style>
-    /* Custom styles (used alongside Tailwind classes) */
-    :root{
-      --navy:#031022;
-      --deep-navy:#071032;
-      --sky:#4fd1ff;
-      --gold:#D4AF37;
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Poppins', sans-serif;
     }
-
-    /* Full-screen gradient background */
-    .site-bg {
-      background: linear-gradient(180deg, rgba(3,16,34,1) 0%, rgba(6,45,97,0.95) 40%, rgba(36,176,255,0.85) 100%);
-      min-height:100vh;
+    /* Background Slideshow */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
     }
-
-    /* Triangle logo strokes: keep separate, rotate at different speeds */
-    .triangle-wrap { width:110px; height:110px; display:flex; align-items:center; justify-content:center; }
-    .triangle-svg { width:100%; height:100%; display:block; }
-
-    .stroke-anim-1 { transform-origin:center; animation:spin-1 12s linear infinite; }
-    .stroke-anim-2 { transform-origin:center; animation:spin-2 18s linear infinite; }
-    .stroke-anim-3 { transform-origin:center; animation:spin-3 25s linear infinite; }
-
-    @keyframes spin-1 { from{transform:rotate(0)} to{transform:rotate(360deg)} }
-    @keyframes spin-2 { from{transform:rotate(360deg)} to{transform:rotate(0)} }
-    @keyframes spin-3 { from{transform:rotate(0)} to{transform:rotate(-360deg)} }
-
-    /* Make sure strokes never overlap exactly by slightly different stroke-dashoffsets */
-    .stroke-1 { stroke-dasharray: 200; stroke-dashoffset: 10; }
-    .stroke-2 { stroke-dasharray: 200; stroke-dashoffset: 60; }
-    .stroke-3 { stroke-dasharray: 200; stroke-dashoffset: 110; }
-
-    /* Hero image container */
-    .hero-image {
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #001f3f, #00aaff);
+      opacity: 0.85;
+      z-index: 2;
+    }
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background-size: cover;
       background-position: center;
-      filter: saturate(1.05) contrast(1.02);
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .slide.active { opacity: 1; }
+
+    /* Navbar */
+    .navbar {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .nav-links a {
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: #FFD700;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+      .nav-links.active { display: flex; }
+      .hamburger { display: flex; }
     }
 
-    /* CTA glows */
-    .cta-primary {
-      box-shadow: 0 6px 30px rgba(79,209,255,0.14), inset 0 -1px 0 rgba(255,255,255,0.02);
-      transition: transform .18s ease, box-shadow .18s ease;
+    /* Triangle logo */
+    .logo-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto;
     }
-    .cta-primary:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(79,209,255,0.18); }
+    svg.triangle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-    /* Simple card gradient accent */
-    .card-accent { background: linear-gradient(135deg, rgba(4,22,54,0.65), rgba(25,107,255,0.12)); border-radius: 12px; backdrop-filter: blur(6px); }
-
-    /* subtle scrollbar style for big monitors */
-    ::-webkit-scrollbar { width: 10px; height:10px; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; border: 2px solid rgba(0,0,0,0); }
-
-    /* Mobile tweaks for hero height */
-    @media (max-width:640px){
-      .hero-min-h { min-height: 72vh; padding-top: 80px; }
-      .triangle-wrap { width:86px; height:86px; }
+    /* Hero content */
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      top: 45%;
+      transform: translateY(-50%);
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
-<body class="text-slate-100 antialiased leading-relaxed">
+<body class="bg-gradient-to-br from-blue-900 to-blue-400 text-white">
 
-  <!-- SITE WRAPPER -->
-  <div class="site-bg min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="text-2xl font-bold">Triangle Tech</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Projects</a>
+      <a href="#">Contact</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <div></div><div></div><div></div>
+    </div>
+  </nav>
 
-    <!-- NAV / HEADER -->
-    <header class="w-full z-40">
-      <nav class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 flex items-center justify-between">
-        <!-- left spacer -->
-        <div class="w-1/4 hidden md:block"></div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <!-- Background slides -->
+    <div class="slide active" style="background-image: url('images/picture1.jpg');"></div>
+    <div class="slide" style="background-image: url('images/picture2.jpg');"></div>
+    <div class="slide" style="background-image: url('images/picture3.jpg');"></div>
+    <div class="slide" style="background-image: url('images/picture4.jpg');"></div>
+    <div class="slide" style="background-image: url('images/picture5.jpg');"></div>
+    <div class="slide" style="background-image: url('images/picture6.jpg');"></div>
 
-        <!-- Logo (center) -->
-        <div class="flex-1 flex items-center justify-center">
-          <a href="#home" class="inline-flex items-center gap-3" aria-label="Triangle Tech home">
-            <div class="triangle-wrap" id="logo-wrap" title="Triangle Tech">
-              <!-- SVG triangle with 3 strokes (black, gold, white) -->
-              <svg class="triangle-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="triangleTitle">
-                <title id="triangleTitle">Triangle Tech logo</title>
-
-                <!-- outer stroke (black) -->
-                <g class="stroke-anim-1">
-                  <path class="stroke-1" d="M60 8 L108 96 H12 Z" fill="transparent" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-                </g>
-
-                <!-- middle stroke (gold) -->
-                <g class="stroke-anim-2">
-                  <path class="stroke-2" d="M60 16 L99 88 H21 Z" fill="transparent" stroke="#D4AF37" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" opacity="0.98"/>
-                </g>
-
-                <!-- inner stroke (white) -->
-                <g class="stroke-anim-3">
-                  <path class="stroke-3" d="M60 24 L90 80 H30 Z" fill="rgba(255,255,255,0.02)" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
-                </g>
-              </svg>
-            </div>
-            <span class="sr-only">Triangle Tech</span>
-          </a>
-        </div>
-
-        <!-- hamburger & nav on right -->
-        <div class="w-1/4 flex items-center justify-end">
-          <button id="menu-toggle" aria-expanded="false" aria-controls="primary-menu" class="group relative z-50 inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-300">
-            <span class="sr-only">Open main menu</span>
-            <!-- fancy hamburger icon -->
-            <div class="w-8 h-6 flex flex-col justify-between">
-              <span class="block h-0.5 w-full bg-white transform transition duration-300 group-aria-expanded:rotate-45 group-aria-expanded:translate-y-2"></span>
-              <span class="block h-0.5 w-full bg-white opacity-90"></span>
-              <span class="block h-0.5 w-full bg-white transform transition duration-300 group-aria-expanded:-rotate-45 group-aria-expanded:-translate-y-2"></span>
-            </div>
-          </button>
-        </div>
-
-      </nav>
-
-      <!-- mobile menu -->
-      <div id="primary-menu" class="hidden bg-gradient-to-b from-black/20 to-transparent backdrop-blur-md border-t border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex flex-col gap-3 text-center">
-          <a href="#home" class="py-2 px-4 rounded-md hover:bg-white/6">Home</a>
-          <a href="#about" class="py-2 px-4 rounded-md hover:bg-white/6">About</a>
-          <a href="#services" class="py-2 px-4 rounded-md hover:bg-white/6">Services</a>
-          <a href="#projects" class="py-2 px-4 rounded-md hover:bg-white/6">Projects</a>
-          <a href="#skills" class="py-2 px-4 rounded-md hover:bg-white/6">Skills</a>
-          <a href="#blog" class="py-2 px-4 rounded-md hover:bg-white/6">Blog</a>
-          <a href="#contact" class="py-2 px-4 rounded-md hover:bg-white/6">Contact</a>
-        </div>
+    <!-- Hero content -->
+    <div class="hero-content">
+      <div class="logo-container">
+        <!-- Three rotating triangle outlines -->
+        <svg class="triangle tri1" viewBox="0 0 100 100">
+          <polygon points="50,10 90,85 10,85" stroke="black" stroke-width="3" fill="none" />
+        </svg>
+        <svg class="triangle tri2" viewBox="0 0 100 100">
+          <polygon points="50,10 90,85 10,85" stroke="#FFD700" stroke-width="3" fill="none" />
+        </svg>
+        <svg class="triangle tri3" viewBox="0 0 100 100">
+          <polygon points="50,10 90,85 10,85" stroke="white" stroke-width="3" fill="none" />
+        </svg>
       </div>
-    </header>
 
-    <!-- HERO -->
-    <main id="home" class="flex-1">
-      <section class="hero-min-h relative overflow-hidden flex items-center justify-center" aria-label="Hero">
-        <div id="hero-slider" class="absolute inset-0 transition-all duration-700">
-          <!-- JS will set background images inline for slider -->
-          <div id="hero-layer" class="absolute inset-0 hero-image will-change-transform"></div>
-          <!-- gradient overlay for legibility -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/8"></div>
-        </div>
+      <h1 class="mt-6 text-4xl md:text-5xl font-extrabold">Triangle Tech</h1>
+      <p class="text-lg md:text-xl text-gray-200">Innovating Websites. Empowering Brands.</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-20 bg-blue-950 text-center">
+    <h2 class="text-3xl font-bold mb-6">About Us</h2>
+    <p class="max-w-3xl mx-auto text-gray-300 leading-relaxed px-6">
+      At Triangle Tech, we craft cutting-edge digital experiences that help brands and businesses thrive online. 
+      Our goal is to merge creativity with technology to deliver beautiful, high-performance websites that leave a lasting impact.
+    </p>
+    <a href="about.html" class="inline-block mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold transition">
+      Read More →
+    </a>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-20 bg-gradient-to-br from-blue-800 to-blue-500 text-center">
+    <h2 class="text-3xl font-bold mb-6">Get In Touch</h2>
+    <p class="text-gray-200 mb-8">Connect with us directly on WhatsApp or Gmail</p>
+    <div class="flex justify-center gap-10 text-4xl">
+      <a href="https://wa.me/2349056658964" target="_blank" class="hover:text-green-400 transition" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="mailto:triangletechweb@gmail.com" target="_blank" class="hover:text-red-400 transition" title="Send Email">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-950 text-center py-4 text-gray-400 text-sm">
+    © <span id="year"></span> Triangle Tech. All Rights Reserved.
+  </footer>
 
-        <!-- content container -->
-        <div class="relative z-20 max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
-          <div class="grid lg:grid-cols-2 gap-8 items-center">
-            <!-- left content -->
-            <div class="text-left">
-              <div class="inline-flex items-center gap-3 mb-4">
-                <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/6 text-white/90">Triangle Tech</span>
-                <span class="text-sm text-sky-100/80">Creative Web & Tech Services</span>
-              </div>
-
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight" style="text-wrap:balance;">
-                Building modern web experiences that <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-100 to-white">inspire</span>.
-              </h1>
-
-              <p class="mt-6 text-lg md:text-xl text-slate-200/90 max-w-2xl">
-                We design, build and maintain high-performance websites and digital products. Colorful, bold and built for results — Triangle Tech helps brands, startups and organizations stand out online.
-              </p>
-
-              <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="#projects" class="cta-primary inline-flex items-center gap-3 bg-white/10 hover:bg-white/14 text-white font-semibold px-5 py-3 rounded-lg">
-                  View Work
-                </a>
-                <a href="#contact" class="inline-flex items-center gap-3 border border-white/10 px-4 py-3 rounded-lg hover:bg-white/6">
-                  Get in Touch
-                </a>
-              </div>
-
-              <div class="mt-8 flex items-center gap-6 text-sm text-sky-50/80">
-                <div class="flex items-center gap-2">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-white"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" fill="currentColor"></path></svg>
-                  Trusted by startups & SMEs
-                </div>
-                <div class="flex items-center gap-2">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12l2-2 4 4 8-8 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                  Production-ready builds
-                </div>
-              </div>
-            </div>
-
-            <!-- right: hero feature/intro card -->
-            <div class="relative">
-              <div class="card-accent p-6 rounded-2xl shadow-xl border border-white/6">
-                <div class="flex items-center gap-4">
-                  <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/6">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 12l2-2 4 4 8-8 4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div>
-                    <h3 class="text-xl font-semibold">Full-service web craftsmanship</h3>
-                    <p class="mt-1 text-sm text-slate-200/80">Strategy, design, development & maintenance — we deliver across the lifecycle.</p>
-                  </div>
-                </div>
-
-                <div class="mt-6 grid grid-cols-2 gap-3">
-                  <div class="p-3 rounded-lg bg-white/3">
-                    <div class="text-sm font-medium">Design Systems</div>
-                    <div class="text-xs text-slate-200/80 mt-1">Scalable UI, components & brand systems</div>
-                  </div>
-                  <div class="p-3 rounded-lg bg-white/3">
-                    <div class="text-sm font-medium">Performance</div>
-                    <div class="text-xs text-slate-200/80 mt-1">Fast & SEO-friendly sites</div>
-                  </div>
-                  <div class="p-3 rounded-lg bg-white/3 col-span-2">
-                    <div class="text-sm font-medium">Templates for sale</div>
-                    <div class="text-xs text-slate-200/80 mt-1">Ready-made websites you can purchase or customize</div>
-                  </div>
-                </div>
-
-                <div class="mt-6 flex items-center gap-3">
-                  <a href="#services" class="px-4 py-2 rounded-md bg-white/8 hover:bg-white/12 text-sm">Our Services</a>
-                  <a href="#projects" class="px-4 py-2 rounded-md border border-white/8 text-sm">See Projects</a>
-                </div>
-              </div>
-
-              <!-- subtle floating accent -->
-              <div class="absolute -left-6 -top-6 w-28 h-28 rounded-full bg-gradient-to-tr from-sky-400/30 to-purple-500/18 blur-3xl pointer-events-none"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- slider controls -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-3">
-          <button id="prev-slide" class="w-3 h-3 rounded-full bg-white/60 hover:bg-white"></button>
-          <div id="dots" class="flex items-center gap-2"></div>
-          <button id="next-slide" class="w-3 h-3 rounded-full bg-white/60 hover:bg-white"></button>
-        </div>
-      </section>
-
-      <!-- ABOUT (teaser) -->
-      <section id="about" class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
-        <div class="grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h2 class="text-3xl font-extrabold">About Triangle Tech</h2>
-            <p class="mt-4 text-slate-200/90 max-w-xl">
-              Triangle Tech is a creative technology studio focused on building high-quality websites and digital products. We blend design, engineering and performance to deliver solutions that help brands convert and communicate. From startups to organizations, we tailor each project for measurable impact.
-            </p>
-
-            <ul class="mt-6 grid gap-3 text-sm">
-              <li class="flex items-start gap-3">
-                <span class="text-sky-200 font-semibold">Impact:</span>
-                <span class="text-slate-200/80">Design that communicates value and increases engagement.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-sky-200 font-semibold">Trust:</span>
-                <span class="text-slate-200/80">Transparent process, reliable delivery and post-launch support.</span>
-              </li>
-            </ul>
-
-            <div class="mt-6">
-              <a href="/about.html" class="inline-block px-5 py-3 rounded-lg bg-gradient-to-r from-sky-400 to-indigo-500 text-white font-semibold">Read more</a>
-            </div>
-          </div>
-
-          <div>
-            <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img src="images/picture1.jpg" alt="Triangle Tech — design preview" class="w-full h-64 object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICES -->
-      <section id="services" class="py-12 bg-gradient-to-b from-transparent to-black/6">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <h3 class="text-2xl font-bold">Services</h3>
-          <p class="mt-2 text-slate-300/80 max-w-2xl">We provide end-to-end web services — design, build, deploy and maintain.</p>
-
-          <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <article class="p-6 rounded-xl card-accent border border-white/4">
-              <h4 class="font-semibold">Design & Branding</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Creative, accessible and scalable visual systems.</p>
-            </article>
-
-            <article class="p-6 rounded-xl card-accent border border-white/4">
-              <h4 class="font-semibold">Web Development</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Modern React frontends, performant builds and clean code.</p>
-            </article>
-
-            <article class="p-6 rounded-xl card-accent border border-white/4">
-              <h4 class="font-semibold">Maintenance & Support</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Ongoing updates, hosting, backups and security.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- PROJECTS (sample) -->
-      <section id="projects" class="py-12">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-bold">Selected Projects</h3>
-            <a href="/projects.html" class="text-sm text-sky-200">View all →</a>
-          </div>
-
-          <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- sample cards -->
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture2.jpg" alt="Project One" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Nova Corporate Site</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Clean enterprise site with CMS and fast load times.</p>
-              </div>
-            </div>
-
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture3.jpg" alt="Project Two" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Creative SaaS Landing</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Conversion-focused landing with A/B tested CTAs.</p>
-              </div>
-            </div>
-
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture4.jpg" alt="Project Three" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">E-commerce Template</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Fast, themeable template for online shops.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SKILLS -->
-      <section id="skills" class="py-12 bg-gradient-to-b from-transparent to-black/4">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <h3 class="text-2xl font-bold">Skills & Tools</h3>
-          <p class="text-slate-300/80 mt-2">A snapshot of expertise we bring to every project.</p>
-
-          <div class="mt-6 grid gap-4">
-            <!-- skill row -->
-            <div class="flex items-center justify-between gap-4">
-              <div class="w-40 text-sm font-medium">Frontend (React)</div>
-              <div class="flex-1 bg-white/6 rounded-full h-3 overflow-hidden">
-                <div class="h-3 rounded-full bg-gradient-to-r from-sky-400 to-indigo-500" style="width:88%"></div>
-              </div>
-              <div class="w-12 text-sm text-right">88%</div>
-            </div>
-
-            <div class="flex items-center justify-between gap-4">
-              <div class="w-40 text-sm font-medium">Design & UI</div>
-              <div class="flex-1 bg-white/6 rounded-full h-3 overflow-hidden">
-                <div class="h-3 rounded-full bg-gradient-to-r from-pink-400 to-amber-400" style="width:92%"></div>
-              </div>
-              <div class="w-12 text-sm text-right">92%</div>
-            </div>
-
-            <div class="flex items-center justify-between gap-4">
-              <div class="w-40 text-sm font-medium">Performance & SEO</div>
-              <div class="flex-1 bg-white/6 rounded-full h-3 overflow-hidden">
-                <div class="h-3 rounded-full bg-gradient-to-r from-green-400 to-teal-400" style="width:80%"></div>
-              </div>
-              <div class="w-12 text-sm text-right">80%</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- BLOG TEASER -->
-      <section id="blog" class="py-12">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-bold">From the Blog</h3>
-            <a href="/blog.html" class="text-sm text-sky-200">Read all posts →</a>
-          </div>
-
-          <div class="mt-6 grid sm:grid-cols-2 gap-6">
-            <article class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture5.jpg" alt="Blog post" class="w-full h-44 object-cover" />
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Triangle Tech — Building Modern Web Experiences</title>
-  <meta name="description" content="Triangle Tech — building and maintaining professional, colorful, high-performance websites and digital products." />
-  <meta name="theme-color" content="#071032" />
-
-  <!-- Tailwind (via CDN) for rapid, consistent styling -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- GSAP for polished animations -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-
-  <style>
-    /* Custom styles (used alongside Tailwind classes) */
-    :root{
-      --navy:#031022;
-      --deep-navy:#071032;
-      --sky:#4fd1ff;
-      --gold:#D4AF37;
-    }
-
-    /* Full-screen gradient background */
-    .site-bg {
-      background: linear-gradient(180deg, rgba(3,16,34,1) 0%, rgba(6,45,97,0.95) 40%, rgba(36,176,255,0.85) 100%);
-      min-height:100vh;
-    }
-
-    /* Triangle logo strokes: keep separate, rotate at different speeds */
-    .triangle-wrap { width:110px; height:110px; display:flex; align-items:center; justify-content:center; }
-    .triangle-svg { width:100%; height:100%; display:block; }
-
-    .stroke-anim-1 { transform-origin:center; animation:spin-1 12s linear infinite; }
-    .stroke-anim-2 { transform-origin:center; animation:spin-2 18s linear infinite; }
-    .stroke-anim-3 { transform-origin:center; animation:spin-3 25s linear infinite; }
-
-    @keyframes spin-1 { from{transform:rotate(0)} to{transform:rotate(360deg)} }
-    @keyframes spin-2 { from{transform:rotate(360deg)} to{transform:rotate(0)} }
-    @keyframes spin-3 { from{transform:rotate(0)} to{transform:rotate(-360deg)} }
-
-    /* Make sure strokes never overlap exactly by slightly different stroke-dashoffsets */
-    .stroke-1 { stroke-dasharray: 200; stroke-dashoffset: 10; }
-    .stroke-2 { stroke-dasharray: 200; stroke-dashoffset: 60; }
-    .stroke-3 { stroke-dasharray: 200; stroke-dashoffset: 110; }
-
-    /* Hero image container */
-    .hero-image {
-      background-size: cover;
-      background-position: center;
-      filter: saturate(1.05) contrast(1.02);
-    }
-
-    /* CTA glows */
-    .cta-primary {
-      box-shadow: 0 6px 30px rgba(79,209,255,0.14), inset 0 -1px 0 rgba(255,255,255,0.02);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .cta-primary:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(79,209,255,0.18); }
-
-    /* Simple card gradient accent */
-    .card-accent { background: linear-gradient(135deg, rgba(4,22,54,0.65), rgba(25,107,255,0.12)); border-radius: 12px; backdrop-filter: blur(6px); }
-
-    /* subtle scrollbar style for big monitors */
-    ::-webkit-scrollbar { width: 10px; height:10px; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; border: 2px solid rgba(0,0,0,0); }
-
-    /* Mobile tweaks for hero height */
-    @media (max-width:640px){
-      .hero-min-h { min-height: 72vh; padding-top: 80px; }
-      .triangle-wrap { width:86px; height:86px; }
-    }
-  </style>
-</head>
-<body class="text-slate-100 antialiased leading-relaxed">
-
-  <!-- SITE WRAPPER -->
-  <div class="site-bg min-h-screen flex flex-col">
-
-    <!-- NAV / HEADER -->
-    <header class="w-full z-40">
-      <nav class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 flex items-center justify-between">
-        <!-- left spacer -->
-        <div class="w-1/4 hidden md:block"></div>
-
-        <!-- Logo (center) -->
-        <div class="flex-1 flex items-center justify-center">
-          <a href="#home" class="inline-flex items-center gap-3" aria-label="Triangle Tech home">
-            <div class="triangle-wrap" id="logo-wrap" title="Triangle Tech">
-              <!-- SVG triangle with 3 strokes (black, gold, white) -->
-              <svg class="triangle-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="triangleTitle">
-                <title id="triangleTitle">Triangle Tech logo</title>
-
-                <!-- outer stroke (black) -->
-                <g class="stroke-anim-1">
-                  <path class="stroke-1" d="M60 8 L108 96 H12 Z" fill="transparent" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-                </g>
-
-                <!-- middle stroke (gold) -->
-                <g class="stroke-anim-2">
-                  <path class="stroke-2" d="M60 16 L99 88 H21 Z" fill="transparent" stroke="#D4AF37" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" opacity="0.98"/>
-                </g>
-
-                <!-- inner stroke (white) -->
-                <g class="stroke-anim-3">
-                  <path class="stroke-3" d="M60 24 L90 80 H30 Z" fill="rgba(255,255,255,0.02)" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
-                </g>
-              </svg>
-            </div>
-            <span class="sr-only">Triangle Tech</span>
-          </a>
-        </div>
-
-        <!-- hamburger & nav on right -->
-        <div class="w-1/4 flex items-center justify-end">
-          <button id="menu-toggle" aria-expanded="false" aria-controls="primary-menu" class="group relative z-50 inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-300">
-            <span class="sr-only">Open main menu</span>
-            <!-- fancy hamburger icon -->
-            <div class="w-8 h-6 flex flex-col justify-between">
-              <span class="block h-0.5 w-full bg-white transform transition duration-300 group-aria-expanded:rotate-45 group-aria-expanded:translate-y-2"></span>
-              <span class="block h-0.5 w-full bg-white opacity-90"></span>
-              <span class="block h-0.5 w-full bg-white transform transition duration-300 group-aria-expanded:-rotate-45 group-aria-expanded:-translate-y-2"></span>
-            </div>
-          </button>
-        </div>
-
-      </nav>
-
-      <!-- mobile menu -->
-      <div id="primary-menu" class="hidden bg-gradient-to-b from-black/20 to-transparent backdrop-blur-md border-t border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex flex-col gap-3 text-center">
-          <a href="#home" class="py-2 px-4 rounded-md hover:bg-white/6">Home</a>
-          <a href="#about" class="py-2 px-4 rounded-md hover:bg-white/6">About</a>
-          <a href="#services" class="py-2 px-4 rounded-md hover:bg-white/6">Services</a>
-          <a href="#projects" class="py-2 px-4 rounded-md hover:bg-white/6">Projects</a>
-          <a href="#skills" class="py-2 px-4 rounded-md hover:bg-white/6">Skills</a>
-          <a href="#blog" class="py-2 px-4 rounded-md hover:bg-white/6">Blog</a>
-          <a href="#contact" class="py-2 px-4 rounded-md hover:bg-white/6">Contact</a>
-        </div>
-      </div>
-    </header>
-
-    <!-- HERO -->
-    <main id="home" class="flex-1">
-      <section class="hero-min-h relative overflow-hidden flex items-center justify-center" aria-label="Hero">
-        <div id="hero-slider" class="absolute inset-0 transition-all duration-700">
-          <!-- JS will set background images inline for slider -->
-          <div id="hero-layer" class="absolute inset-0 hero-image will-change-transform"></div>
-          <!-- gradient overlay for legibility -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/8"></div>
-        </div>
-
-        <!-- content container -->
-        <div class="relative z-20 max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
-          <div class="grid lg:grid-cols-2 gap-8 items-center">
-            <!-- left content -->
-            <div class="text-left">
-              <div class="inline-flex items-center gap-3 mb-4">
-                <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/6 text-white/90">Triangle Tech</span>
-                <span class="text-sm text-sky-100/80">Creative Web & Tech Services</span>
-              </div>
-
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight" style="text-wrap:balance;">
-                Building modern web experiences that <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-100 to-white">inspire</span>.
-              </h1>
-
-              <p class="mt-6 text-lg md:text-xl text-slate-200/90 max-w-2xl">
-                We design, build and maintain high-performance websites and digital products. Colorful, bold and built for results — Triangle Tech helps brands, startups and organizations stand out online.
-              </p>
-
-              <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="#projects" class="cta-primary inline-flex items-center gap-3 bg-white/10 hover:bg-white/14 text-white font-semibold px-5 py-3 rounded-lg">
-                  View Work
-                </a>
-                <a href="#contact" class="inline-flex items-center gap-3 border border-white/10 px-4 py-3 rounded-lg hover:bg-white/6">
-                  Get in Touch
-                </a>
-              </div>
-
-              <div class="mt-8 flex items-center gap-6 text-sm text-sky-50/80">
-                <div class="flex items-center gap-2">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-white"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" fill="currentColor"></path></svg>
-                  Trusted by startups & SMEs
-                </div>
-                <div class="flex items-center gap-2">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12l2-2 4 4 8-8 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                  Production-ready builds
-                </div>
-              </div>
-            </div>
-
-            <!-- right: hero feature/intro card -->
-            <div class="relative">
-              <div class="card-accent p-6 rounded-2xl shadow-xl border border-white/6">
-                <div class="flex items-center gap-4">
-                  <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/6">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 12l2-2 4 4 8-8 4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div>
-                    <h3 class="text-xl font-semibold">Full-service web craftsmanship</h3>
-                    <p class="mt-1 text-sm text-slate-200/80">Strategy, design, development & maintenance — we deliver across the lifecycle.</p>
-                  </div>
-                </div>
-
-                <div class="mt-6 grid grid-cols-2 gap-3">
-                  <div class="p-3 rounded-lg bg-white/3">
-                    <div class="text-sm font-medium">Design Systems</div>
-                    <div class="text-xs text-slate-200/80 mt-1">Scalable UI, components & brand systems</div>
-                  </div>
-                  <div class="p-3 rounded-lg bg-white/3">
-                    <div class="text-sm font-medium">Performance</div>
-                    <div class="text-xs text-slate-200/80 mt-1">Fast & SEO-friendly sites</div>
-                  </div>
-                  <div class="p-3 rounded-lg bg-white/3 col-span-2">
-                    <div class="text-sm font-medium">Templates for sale</div>
-                    <div class="text-xs text-slate-200/80 mt-1">Ready-made websites you can purchase or customize</div>
-                  </div>
-                </div>
-
-                <div class="mt-6 flex items-center gap-3">
-                  <a href="#services" class="px-4 py-2 rounded-md bg-white/8 hover:bg-white/12 text-sm">Our Services</a>
-                  <a href="#projects" class="px-4 py-2 rounded-md border border-white/8 text-sm">See Projects</a>
-                </div>
-              </div>
-
-              <!-- subtle floating accent -->
-              <div class="absolute -left-6 -top-6 w-28 h-28 rounded-full bg-gradient-to-tr from-sky-400/30 to-purple-500/18 blur-3xl pointer-events-none"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- slider controls -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-3">
-          <button id="prev-slide" class="w-3 h-3 rounded-full bg-white/60 hover:bg-white"></button>
-          <div id="dots" class="flex items-center gap-2"></div>
-          <button id="next-slide" class="w-3 h-3 rounded-full bg-white/60 hover:bg-white"></button>
-        </div>
-      </section>
-
-      <!-- ABOUT (teaser) -->
-      <section id="about" class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
-        <div class="grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h2 class="text-3xl font-extrabold">About Triangle Tech</h2>
-            <p class="mt-4 text-slate-200/90 max-w-xl">
-              Triangle Tech is a creative technology studio focused on building high-quality websites and digital products. We blend design, engineering and performance to deliver solutions that help brands convert and communicate. From startups to organizations, we tailor each project for measurable impact.
-            </p>
-
-            <ul class="mt-6 grid gap-3 text-sm">
-              <li class="flex items-start gap-3">
-                <span class="text-sky-200 font-semibold">Impact:</span>
-                <span class="text-slate-200/80">Design that communicates value and increases engagement.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="text-sky-200 font-semibold">Trust:</span>
-                <span class="text-slate-200/80">Transparent process, reliable delivery and post-launch support.</span>
-              </li>
-            </ul>
-
-            <div class="mt-6">
-              <a href="/about.html" class="inline-block px-5 py-3 rounded-lg bg-gradient-to-r from-sky-400 to-indigo-500 text-white font-semibold">Read more</a>
-            </div>
-          </div>
-
-          <div>
-            <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img src="images/picture1.jpg" alt="Triangle Tech — design preview" class="w-full h-64 object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICES -->
-      <section id="services" class="py-12 bg-gradient-to-b from-transparent to-black/6">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <h3 class="text-2xl font-bold">Services</h3>
-          <p class="mt-2 text-slate-300/80 max-w-2xl">We provide end-to-end web services — design, build, deploy and maintain.</p>
-
-          <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <article class="p-6 rounded-xl card-accent border border-white/4">
-              <h4 class="font-semibold">Design & Branding</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Creative, accessible and scalable visual systems.</p>
-            </article>
-
-            <article class="p-6 rounded-xl card-accent border border-white/4">
-              <h4 class="font-semibold">Web Development</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Modern React frontends, performant builds and clean code.</p>
-            </article>
-
-            <article class="p-6 rounded-xl card-accent border border-white/4">
-              <h4 class="font-semibold">Maintenance & Support</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Ongoing updates, hosting, backups and security.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- PROJECTS (sample) -->
-      <section id="projects" class="py-12">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-bold">Selected Projects</h3>
-            <a href="/projects.html" class="text-sm text-sky-200">View all →</a>
-          </div>
-
-          <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- sample cards -->
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture2.jpg" alt="Project One" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Nova Corporate Site</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Clean enterprise site with CMS and fast load times.</p>
-              </div>
-            </div>
-
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture3.jpg" alt="Project Two" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Creative SaaS Landing</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Conversion-focused landing with A/B tested CTAs.</p>
-              </div>
-            </div>
-
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture4.jpg" alt="Project Three" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">E-commerce Template</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Fast, themeable template for online shops.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SKILLS -->
-      <section id="skills" class="py-12 bg-gradient-to-b from-transparent to-black/4">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <h3 class="text-2xl font-bold">Skills & Tools</h3>
-          <p class="text-slate-300/80 mt-2">A snapshot of expertise we bring to every project.</p>
-
-          <div class="mt-6 grid gap-4">
-            <!-- skill row -->
-            <div class="flex items-center justify-between gap-4">
-              <div class="w-40 text-sm font-medium">Frontend (React)</div>
-              <div class="flex-1 bg-white/6 rounded-full h-3 overflow-hidden">
-                <div class="h-3 rounded-full bg-gradient-to-r from-sky-400 to-indigo-500" style="width:88%"></div>
-              </div>
-              <div class="w-12 text-sm text-right">88%</div>
-            </div>
-
-            <div class="flex items-center justify-between gap-4">
-              <div class="w-40 text-sm font-medium">Design & UI</div>
-              <div class="flex-1 bg-white/6 rounded-full h-3 overflow-hidden">
-                <div class="h-3 rounded-full bg-gradient-to-r from-pink-400 to-amber-400" style="width:92%"></div>
-              </div>
-              <div class="w-12 text-sm text-right">92%</div>
-            </div>
-
-            <div class="flex items-center justify-between gap-4">
-              <div class="w-40 text-sm font-medium">Performance & SEO</div>
-              <div class="flex-1 bg-white/6 rounded-full h-3 overflow-hidden">
-                <div class="h-3 rounded-full bg-gradient-to-r from-green-400 to-teal-400" style="width:80%"></div>
-              </div>
-              <div class="w-12 text-sm text-right">80%</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- BLOG TEASER -->
-      <section id="blog" class="py-12">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-bold">From the Blog</h3>
-            <a href="/blog.html" class="text-sm text-sky-200">Read all posts →</a>
-          </div>
-
-          <div class="mt-6 grid sm:grid-cols-2 gap-6">
-            <article class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture5.jpg" alt="Blog post" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Launching Your First Website</h4>
-                <p class="text-xs mt-1 text-slate-200/80">A practical guide to go from idea to live site.</p>
-              </div>
-            </article>
-
-            <article class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture6.jpg" alt="Blog post" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Design Systems 101</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Why design systems speed delivery and improve quality.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="py-12 bg-gradient-to-b from-transparent to-black/6">
-        <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12">
-          <h3 class="text-2xl font-bold">Contact</h3>
-          <p class="mt-2 text-slate-300/80">Ready to start something great? Send a message or click WhatsApp to chat.</p>
-
-          <div class="mt-6 grid md:grid-cols-2 gap-6">
-            <!-- contact card -->
-            <div class="p-6 rounded-xl card-accent border border-white/6">
-              <h4 class="font-semibold">Send us an email</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Messages go to <strong>triangletechweb@gmail.com</strong>. We'll reply fast.</p>
-
-              <!-- Simple contact form using mailto (for instant contact) -->
-              <form id="contact-form" class="mt-4 grid gap-3">
-                <input required name="name" class="px-3 py-2 rounded-md bg-black/20 border border-white/6 text-white" placeholder="Your name" />
-                <input required name="email" type="email" class="px-3 py-2 rounded-md bg-black/20 border border-white/6 text-white" placeholder="Your email" />
-                <textarea required name="message" rows="4" class="px-3 py-2 rounded-md bg-black/20 border border-white/6 text-white" placeholder="Tell us about your project"></textarea>
-                <div class="flex gap-3">
-                  <button type="submit" class="px-4 py-2 rounded-md bg-gradient-to-r from-sky-400 to-indigo-500 text-white font-semibold">Send Email</button>
-                  <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" class="px-4 py-2 rounded-md border border-white/10 text-white">WhatsApp</a>
-                </div>
-                <p id="form-note" class="text-xs text-slate-300/70 mt-2">This form opens your email client so you can send directly from your Gmail. If you want a server-side contact delivery later, I can add it.</p>
-              </form>
-            </div>
-
-            <!-- quick contact details -->
-            <div class="p-6 rounded-xl card-accent border border-white/6">
-              <h4 class="font-semibold">Quick Contacts</h4>
-              <ul class="mt-4 space-y-3 text-sm">
-                <li><strong>Email:</strong> <a href="mailto:triangletechweb@gmail.com" class="text-sky-200">triangletechweb@gmail.com</a></li>
-                <li><strong>WhatsApp:</strong> <a href="https://wa.me/2349056658964" class="text-sky-200">+234 905 665 8964</a></li>
-                <li><strong>Available:</strong> Mon–Fri, 9am–6pm (GMT+1)</li>
-              </ul>
-
-              <div class="mt-6">
-                <a href="#projects" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white/6">See Templates for Sale</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="py-8 mt-12 border-t border-white/6">
-      <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="text-sm text-slate-300">© <span id="year"></span> Triangle Tech. All rights reserved.</div>
-        <div class="text-sm text-slate-300 flex items-center gap-4">
-          <a href="#" class="hover:text-white">Privacy</a>
-          <a href="#" class="hover:text-white">Terms</a>
-          <a href="#" class="hover:text-white">Contact</a>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- SCRIPTS -->
   <script>
-    // -------------------------------
-    // Basic UI: menu toggle
-    // -------------------------------
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('primary-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', String(!expanded));
-      menu.classList.toggle('hidden');
-      menuToggle.classList.toggle('group-aria-expanded');
-    });
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-    // -------------------------------
-    // Hero slider (images picture1..picture6 in /images/)
-    // -------------------------------
-    const images = [
-      'images/picture1.jpg',
-      'images/picture2.jpg',
-      'images/picture3.jpg',
-      'images/picture4.jpg',
-      'images/picture5.jpg',
-      'images/picture6.jpg'
-    ];
-
-    // Preload images for smoother transitions
-    images.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
-
+    // Background slideshow
+    const slides = document.querySelectorAll('.slide');
     let current = 0;
-    const heroLayer = document.getElementById('hero-layer');
-    const dotsWrap = document.getElementById('dots');
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 4000);
 
-    function setHeroImage(i){
-      heroLayer.style.backgroundImage = `url('${images[i]}')`;
-      heroLayer.style.transition = 'opacity 0.9s ease';
-      // set active dot
-      const dots = dotsWrap.querySelectorAll('button');
-      dots.forEach((d, idx) => d.classList.toggle('bg-white', idx === i));
-    }
+    // GSAP animations for triangle logo
+    gsap.to(".tri1", { rotation: 360, transformOrigin: "50% 50%", repeat: -1, duration: 10, ease: "linear" });
+    gsap.to(".tri2", { rotation: -360, transformOrigin: "50% 50%", repeat: -1, duration: 12, ease: "linear" });
+    gsap.to(".tri3", { rotation: 360, transformOrigin: "50% 50%", repeat: -1, duration: 14, ease: "linear" });
 
-    // create dots
-    images.forEach((_, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'w-2 h-2 rounded-full bg-white/40';
-      btn.title = `Slide ${idx+1}`;
-      btn.addEventListener('click', () => {
-        current = idx;
-        setHeroImage(current);
-      });
-      dotsWrap.appendChild(btn);
-    });
-
-    setHeroImage(current);
-
-    // next/prev
-    document.getElementById('next-slide').addEventListener('click', () => { current = (current+1) % images.length; setHeroImage(current); });
-    document.getElementById('prev-slide').addEventListener('click', () => { current = (current-1 + images.length) % images.length; setHeroImage(current); });
-
-    // autoplay with pause on hover
-    let autoplay = setInterval(() => { current = (current+1) % images.length; setHeroImage(current); }, 4000);
-    const heroSection = document.querySelector('.hero-min-h');
-    heroSection.addEventListener('mouseenter', () => clearInterval(autoplay));
-    heroSection.addEventListener('mouseleave', () => { autoplay = setInterval(() => { current = (current+1) % images.length; setHeroImage(current); }, 4000); });
-
-    // -------------------------------
-    // GSAP animations: hero reveal & scroll animations
-    // -------------------------------
-    document.addEventListener('DOMContentLoaded', () => {
-      // gentle entrance for hero content
-      gsap.from(".hero-min-h .relative > .max-w-6xl", { y: 30, opacity: 0, duration: 1.2, ease: "power3.out" });
-
-      // fade-in for sections when in view
-      const sections = document.querySelectorAll('section');
-      sections.forEach(sec => {
-        gsap.from(sec, {
-          scrollTrigger: {
-            trigger: sec,
-            start: "top 85%",
-            // markers: true
-          },
-          y: 30, opacity: 0, duration: 0.9, ease:"power2.out", stagger: 0.1
-        });
-      });
-    });
-
-    // -------------------------------
-    // Contact form: opens mailto with prefilled content
-    // -------------------------------
-    const contactForm = document.getElementById('contact-form');
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const name = encodeURIComponent(form.name.value.trim());
-      const email = encodeURIComponent(form.email.value.trim());
-      const msg = encodeURIComponent(form.message.value.trim());
-      const subject = encodeURIComponent(`New inquiry from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${form.message.value}`);
-      // mailto to your gmail
-      const mailto = `mailto:triangletechweb@gmail.com?subject=${subject}&body=${body}`;
-      window.location.href = mailto;
-    });
-
-    // -------------------------------
-    // Small helper: set current year
-    // -------------------------------
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // -------------------------------
-    // Accessibility: focus outlines for keyboard users
-    // -------------------------------
-    document.body.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') document.documentElement.classList.add('show-focus');
-    });
-
-    // If GSAP ScrollTrigger isn't available in the environment, the above may silently no-op.
-    // It's intentionally lightweight so the page still works without additional builds.
   </script>
-
-  <!-- GSAP ScrollTrigger plugin (load after main gsap if available) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-
-  <!-- small noscript note -->
-  <noscript>
-    <div class="fixed bottom-4 right-4 bg-amber-400 text-black px-3 py-2 rounded-md text-sm">JavaScript is required for the full interactive experience.</div>
-  </noscript>
 </body>
-</html>￼Enter              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Launching Your First Website</h4>
-                <p class="text-xs mt-1 text-slate-200/80">A practical guide to go from idea to live site.</p>
-              </div>
-            </article>
-
-            <article class="rounded-xl overflow-hidden shadow-lg">
-              <img src="images/picture6.jpg" alt="Blog post" class="w-full h-44 object-cover" />
-              <div class="p-4 bg-white/3">
-                <h4 class="font-semibold">Design Systems 101</h4>
-                <p class="text-xs mt-1 text-slate-200/80">Why design systems speed delivery and improve quality.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="py-12 bg-gradient-to-b from-transparent to-black/6">
-        <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12">
-          <h3 class="text-2xl font-bold">Contact</h3>
-          <p class="mt-2 text-slate-300/80">Ready to start something great? Send a message or click WhatsApp to chat.</p>
-
-          <div class="mt-6 grid md:grid-cols-2 gap-6">
-            <!-- contact card -->
-            <div class="p-6 rounded-xl card-accent border border-white/6">
-              <h4 class="font-semibold">Send us an email</h4>
-              <p class="mt-2 text-sm text-slate-200/80">Messages go to <strong>triangletechweb@gmail.com</strong>. We'll reply fast.</p>
-
-              <!-- Simple contact form using mailto (for instant contact) -->
-              <form id="contact-form" class="mt-4 grid gap-3">
-                <input required name="name" class="px-3 py-2 rounded-md bg-black/20 border border-white/6 text-white" placeholder="Your name" />
-                <input required name="email" type="email" class="px-3 py-2 rounded-md bg-black/20 border border-white/6 text-white" placeholder="Your email" />
-                <textarea required name="message" rows="4" class="px-3 py-2 rounded-md bg-black/20 border border-white/6 text-white" placeholder="Tell us about your project"></textarea>
-                <div class="flex gap-3">
-                  <button type="submit" class="px-4 py-2 rounded-md bg-gradient-to-r from-sky-400 to-indigo-500 text-white font-semibold">Send Email</button>
-                  <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" class="px-4 py-2 rounded-md border border-white/10 text-white">WhatsApp</a>
-                </div>
-                <p id="form-note" class="text-xs text-slate-300/70 mt-2">This form opens your email client so you can send directly from your Gmail. If you want a server-side contact delivery later, I can add it.</p>
-              </form>
-            </div>
-
-            <!-- quick contact details -->
-            <div class="p-6 rounded-xl card-accent border border-white/6">
-              <h4 class="font-semibold">Quick Contacts</h4>
-              <ul class="mt-4 space-y-3 text-sm">
-                <li><strong>Email:</strong> <a href="mailto:triangletechweb@gmail.com" class="text-sky-200">triangletechweb@gmail.com</a></li>
-                <li><strong>WhatsApp:</strong> <a href="https://wa.me/2349056658964" class="text-sky-200">+234 905 665 8964</a></li>
-                <li><strong>Available:</strong> Mon–Fri, 9am–6pm (GMT+1)</li>
-              </ul>
-
-              <div class="mt-6">
-                <a href="#projects" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white/6">See Templates for Sale</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="py-8 mt-12 border-t border-white/6">
-      <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="text-sm text-slate-300">© <span id="year"></span> Triangle Tech. All rights reserved.</div>
-        <div class="text-sm text-slate-300 flex items-center gap-4">
-          <a href="#" class="hover:text-white">Privacy</a>
-          <a href="#" class="hover:text-white">Terms</a>
-    <a href="#" class="hover:text-white">Contact</a>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- SCRIPTS -->
-  <script>
-    // -------------------------------
-    // Basic UI: menu toggle
-    // -------------------------------
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('primary-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', String(!expanded));
-      menu.classList.toggle('hidden');
-      menuToggle.classList.toggle('group-aria-expanded');
-    });
-
-    // -------------------------------
-    // Hero slider (images picture1..picture6 in /images/)
-    // -------------------------------
-    const images = [
-      'images/picture1.jpg',
-      'images/picture2.jpg',
-      'images/picture3.jpg',
-      'images/picture4.jpg',
-      'images/picture5.jpg',
-      'images/picture6.jpg'
-    ];
-
-    // Preload images for smoother transitions
-    images.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
-
-    let current = 0;
-    const heroLayer = document.getElementById('hero-layer');
-    const dotsWrap = document.getElementById('dots');
-
-    function setHeroImage(i){
-      heroLayer.style.backgroundImage = `url('${images[i]}')`;
-      heroLayer.style.transition = 'opacity 0.9s ease';
-      // set active dot
-      const dots = dotsWrap.querySelectorAll('button');
-      dots.forEach((d, idx) => d.classList.toggle('bg-white', idx === i));
-    }
-
-    // create dots
-    images.forEach((_, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'w-2 h-2 rounded-full bg-white/40';
-      btn.title = `Slide ${idx+1}`;
-      btn.addEventListener('click', () => {
-        current = idx;
-        setHeroImage(current);
-      });
-      dotsWrap.appendChild(btn);
-    });
-
-    setHeroImage(current);
-
-    // next/prev
-    document.getElementById('next-slide').addEventListener('click', () => { current = (current+1) % images.length; setHeroImage(current); });
-    document.getElementById('prev-slide').addEventListener('click', () => { current = (current-1 + images.length) % images.length; setHeroImage(current); });
-
+</html>
