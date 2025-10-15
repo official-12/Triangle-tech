@@ -1,1086 +1,409 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Triangle Tech — Creative Web & Tech Studio</title>
-  <meta name="description" content="Triangle Tech — we design, build and maintain high-performance websites and templates. Contact via WhatsApp or email." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triangle Tech | Building the Future of Web & AI</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Typed.js -->
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <!-- AOS (Animate on Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
   <style>
-    :root{
-      --midnight:#05061a;
-      --royal:#2b0b3d;
-      --gold:#f4c542;
-      --muted:#9aa3b2;
-      --card:#ffffff;
-      --glass: rgba(255,255,255,0.04);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background: linear-gradient(160deg,var(--midnight) 0%, var(--royal) 80%);
-      color: #e9eef6;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0a0f2c, #1c034e);
+      color: #fff;
     }
-    a { color:inherit; text-decoration:none; }
 
-    /* ---------------- PRELOADER ---------------- */
+    /* ===== Preloader ===== */
     #preloader {
-      position:fixed; inset:0; z-index:9999;
-      display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(160deg,var(--midnight),var(--royal));
-      transition: opacity .6s ease;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: radial-gradient(circle at center, #1e0040, #0a0f2c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
     }
-    #preloader.hidden { opacity:0; pointer-events:none; }
-    .preloader-wrap { position:relative; width:120px; height:120px; display:block; }
-    .preloader-glow { position:absolute; inset:-24px; border-radius:40px; filter:blur(14px); background:radial-gradient(circle at 30% 20%, rgba(244,197,66,0.18), transparent 25%); }
-    .pre-tri { width:100%; height:100%; display:block; }
-    /* rotate the groups independently (fallback if JS not applied) */
-    .p1, .p2, .p3 { transform-origin:50% 50%; }
-
-    /* ---------------- NAVBAR ---------------- */
-    header.nav {
-      position:fixed; left:12px; right:12px; top:12px; z-index:200; display:flex; align-items:center; justify-content:space-between;
-      padding:10px 16px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(2,6,10,0.4);
+    .triangle {
+      width: 100px;
+      height: 100px;
+      background: conic-gradient(from 180deg, gold, white, black);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      animation: spin 3s linear infinite;
     }
-    .brand { display:flex; gap:12px; align-items:center; }
-    .brand .mini { width:48px; height:48px; display:block; }
-    .brand .title { font-family:'Lobster',cursive; font-size:1.4rem; color:var(--gold); letter-spacing:0.4px; text-shadow: 0 8px 24px rgba(0,0,0,0.35); }
-    nav.links { display:flex; gap:14px; align-items:center; }
-    nav.links a { color:rgba(255,255,255,0.94); padding:6px 10px; border-radius:8px; font-weight:600; transition: all .18s; }
-    nav.links a:hover { background: rgba(255,255,255,0.03); color:var(--gold); transform: translateY(-3px); }
-
-    /* stylish hamburger */
-    .hambtn { display:none; width:48px; height:48px; border-radius:10px; align-items:center; justify-content:center; cursor:pointer; background:var(--glass); border:1px solid rgba(255,255,255,0.03); }
-    .hambtn .bar { width:22px; height:2px; background:var(--gold); position:relative; display:block; border-radius:2px; }
-    .hambtn .bar:before, .hambtn .bar:after { content:""; position:absolute; left:0; right:0; height:2px; background:var(--gold); border-radius:2px; }
-    .hambtn .bar:before { top:-7px; }
-    .hambtn .bar:after { top:7px; }
-    .hambtn.open .bar { background:transparent; }
-    .hambtn.open .bar:before { transform: translateY(7px) rotate(45deg); top:0; }
-    .hambtn.open .bar:after { transform: translateY(-7px) rotate(-45deg); top:0; }
-    @media (max-width:920px){ nav.links{ display:none; } .hambtn{ display:flex; } }
-
-    /* ---------------- HERO ---------------- */
-    .hero { position:relative; height:62vh; min-height:380px; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
-    /* rotating photo slides (below particles) */
-    .slides { position:absolute; inset:0; z-index:0; }
-    .slide { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition: opacity 1.05s ease; will-change:opacity, transform; }
-    .slide.show { opacity:1; }
-    /* particles canvas sits above slides but below content */
-    #particleCanvas { position:absolute; inset:0; z-index:1; pointer-events:none; }
-    /* overlay for legibility */
-    .hero::after { content:""; position:absolute; inset:0; z-index:2; background: linear-gradient(180deg, rgba(2,6,10,0.45), rgba(2,6,10,0.2)); }
-
-    .hero-content { position:relative; z-index:3; transform: translateY(-6%); max-width:92%; }
-    .hero .logo-wrap { width:160px; height:160px; margin:0 auto; transform:translateY(-8px); }
-    .hero .brand-title { font-family:'Lobster',cursive; font-size:3.6rem; color:var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.45); letter-spacing:1px; margin-top:6px;}
-    .slogan { margin-top:12px; display:inline-block; padding:10px 18px; border-radius:999px; background:rgba(255,255,255,0.02); font-style:italic; font-weight:700; color:#c7ffe8; border:1px solid rgba(255,255,255,0.02); }
-
-    /* ---------------- FLOATING PLAYCARDS (services) ---------------- */
-    .container { max-width:1180px; margin:0 auto; padding:26px 20px; }
-    .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:18px; margin-top:-90px; z-index:10; position:relative; }
-    .playcard {
-      background: var(--card); color:#06202a; border-radius:14px; padding:16px; box-shadow: 0 18px 40px rgba(2,8,18,0.12);
-      transition: transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .25s;
-      overflow:hidden; position:relative;
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
-    .playcard:hover { transform: translateY(-12px); box-shadow: 0 34px 70px rgba(2,8,18,0.18); }
-    .playcard .img { width:100%; height:150px; background-size:cover; background-position:center; border-radius:10px; }
-    .playcard h4 { margin:12px 0 6px; font-size:1.05rem; }
-    .playcard p { color:var(--muted); font-size:0.95rem; line-height:1.45; }
+    #preloader.hidden { opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
 
-    /* decorative floating cards (absolute) */
-    .float-deco { position:absolute; left:6%; top:12%; width:220px; height:140px; border-radius:12px; background:linear-gradient(135deg,#fff,#fafafa); box-shadow: 0 20px 50px rgba(3,10,26,0.12); transform:rotate(-8deg); z-index:3; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--midnight); }
-
-    /* ---------------- PORTFOLIO & TESTIMONIALS ---------------- */
-    .portfolio { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-top:28px; }
-    .thumb { height:160px; border-radius:10px; background-size:cover; background-position:center; transition: transform .28s, box-shadow .28s; }
-    .thumb:hover{ transform:scale(1.03); box-shadow: 0 28px 60px rgba(2,10,26,0.18); }
-
-    .testimonials { margin-top:22px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px; border-radius:12px; box-shadow: 0 12px 40px rgba(3,10,26,0.06); overflow:hidden; }
-
-    /* ---------------- CONTACT ---------------- */
-    .contact { margin-top:28px; padding:16px; background:var(--card); color:#06202a; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
-    .contact .left { max-width:64%; }
-    .btn-cta { padding:12px 18px; border-radius:10px; font-weight:800; background: linear-gradient(90deg,var(--gold), #7be2c9); color:#06120a; border:none; cursor:pointer; }
-    .btn-mail { padding:10px 14px; border-radius:10px; border:1px solid rgba(2,6,8,0.04); background:transparent; cursor:pointer; }
-
-    /* ---------------- FLOATING ACTIONS ---------------- */
-    .whats-btn {
-      position:fixed; right:18px; bottom:18px; width:64px; height:64px; border-radius:50%;
-      background:#25D366; color:white; display:flex; align-items:center; justify-content:center; font-size:22px; z-index:400; box-shadow:0 20px 60px rgba(0,0,0,0.25); transition:transform .18s;
+    /* ===== Navbar ===== */
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0; left: 0;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      z-index: 1000;
     }
-    .whats-btn:hover{ transform:translateY(-8px); }
-
-    .ai-btn {
-      position:fixed; right:96px; bottom:20px; width:56px; height:56px; border-radius:50%;
-      background: linear-gradient(135deg,#6b2bd7,#2bd6a3); color:white; display:flex; align-items:center; justify-content:center; z-index:380; box-shadow:0 18px 50px rgba(0,0,0,0.2); transition:transform .18s;
+    header h1 {
+      font-family: 'Lobster', cursive;
+      font-size: 2rem;
+      color: gold;
     }
-    .ai-btn:hover { transform: translateY(-6px); }
-
-    /* ---------------- FOOTER ---------------- */
-    footer.site {
-      margin-top:36px; padding:28px 18px; background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.12)); color:rgba(255,255,255,0.9);
+    nav ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
     }
-    footer .grid { max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
-    footer .socials a{ margin-left:8px; color:rgba(255,255,255,0.9); transition:all .18s; }
-    footer .socials a:hover { color:var(--gold); transform:translateY(-3px); }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover { color: gold; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 5px;
+      transition: 0.4s;
+    }
 
-    /* responsive */
-    @media (max-width:1000px){ .cards{ grid-template-columns: repeat(2,1fr);} .hero { height:56vh; } }
-    @media (max-width:680px){ .cards{ grid-template-columns: 1fr;} .brand .title{ font-size:1.1rem;} .hero .brand-title{ font-size:2.6rem;} }
+    /* ===== Hero Section ===== */
+    .hero {
+      height: 70vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-images {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .hero-images img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+    .hero-images img.active { opacity: 1; }
+    #particle-canvas {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+    }
+    .hero-content h1 {
+      font-family: 'Lobster', cursive;
+      font-size: 3rem;
+      color: gold;
+      text-shadow: 0 0 10px #000;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      font-style: italic;
+      margin-top: 10px;
+      color: #ddd;
+    }
+
+    /* ===== Services Section ===== */
+    .services {
+      padding: 80px 10%;
+      background: white;
+      color: #000;
+      text-align: center;
+    }
+    .services h2 {
+      color: #111;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .service-card {
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+    }
+    .service-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .service-card h3 {
+      color: #111;
+      margin: 15px 0 10px;
+    }
+    .service-card p {
+      padding: 0 15px 20px;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    /* ===== Floating Buttons ===== */
+    .float-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 999;
+    }
+    .float-btn a {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 24px;
+      transition: transform 0.3s;
+    }
+    .float-btn a:hover { transform: scale(1.1); }
+    .wa { background: #25D366; }
+    .ai { background: linear-gradient(135deg, gold, purple); }
+
+    /* ===== Footer ===== */
+    footer {
+      background: linear-gradient(135deg, #0a0f2c, #1c034e);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+      position: relative;
+    }
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: gold;
+    }
   </style>
 </head>
 <body>
 
-  <!-- PRELOADER -->
-  <div id="preloader" role="status" aria-live="polite">
-    <div class="preloader-wrap" aria-hidden="true">
-      <div class="preloader-glow"></div>
-      <div class="pre-tri" aria-hidden="true">
-        <!-- 3 strokes: black, gold, white -->
-        <svg viewBox="0 0 120 120" style="position:absolute; inset:0;">
-          <g class="p1"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round"/></g>
-        </svg>
-        <svg viewBox="0 0 120 120" style="position:absolute; inset:0;">
-          <g class="p2"><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none" stroke-linejoin="round"/></g>
-        </svg>
-        <svg viewBox="0 0 120 120" style="position:absolute; inset:0;">
-          <g class="p3"><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linejoin="round"/></g>
-        </svg>
-      </div>
-    </div>
+  <!-- ===== Preloader ===== -->
+  <div id="preloader">
+    <div class="triangle"></div>
   </div>
 
-  <!-- HEADER -->
-  <header class="nav" role="banner" aria-label="Site header">
-    <div class="brand" aria-hidden="false">
-      <div class="mini" aria-hidden="true">
-        <!-- small svg logo -->
-        <svg viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round"/></g>
-          <g><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/></g>
-          <g><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></g>
-        </svg>
-      </div>
-      <div class="title" aria-hidden="false">Triangle Tech</div>
-    </div>
-
-    <nav aria-label="Main navigation">
-      <div class="links nav-links" id="navLinks">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <button class="hambtn" id="hambtn" aria-label="Toggle menu" aria-expanded="false">
-        <span class="bar"></span>
-      </button>
+  <!-- ===== Header ===== -->
+  <header>
+    <h1>Triangle Tech</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </nav>
   </header>
 
-  <!-- HERO -->
-  <section id="home" class="hero" role="region" aria-label="Hero">
-    <!-- sliding images container -->
-    <div class="slides" aria-hidden="true">
-      <div class="slide" style="background-image:url('picture1.jpg')" data-index="0"></div>
-      <div class="slide" style="background-image:url('picture2.jpg')" data-index="1"></div>
-      <div class="slide" style="background-image:url('picture3.jpg')" data-index="2"></div>
-      <div class="slide" style="background-image:url('picture4.jpg')" data-index="3"></div>
-      <div class="slide" style="background-image:url('picture5.jpg')" data-index="4"></div>
-      <div class="slide" style="background-image:url('picture6.jpg')" data-index="5"></div>
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <div class="hero-images">
+      <img src="picture1.jpg" class="active">
+      <img src="picture2.jpg">
+      <img src="picture3.jpg">
+      <img src="picture4.jpg">
+      <img src="picture5.jpg">
+      <img src="picture6.jpg">
     </div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-content">
+      <h1>Triangle Tech</h1>
+      <p id="typed-text">Building the future of web and AI...</p>
+    </div>
+  </section>
 
-    <!-- particles canvas sits above slides -->
-    <canvas id="particleCanvas" aria-hidden="true"></canvas>
-
-    <!-- content -->
-    <div class="hero-content" role="presentation">
-      <div class="logo-wrap" aria-hidden="true">
-        <!-- hero triangle, layered strokes -->
-        <svg viewBox="0 0 120 120" width="160" height="160" aria-hidden="true">
-          <g class="h1"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round"/></g>
-          <g class="h2"><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/></g>
-          <g class="h3"><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></g>
-        </svg>
+  <!-- ===== Services ===== -->
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card" data-aos="fade-up">
+        <img src="service1.jpg" alt="">
+        <h3>Web Development</h3>
+        <p>We create professional websites for every brand and business type with modern, responsive design.</p>
       </div>
-
-      <div class="brand-title" aria-hidden="false">TRIANGLE TECH</div>
-
-      <div class="slogan" aria-live="polite">
-        <span id="typed-slogan"></span>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service2.jpg" alt="">
+        <h3>UI/UX Design</h3>
+        <p>Delivering beautiful and user-centered design experiences that engage audiences across all devices.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service3.jpg" alt="">
+        <h3>AI Integration</h3>
+        <p>Integrating AI tools and chatbots to boost efficiency and enhance customer engagement.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service4.jpg" alt="">
+        <h3>Brand Strategy</h3>
+        <p>We help companies shape strong digital identities and powerful brand voices.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service5.jpg" alt="">
+        <h3>Tech & Media Consulting</h3>
+        <p>Offering expert guidance to help brands grow through technology and digital media innovation.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service6.jpg" alt="">
+        <h3>Ready-Made Websites</h3>
+        <p>Buy pre-designed professional websites ready to go live or get custom-built solutions for your business.</p>
       </div>
     </div>
   </section>
 
-  <!-- decorative floating cards -->
-  <div class="float-deco" aria-hidden="true">Template</div>
-
-  <!-- MAIN CONTENT -->
-  <main class="container" id="main">
-
-    <!-- ABOUT (preview) -->
-    <section id="about" class="card" aria-labelledby="about-title" data-anim>
-      <h2 id="about-title">About Triangle Tech</h2>
-      <p>
-        Triangle Tech crafts modern, high-performance websites and digital products.
-        We combine beautiful design, robust development, and trusted maintenance so brands can scale confidently.
-      </p>
-      <div style="margin-top:14px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-        <a class="btn-cta" href="about.html">Read more</a>
-        <a class="btn-mail" href="mailto:triangletechweb@gmail.com">Email us</a>
-      </div>
-    </section>
-
-    <!-- SERVICES as standalone playcards -->
-    <section id="services" class="card" aria-labelledby="services-title" data-anim>
-      <h2 id="services-title">Our Services</h2>
-      <div class="cards" role="list">
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service1.jpg')" aria-hidden="true"></div>
-          <h4>Web Development</h4>
-          <p>Full-stack frontends with React, optimized builds, and fast deployments — professional websites for all businesses.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service2.jpg')" aria-hidden="true"></div>
-          <h4>UI / UX Design</h4>
-          <p>Human-centered design systems, prototyping, and pixel-perfect interfaces that convert and delight users.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service3.jpg')" aria-hidden="true"></div>
-          <h4>AI Integration</h4>
-          <p>Chat assistants, smart automation, and custom AI features — tailored to your workflows and customers.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service4.jpg')" aria-hidden="true"></div>
-          <h4>Brand Strategy</h4>
-          <p>Strategic identity, messaging, and visual direction that position your business to win attention and trust.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service5.jpg')" aria-hidden="true"></div>
-          <h4>Tech & Media Consulting</h4>
-          <p>Advisory services for digital product roadmaps, media strategy, and technology choices to scale growth.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service6.jpg')" aria-hidden="true"></div>
-          <h4>Ready-made Websites for Sale</h4>
-          <p>Premium customizable templates — buy, deploy, and launch quickly with professional support available.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- PORTFOLIO TEASER -->
-    <section id="portfolio" class="card" data-anim>
-      <h2>Selected Projects</h2>
-      <div class="portfolio" role="list">
-        <div class="playcard" data-anim>
-          <a class="thumb" style="background-image:url('picture2.jpg')" aria-hidden="true"></a>
-          <h4 style="margin-top:10px;">Nova Corporate</h4>
-          <p style="color:var(--muted);">Enterprise website with analytics & CMS.</p>
-        </div>
-
-        <div class="playcard" data-anim>
-          <a class="thumb" style="background-image:url('picture3.jpg')" aria-hidden="true"></a>
-          <h4 style="margin-top:10px;">Creative SaaS Landing</h4>
-          <p style="color:var(--muted);">Conversion-focused landing page design.</p>
-        </div>
-
-        <div class="playcard" data-anim>
-          <a class="thumb" style="background-image:url('picture4.jpg')" aria-hidden="true"></a>
-          <h4 style="margin-top:10px;">E-commerce Template</h4>
-          <p style="color:var(--muted);">Fast, themeable shop templates ready to sell.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="card" data-anim>
-      <h2>Testimonials</h2>
-      <div class="testimonials" id="testimonialsWrap" aria-live="polite">
-        <!-- injected by JS -->
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="card" data-anim>
-      <div class="contact">
-        <div class="left">
-          <h3>Ready to start?</h3>
-          <p style="color:var(--muted)">Send a quick message on WhatsApp or email us and we’ll reply fast.</p>
-          <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn-cta" href="https://wa.me/2349056658964" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp" style="margin-right:8px"></i> Chat on WhatsApp</a>
-            <a class="btn-mail" href="mailto:triangletechweb@gmail.com" aria-label="Send email"><i class="fa-solid fa-envelope" style="margin-right:8px"></i> Email</a>
-          </div>
-        </div>
-
-        <div style="text-align:right">
-          <div style="background:#f7f7f8;padding:12px;border-radius:10px;color:#06202a;display:inline-block;">
-            <strong>WhatsApp</strong><br>
-            <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" style="color:#06202a;text-decoration:none">+234 905 665 8964</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="big-cta" style="text-align:center;margin-top:18px;">
-        <button class="btn-cta" onclick="location.href='#contact'">Let's Build Something Great Together</button>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- AI bubble (design only) -->
-  <button class="ai-btn" title="AI Assistant (coming soon)" aria-label="Open AI assistant">
-    <i class="fa-solid fa-robot" style="font-size:20px"></i>
-  </button>
-
-  <!-- WHATSAPP floating with logo -->
-  <a class="whats-btn" href="https://wa.me/2349056658964" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="fa-brands fa-whatsapp" style="font-size:22px;color:#fff;"></i>
-  </a>
-
-  <!-- FOOTER -->
-  <footer class="site" role="contentinfo">
-    <div class="grid" style="max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Lobster',cursive;color:var(--gold);font-size:1.2rem;">Triangle Tech</div>
-        <div style="color:rgba(255,255,255,0.8);margin-top:6px;font-size:0.95rem;">Creative web & tech studio — design, build, maintain.</div>
-      </div>
-
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="color:rgba(255,255,255,0.9);">Follow</div>
-        <div class="socials">
-          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-      </div>
-
-      <div style="color:rgba(255,255,255,0.9);">© <span id="year"></span> Triangle Tech</div>
-    </div>
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p>
   </footer>
 
-  <!-- ---------------- SCRIPTS ---------------- -->
-  <script>
-    /* ===== PRELOADER: guarantee hide after 3s onload ===== */
-    window.onload = function() {
-      const pre = document.getElementById('preloader');
-      if (!pre) return;
-      setTimeout(()=> {
-        pre.classList.add('hidden');
-        setTimeout(()=> pre.remove(), 700);
-      }, 3000);
-    };
-
-    /* ===== NAV MOBILE TOGGLE ===== */
-    const hambtn = document.getElementById('hambtn');
-    const navLinks = document.getElementById('navLinks');
-    hambtn.addEventListener('click', ()=> {
-      const open = hambtn.classList.toggle('open');
-      hambtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      navLinks.classList.toggle('active');
-    });
-
-    /* ===== HERO SLIDESHOW (rotating pictures) ===== */
-    (function(){
-      const slides = Array.from(document.querySelectorAll('.slide'));
-      // fallback image if missing (shows placeholder instead of blank)
-      slides.forEach(s => {
-        const bg = s.style.backgroundImage;
-        if(!bg || bg === 'none' || bg.trim()==='') {
-          s.style.backgroundImage = "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1920&auto=format&fit=crop')";
-        }
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Triangle Tech — Creative Web & Tech Studio</title>
-  <meta name="description" content="Triangle Tech — we design, build and maintain high-performance websites and templates. Contact via WhatsApp or email." />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous">
-
-  <!-- Typed.js -->
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-
-  <style>
-    :root{
-      --midnight:#05061a;
-      --royal:#2b0b3d;
-      --gold:#f4c542;
-      --muted:#9aa3b2;
-      --card:#ffffff;
-      --glass: rgba(255,255,255,0.04);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background: linear-gradient(160deg,var(--midnight) 0%, var(--royal) 80%);
-      color: #e9eef6;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    a { color:inherit; text-decoration:none; }
-
-    /* ---------------- PRELOADER ---------------- */
-    #preloader {
-      position:fixed; inset:0; z-index:9999;
-      display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(160deg,var(--midnight),var(--royal));
-      transition: opacity .6s ease;
-    }
-    #preloader.hidden { opacity:0; pointer-events:none; }
-    .preloader-wrap { position:relative; width:120px; height:120px; display:block; }
-    .preloader-glow { position:absolute; inset:-24px; border-radius:40px; filter:blur(14px); background:radial-gradient(circle at 30% 20%, rgba(244,197,66,0.18), transparent 25%); }
-    .pre-tri { width:100%; height:100%; display:block; }
-    /* rotate the groups independently (fallback if JS not applied) */
-    .p1, .p2, .p3 { transform-origin:50% 50%; }
-
-    /* ---------------- NAVBAR ---------------- */
-    header.nav {
-      position:fixed; left:12px; right:12px; top:12px; z-index:200; display:flex; align-items:center; justify-content:space-between;
-      padding:10px 16px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(2,6,10,0.4);
-    }
-    .brand { display:flex; gap:12px; align-items:center; }
-    .brand .mini { width:48px; height:48px; display:block; }
-    .brand .title { font-family:'Lobster',cursive; font-size:1.4rem; color:var(--gold); letter-spacing:0.4px; text-shadow: 0 8px 24px rgba(0,0,0,0.35); }
-    nav.links { display:flex; gap:14px; align-items:center; }
-    nav.links a { color:rgba(255,255,255,0.94); padding:6px 10px; border-radius:8px; font-weight:600; transition: all .18s; }
-    nav.links a:hover { background: rgba(255,255,255,0.03); color:var(--gold); transform: translateY(-3px); }
-
-    /* stylish hamburger */
-    .hambtn { display:none; width:48px; height:48px; border-radius:10px; align-items:center; justify-content:center; cursor:pointer; background:var(--glass); border:1px solid rgba(255,255,255,0.03); }
-    .hambtn .bar { width:22px; height:2px; background:var(--gold); position:relative; display:block; border-radius:2px; }
-    .hambtn .bar:before, .hambtn .bar:after { content:""; position:absolute; left:0; right:0; height:2px; background:var(--gold); border-radius:2px; }
-    .hambtn .bar:before { top:-7px; }
-    .hambtn .bar:after { top:7px; }
-    .hambtn.open .bar { background:transparent; }
-    .hambtn.open .bar:before { transform: translateY(7px) rotate(45deg); top:0; }
-    .hambtn.open .bar:after { transform: translateY(-7px) rotate(-45deg); top:0; }
-    @media (max-width:920px){ nav.links{ display:none; } .hambtn{ display:flex; } }
-
-    /* ---------------- HERO ---------------- */
-    .hero { position:relative; height:62vh; min-height:380px; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
-    /* rotating photo slides (below particles) */
-    .slides { position:absolute; inset:0; z-index:0; }
-    .slide { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition: opacity 1.05s ease; will-change:opacity, transform; }
-    .slide.show { opacity:1; }
-    /* particles canvas sits above slides but below content */
-    #particleCanvas { position:absolute; inset:0; z-index:1; pointer-events:none; }
-    /* overlay for legibility */
-    .hero::after { content:""; position:absolute; inset:0; z-index:2; background: linear-gradient(180deg, rgba(2,6,10,0.45), rgba(2,6,10,0.2)); }
-
-    .hero-content { position:relative; z-index:3; transform: translateY(-6%); max-width:92%; }
-    .hero .logo-wrap { width:160px; height:160px; margin:0 auto; transform:translateY(-8px); }
-    .hero .brand-title { font-family:'Lobster',cursive; font-size:3.6rem; color:var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.45); letter-spacing:1px; margin-top:6px;}
-    .slogan { margin-top:12px; display:inline-block; padding:10px 18px; border-radius:999px; background:rgba(255,255,255,0.02); font-style:italic; font-weight:700; color:#c7ffe8; border:1px solid rgba(255,255,255,0.02); }
-
-    /* ---------------- FLOATING PLAYCARDS (services) ---------------- */
-    .container { max-width:1180px; margin:0 auto; padding:26px 20px; }
-    .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:18px; margin-top:-90px; z-index:10; position:relative; }
-    .playcard {
-      background: var(--card); color:#06202a; border-radius:14px; padding:16px; box-shadow: 0 18px 40px rgba(2,8,18,0.12);
-      transition: transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .25s;
-      overflow:hidden; position:relative;
-    }
-    .playcard:hover { transform: translateY(-12px); box-shadow: 0 34px 70px rgba(2,8,18,0.18); }
-    .playcard .img { width:100%; height:150px; background-size:cover; background-position:center; border-radius:10px; }
-    .playcard h4 { margin:12px 0 6px; font-size:1.05rem; }
-    .playcard p { color:var(--muted); font-size:0.95rem; line-height:1.45; }
-
-    /* decorative floating cards (absolute) */
-    .float-deco { position:absolute; left:6%; top:12%; width:220px; height:140px; border-radius:12px; background:linear-gradient(135deg,#fff,#fafafa); box-shadow: 0 20px 50px rgba(3,10,26,0.12); transform:rotate(-8deg); z-index:3; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--midnight); }
-
-    /* ---------------- PORTFOLIO & TESTIMONIALS ---------------- */
-    .portfolio { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-top:28px; }
-    .thumb { height:160px; border-radius:10px; background-size:cover; background-position:center; transition: transform .28s, box-shadow .28s; }
-    .thumb:hover{ transform:scale(1.03); box-shadow: 0 28px 60px rgba(2,10,26,0.18); }
-
-    .testimonials { margin-top:22px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px; border-radius:12px; box-shadow: 0 12px 40px rgba(3,10,26,0.06); overflow:hidden; }
-
-    /* ---------------- CONTACT ---------------- */
-    .contact { margin-top:28px; padding:16px; background:var(--card); color:#06202a; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
-    .contact .left { max-width:64%; }
-    .btn-cta { padding:12px 18px; border-radius:10px; font-weight:800; background: linear-gradient(90deg,var(--gold), #7be2c9); color:#06120a; border:none; cursor:pointer; }
-    .btn-mail { padding:10px 14px; border-radius:10px; border:1px solid rgba(2,6,8,0.04); background:transparent; cursor:pointer; }
-
-    /* ---------------- FLOATING ACTIONS ---------------- */
-    .whats-btn {
-      position:fixed; right:18px; bottom:18px; width:64px; height:64px; border-radius:50%;
-      background:#25D366; color:white; display:flex; align-items:center; justify-content:center; font-size:22px; z-index:400; box-shadow:0 20px 60px rgba(0,0,0,0.25); transition:transform .18s;
-    }
-    .whats-btn:hover{ transform:translateY(-8px); }
-
-    .ai-btn {
-      position:fixed; right:96px; bottom:20px; width:56px; height:56px; border-radius:50%;
-      background: linear-gradient(135deg,#6b2bd7,#2bd6a3); color:white; display:flex; align-items:center; justify-content:center; z-index:380; box-shadow:0 18px 50px rgba(0,0,0,0.2); transition:transform .18s;
-    }
-    .ai-btn:hover { transform: translateY(-6px); }
-
-    /* ---------------- FOOTER ---------------- */
-    footer.site {
-      margin-top:36px; padding:28px 18px; background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.12)); color:rgba(255,255,255,0.9);
-    }
-    footer .grid { max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
-    footer .socials a{ margin-left:8px; color:rgba(255,255,255,0.9); transition:all .18s; }
-    footer .socials a:hover { color:var(--gold); transform:translateY(-3px); }
-
-    /* responsive */
-    @media (max-width:1000px){ .cards{ grid-template-columns: repeat(2,1fr);} .hero { height:56vh; } }
-    @media (max-width:680px){ .cards{ grid-template-columns: 1fr;} .brand .title{ font-size:1.1rem;} .hero .brand-title{ font-size:2.6rem;} }
-  </style>
-</head>
-<body>
-
-  <!-- PRELOADER -->
-  <div id="preloader" role="status" aria-live="polite">
-    <div class="preloader-wrap" aria-hidden="true">
-      <div class="preloader-glow"></div>
-      <div class="pre-tri" aria-hidden="true">
-        <!-- 3 strokes: black, gold, white -->
-        <svg viewBox="0 0 120 120" style="position:absolute; inset:0;">
-          <g class="p1"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round"/></g>
-        </svg>
-        <svg viewBox="0 0 120 120" style="position:absolute; inset:0;">
-          <g class="p2"><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none" stroke-linejoin="round"/></g>
-        </svg>
-        <svg viewBox="0 0 120 120" style="position:absolute; inset:0;">
-          <g class="p3"><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linejoin="round"/></g>
-        </svg>
-      </div>
-    </div>
+  <!-- ===== Floating Buttons ===== -->
+  <div class="float-btn">
+    <a href="https://wa.me/2349056658964" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" class="ai"><i class="fas fa-robot"></i></a>
   </div>
 
-  <!-- HEADER -->
-  <header class="nav" role="banner" aria-label="Site header">
-    <div class="brand" aria-hidden="false">
-      <div class="mini" aria-hidden="true">
-        <!-- small svg logo -->
-        <svg viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round"/></g>
-          <g><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/></g>
-          <g><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></g>
-        </svg>
-      </div>
-      <div class="title" aria-hidden="false">Triangle Tech</div>
-    </div>
-
-    <nav aria-label="Main navigation">
-      <div class="links nav-links" id="navLinks">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <button class="hambtn" id="hambtn" aria-label="Toggle menu" aria-expanded="false">
-        <span class="bar"></span>
-      </button>
-    </nav>
-  </header>
-
-  <!-- HERO -->
-  <section id="home" class="hero" role="region" aria-label="Hero">
-    <!-- sliding images container -->
-    <div class="slides" aria-hidden="true">
-      <div class="slide" style="background-image:url('picture1.jpg')" data-index="0"></div>
-      <div class="slide" style="background-image:url('picture2.jpg')" data-index="1"></div>
-      <div class="slide" style="background-image:url('picture3.jpg')" data-index="2"></div>
-      <div class="slide" style="background-image:url('picture4.jpg')" data-index="3"></div>
-      <div class="slide" style="background-image:url('picture5.jpg')" data-index="4"></div>
-      <div class="slide" style="background-image:url('picture6.jpg')" data-index="5"></div>
-    </div>
-
-    <!-- particles canvas sits above slides -->
-    <canvas id="particleCanvas" aria-hidden="true"></canvas>
-
-    <!-- content -->
-    <div class="hero-content" role="presentation">
-      <div class="logo-wrap" aria-hidden="true">
-        <!-- hero triangle, layered strokes -->
-        <svg viewBox="0 0 120 120" width="160" height="160" aria-hidden="true">
-          <g class="h1"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round"/></g>
-          <g class="h2"><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/></g>
-          <g class="h3"><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></g>
-        </svg>
-      </div>
-
-      <div class="brand-title" aria-hidden="false">TRIANGLE TECH</div>
-
-      <div class="slogan" aria-live="polite">
-        <span id="typed-slogan"></span>
-      </div>
-    </div>
-  </section>
-
-  <!-- decorative floating cards -->
-  <div class="float-deco" aria-hidden="true">Template</div>
-
-  <!-- MAIN CONTENT -->
-  <main class="container" id="main">
-
-    <!-- ABOUT (preview) -->
-    <section id="about" class="card" aria-labelledby="about-title" data-anim>
-      <h2 id="about-title">About Triangle Tech</h2>
-      <p>
-        Triangle Tech crafts modern, high-performance websites and digital products.
-        We combine beautiful design, robust development, and trusted maintenance so brands can scale confidently.
-      </p>
-      <div style="margin-top:14px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-        <a class="btn-cta" href="about.html">Read more</a>
-        <a class="btn-mail" href="mailto:triangletechweb@gmail.com">Email us</a>
-      </div>
-    </section>
-
-    <!-- SERVICES as standalone playcards -->
-    <section id="services" class="card" aria-labelledby="services-title" data-anim>
-      <h2 id="services-title">Our Services</h2>
-      <div class="cards" role="list">
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service1.jpg')" aria-hidden="true"></div>
-          <h4>Web Development</h4>
-          <p>Full-stack frontends with React, optimized builds, and fast deployments — professional websites for all businesses.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service2.jpg')" aria-hidden="true"></div>
-          <h4>UI / UX Design</h4>
-          <p>Human-centered design systems, prototyping, and pixel-perfect interfaces that convert and delight users.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service3.jpg')" aria-hidden="true"></div>
-          <h4>AI Integration</h4>
-          <p>Chat assistants, smart automation, and custom AI features — tailored to your workflows and customers.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service4.jpg')" aria-hidden="true"></div>
-          <h4>Brand Strategy</h4>
-          <p>Strategic identity, messaging, and visual direction that position your business to win attention and trust.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service5.jpg')" aria-hidden="true"></div>
-          <h4>Tech & Media Consulting</h4>
-          <p>Advisory services for digital product roadmaps, media strategy, and technology choices to scale growth.</p>
-        </article>
-
-        <article class="playcard" role="listitem" data-anim>
-          <div class="img" style="background-image:url('service6.jpg')" aria-hidden="true"></div>
-          <h4>Ready-made Websites for Sale</h4>
-          <p>Premium customizable templates — buy, deploy, and launch quickly with professional support available.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- PORTFOLIO TEASER -->
-    <section id="portfolio" class="card" data-anim>
-      <h2>Selected Projects</h2>
-      <div class="portfolio" role="list">
-        <div class="playcard" data-anim>
-          <a class="thumb" style="background-image:url('picture2.jpg')" aria-hidden="true"></a>
-          <h4 style="margin-top:10px;">Nova Corporate</h4>
-          <p style="color:var(--muted);">Enterprise website with analytics & CMS.</p>
-        </div>
-
-        <div class="playcard" data-anim>
-          <a class="thumb" style="background-image:url('picture3.jpg')" aria-hidden="true"></a>
-          <h4 style="margin-top:10px;">Creative SaaS Landing</h4>
-          <p style="color:var(--muted);">Conversion-focused landing page design.</p>
-        </div>
-
-        <div class="playcard" data-anim>
-          <a class="thumb" style="background-image:url('picture4.jpg')" aria-hidden="true"></a>
-          <h4 style="margin-top:10px;">E-commerce Template</h4>
-          <p style="color:var(--muted);">Fast, themeable shop templates ready to sell.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="card" data-anim>
-      <h2>Testimonials</h2>
-      <div class="testimonials" id="testimonialsWrap" aria-live="polite">
-        <!-- injected by JS -->
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="card" data-anim>
-      <div class="contact">
-        <div class="left">
-          <h3>Ready to start?</h3>
-          <p style="color:var(--muted)">Send a quick message on WhatsApp or email us and we’ll reply fast.</p>
-          <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn-cta" href="https://wa.me/2349056658964" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp" style="margin-right:8px"></i> Chat on WhatsApp</a>
-            <a class="btn-mail" href="mailto:triangletechweb@gmail.com" aria-label="Send email"><i class="fa-solid fa-envelope" style="margin-right:8px"></i> Email</a>
-          </div>
-        </div>
-
-        <div style="text-align:right">
-          <div style="background:#f7f7f8;padding:12px;border-radius:10px;color:#06202a;display:inline-block;">
-            <strong>WhatsApp</strong><br>
-            <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" style="color:#06202a;text-decoration:none">+234 905 665 8964</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="big-cta" style="text-align:center;margin-top:18px;">
-        <button class="btn-cta" onclick="location.href='#contact'">Let's Build Something Great Together</button>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- AI bubble (design only) -->
-  <button class="ai-btn" title="AI Assistant (coming soon)" aria-label="Open AI assistant">
-    <i class="fa-solid fa-robot" style="font-size:20px"></i>
-  </button>
-
-  <!-- WHATSAPP floating with logo -->
-  <a class="whats-btn" href="https://wa.me/2349056658964" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="fa-brands fa-whatsapp" style="font-size:22px;color:#fff;"></i>
-  </a>
-
-  <!-- FOOTER -->
-  <footer class="site" role="contentinfo">
-    <div class="grid" style="max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Lobster',cursive;color:var(--gold);font-size:1.2rem;">Triangle Tech</div>
-        <div style="color:rgba(255,255,255,0.8);margin-top:6px;font-size:0.95rem;">Creative web & tech studio — design, build, maintain.</div>
-      </div>
-
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="color:rgba(255,255,255,0.9);">Follow</div>
-        <div class="socials">
-          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-      </div>
-
-      <div style="color:rgba(255,255,255,0.9);">© <span id="year"></span> Triangle Tech</div>
-    </div>
-  </footer>
-
-  <!-- ---------------- SCRIPTS ---------------- -->
+  <!-- ===== JS ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
-    /* ===== PRELOADER: guarantee hide after 3s onload ===== */
-    window.onload = function() {
-      const pre = document.getElementById('preloader');
+    // Fix preloader
+    document.addEventListener("DOMContentLoaded", () => {
+      const pre = document.getElementById("preloader");
       if (!pre) return;
-      setTimeout(()=> {
-        pre.classList.add('hidden');
-        setTimeout(()=> pre.remove(), 700);
+      setTimeout(() => {
+        pre.classList.add("hidden");
+        setTimeout(() => pre.remove(), 600);
       }, 3000);
-    };
-
-    /* ===== NAV MOBILE TOGGLE ===== */
-    const hambtn = document.getElementById('hambtn');
-    const navLinks = document.getElementById('navLinks');
-    hambtn.addEventListener('click', ()=> {
-      const open = hambtn.classList.toggle('open');
-      hambtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      navLinks.classList.toggle('active');
     });
 
-    /* ===== HERO SLIDESHOW (rotating pictures) ===== */
-    (function(){
-      const slides = Array.from(document.querySelectorAll('.slide'));
-      // fallback image if missing (shows placeholder instead of blank)
-      slides.forEach(s => {
-        const bg = s.style.backgroundImage;
-        if(!bg || bg === 'none' || bg.trim()==='') {
-          s.style.backgroundImage = "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1920&auto=format&fit=crop')";
-        }
+    // Hero rotation
+    const slides = document.querySelectorAll(".hero-images img");
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+    }, 4000);
+
+    // Typed text
+    new Typed("#typed-text", {
+      strings: ["Building the future of web and AI...", "Empowering brands with technology...", "We create. We innovate. We deliver."],
+      typeSpeed: 60,
+      backSpeed: 40,
+      loop: true
+    });
+
+    // Particles (hologram)
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight * 0.7;
+    };
+    window.addEventListener("resize", resize);
+    resize();
+
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3 + 1,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5,
+        triangle: Math.random() < 0.3
       });
+    }
 
-      let idx = 0;
-      function show(i){
-        slides.forEach((sl, n) => sl.classList.toggle('show', n===i));
-      }
-      show(0);
-      setInterval(()=> { idx = (idx+1) % slides.length; show(idx); }, 4200);
-    })();
-
-    /* ===== PARTICLES + HOLOGRAM TRIANGLES (canvas) ===== */
-    (function(){
-      const canvas = document.getElementById('particleCanvas');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight;
-      window.addEventListener('resize', ()=> { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-
-      // create dots and small triangle shapes
-      const dots = [];
-      const tris = [];
-      const DOTS = Math.max(40, Math.floor((w*h)/90000)); // scale with screen
-      for(let i=0;i<DOTS;i++){
-        dots.push({
-          x: Math.random()*w, y: Math.random()*h,
-          r: (Math.random()*1.6)+0.6, vx: (Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3,
-          alpha: 0.12 + Math.random()*0.28
-        });
-      }
-      for(let i=0;i<Math.max(6, Math.floor(DOTS/6)); i++){
-        tris.push({
-          x: Math.random()*w, y: Math.random()*h, size: 18 + Math.random()*36,
-          vx: (Math.random()-0.5)*0.45, vy: (Math.random()-0.5)*0.45, rot: Math.random()*Math.PI*2, drot: (Math.random()-0.5)*0.01, alpha: 0.06 + Math.random()*0.12
-        });
-      }
-
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-        // subtle bluish glow behind content
-        // draw dots
-        dots.forEach(d => {
-          d.x += d.vx; d.y += d.vy;
-          if(d.x < -10) d.x = w+10; if(d.x > w+10) d.x = -10;
-          if(d.y < -10) d.y = h+10; if(d.y > h+10) d.y = -10;
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(255,255,255,${d.alpha})`;
-          ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
-          ctx.fill();
-        });
-
-        // draw triangles
-        tris.forEach(t => {
-          t.x += t.vx; t.y += t.vy; t.rot += t.drot;
-          if(t.x < -60) t.x = w+60; if(t.x > w+60) t.x = -60;
-          if(t.y < -60) t.y = h+60; if(t.y > h+60) t.y = -60;
-          ctx.save();
-          ctx.translate(t.x, t.y); ctx.rotate(t.rot);
-          ctx.beginPath();
-          const s = t.size;
-          ctx.moveTo(0, -s/1.8);
-          ctx.lineTo(s*0.9, s/1.6);
-          ctx.lineTo(-s*0.9, s/1.6);
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        if (p.triangle) {
+          ctx.moveTo(p.x, p.y - p.size);
+          ctx.lineTo(p.x - p.size, p.y + p.size);
+          ctx.lineTo(p.x + p.size, p.y + p.size);
           ctx.closePath();
-          ctx.fillStyle = `rgba(244,197,66,${t.alpha})`;
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+          ctx.stroke();
+        } else {
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
           ctx.fill();
-          ctx.restore();
-        });
-
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
-
-    /* ===== typed.js slogan ===== */
-    document.addEventListener('DOMContentLoaded', ()=> {
-      const typedEl = document.getElementById('typed-slogan');
-      if (typedEl && window.Typed) {
-        new Typed('#typed-slogan', {
-          strings: ["Innovating websites — Empowering brands — Performance-first design."],
-          typeSpeed: 45, backSpeed: 0, backDelay: 2500, loop: true, showCursor: false
-        });
-      } else {
-        // fallback text
-        typedEl.textContent = "Innovating websites — Empowering brands — Performance-first design.";
-      }
-    });
-
-    /* ===== GSAP logos rotation and scroll reveals ===== */
-    document.addEventListener('DOMContentLoaded', ()=> {
-      try {
-        // rotate header/hero triangle strokes
-        gsap.to('.h1', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:12, ease:"linear" });
-        gsap.to('.h2', { rotation: -360, transformOrigin: "50% 50%", repeat:-1, duration:18, ease:"linear" });
-        gsap.to('.h3', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:22, ease:"linear" });
-
-        // preloader triangle groups rotate (in case preloader still present)
-        gsap.to('.p1', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:10, ease:"linear" });
-        gsap.to('.p2', { rotation: -360, transformOrigin: "50% 50%", repeat:-1, duration:14, ease:"linear" });
-        gsap.to('.p3', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:18, ease:"linear" });
-
-        // reveal elements on scroll
-        gsap.utils.toArray('[data-anim]').forEach((el, i) => {
-          gsap.fromTo(el, { y: 28, opacity:0 }, {
-            y:0, opacity:1, duration:0.85, delay: i*0.06, ease:'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' }
-          });
-        });
-      } catch(e){
-        // if GSAP not loaded, skip gracefuly
-        console.warn('GSAP not available:', e);
-      }
-    });
-
-    /* ===== Testimonials simple carousel injection ===== */
-    (function(){
-      const tdata = [
-        { q: "Triangle Tech built our site in record time and it's blazing fast.", who: "Ada N., Founder" },
-        { q: "Their design system saved us weeks — professional and thoughtful.", who: "Mark E., Product Lead" },
-        { q: "Reliable post-launch support — highly recommended.", who: "Rita K., Marketing Head" }
-      ];
-      const wrap = document.getElementById('testimonialsWrap');
-      if(!wrap) return;
-      const inner = document.createElement('div');
-      inner.style.display = 'flex'; inner.style.gap = '16px'; inner.style.width='300%'; inner.style.transition='transform .7s cubic-bezier(.2,.9,.2,1)';
-      tdata.forEach(t => {
-        const box = document.createElement('div');
-        box.style.minWidth = '100%';
-        box.innerHTML = `<div style="background:#fff;padding:14px;border-radius:10px;color:#06202a;"><div style="font-weight:700;margin-bottom:6px;">${t.q}</div><div style="color:${'#6b7280'};font-size:0.92rem;">— ${t.who}</div></div>`;
-        inner.appendChild(box);
+        }
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
       });
-      wrap.appendChild(inner);
-      let ti = 0;
-      setInterval(()=> { ti = (ti+1) % tdata.length; inner.style.transform = 'translateX(-' + (ti*100) + '%)'; }, 4500);
-    })();
-
-    /* ===== utilities ===== */
-    // set year
-    const yspan = document.getElementById('year');
-    if(yspan) yspan.textContent = new Date().getFullYear();
-
-    // accessibility: reduce motion stops animations
-    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      // stop animations - remove CSS animations and GSAP by clearing timeline if available
-      try { gsap.globalTimeline.clear(); } catch(e) {}
-      const typed = document.getElementById('typed-slogan');
-      if(typed) typed.style.animation = 'none';
+      requestAnimationFrame(drawParticles);
     }
+    drawParticles();
 
-    // diagnostic for images if they don't show
-    window.checkHeroImages = function(){
-      const slides = document.querySelectorAll('.slide');
-      slides.forEach((s,i)=> console.log(i, s.style.backgroundImage));
-    };
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // AOS
+    AOS.init({ duration: 1000 });
   </script>
 </body>
-</html>￼Enter      });
-
-      let idx = 0;
-      function show(i){
-        slides.forEach((sl, n) => sl.classList.toggle('show', n===i));
-      }
-      show(0);
-      setInterval(()=> { idx = (idx+1) % slides.length; show(idx); }, 4200);
-    })();
-
-    /* ===== PARTICLES + HOLOGRAM TRIANGLES (canvas) ===== */
-    (function(){
-      const canvas = document.getElementById('particleCanvas');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight;
-      window.addEventListener('resize', ()=> { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-
-      // create dots and small triangle shapes
-      const dots = [];
-      const tris = [];
-      const DOTS = Math.max(40, Math.floor((w*h)/90000)); // scale with screen
-      for(let i=0;i<DOTS;i++){
-        dots.push({
-          x: Math.random()*w, y: Math.random()*h,
-          r: (Math.random()*1.6)+0.6, vx: (Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3,
-          alpha: 0.12 + Math.random()*0.28
-        });
-      }
-      for(let i=0;i<Math.max(6, Math.floor(DOTS/6)); i++){
-        tris.push({
-          x: Math.random()*w, y: Math.random()*h, size: 18 + Math.random()*36,
-          vx: (Math.random()-0.5)*0.45, vy: (Math.random()-0.5)*0.45, rot: Math.random()*Math.PI*2, drot: (Math.random()-0.5)*0.01, alpha: 0.06 + Math.random()*0.12
-        });
-      }
-
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-        // subtle bluish glow behind content
-        // draw dots
-        dots.forEach(d => {
-          d.x += d.vx; d.y += d.vy;
-          if(d.x < -10) d.x = w+10; if(d.x > w+10) d.x = -10;
-          if(d.y < -10) d.y = h+10; if(d.y > h+10) d.y = -10;
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(255,255,255,${d.alpha})`;
-          ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
-          ctx.fill();
-        });
-
-        // draw triangles
-  tris.forEach(t => {
-          t.x += t.vx; t.y += t.vy; t.rot += t.drot;
-          if(t.x < -60) t.x = w+60; if(t.x > w+60) t.x = -60;
-          if(t.y < -60) t.y = h+60; if(t.y > h+60) t.y = -60;
-          ctx.save();
-          ctx.translate(t.x, t.y); ctx.rotate(t.rot);
-          ctx.beginPath();
-          const s = t.size;
-          ctx.moveTo(0, -s/1.8);
-          ctx.lineTo(s*0.9, s/1.6);
-          ctx.lineTo(-s*0.9, s/1.6);
-          ctx.closePath();
-          ctx.fillStyle = `rgba(244,197,66,${t.alpha})`;
-          ctx.fill();
-          ctx.restore();
-        });
-
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
-
-    /* ===== typed.js slogan ===== */
-    document.addEventListener('DOMContentLoaded', ()=> {
-      const typedEl = document.getElementById('typed-slogan');
-      if (typedEl && window.Typed) {
-        new Typed('#typed-slogan', {
-          strings: ["Innovating websites — Empowering brands — Performance-first design."],
-          typeSpeed: 45, backSpeed: 0, backDelay: 2500, loop: true, showCursor: false
-        });
-      } else {
-        // fallback text
-        typedEl.textContent = "Innovating websites — Empowering brands — Performance-first design.";
-      }
-    });
-
-    /* ===== GSAP logos rotation and scroll reveals ===== */
-    document.addEventListener('DOMContentLoaded', ()=> {
-      try {
-        // rotate header/hero triangle strokes
-        gsap.to('.h1', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:12, ease:"linear" });
-        gsap.to('.h2', { rotation: -360, transformOrigin: "50% 50%", repeat:-1, duration:18, ease:"linear" });
-        gsap.to('.h3', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:22, ease:"linear" });
-
-        // preloader triangle groups rotate (in case preloader still present)
-        gsap.to('.p1', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:10, ease:"linear" });
-        gsap.to('.p2', { rotation: -360, transformOrigin: "50% 50%", repeat:-1, duration:14, ease:"linear" });
-        gsap.to('.p3', { rotation: 360, transformOrigin: "50% 50%", repeat:-1, duration:18, ease:"linear" });
-
-        // reveal elements on scroll
-        gsap.utils.toArray('[data-anim]').forEach((el, i) => {
-          gsap.fromTo(el, { y: 28, opacity:0 }, {
+</html>
