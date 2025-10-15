@@ -1,203 +1,266 @@
-<!doctype html>
+here<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Triangle Tech — Home</title>
-  <meta name="description" content="Triangle Tech — creative web & tech studio. Design, build & maintain high-performance websites." />
+  <title>Triangle Tech — Creative Web & Tech Studio</title>
+  <meta name="description" content="Triangle Tech — we design, build and maintain high-performance websites and templates. Contact us via WhatsApp or email." />
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-Fu6fYf6X3K/9b1Z2q6yq9E8qG1m6lI0l2qJrZlZb1eB8QK6eK9z6d1G3y3Z3wQf7g1Z3c7s0eQ3b1g2mQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Typed.js for typing slogan -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- Lottie player for animated icons -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
   <style>
+    /* ---------- Base & Colors ---------- */
     :root{
-      --deep: #071e12;         /* deep dark base */
-      --gold: #d4af37;        /* gold accent */
-      --emerald: #0bb27a;     /* green accent */
-      --card-bg: #ffffff;
-      --muted: #6b7280;
+      --bg1: #0b1020;         /* deep midnight */
+      --bg2: #2b0b3d;         /* royal purple */
+      --accent: #f4c542;      /* electric gold */
+      --muted: #9aa3b2;
+      --card: #ffffff;
+      --glass: rgba(255,255,255,0.04);
     }
     html,body { height:100%; }
     body {
-      margin:0; font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background: linear-gradient(120deg, rgba(3,30,18,1) 0%, rgba(18,65,45,0.96) 40%, rgba(46,125,50,0.88) 100%);
-      color: #0b1320;
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(160deg,var(--bg1) 0%, var(--bg2) 80%);
+      color:#e9eef6;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
     }
 
+    a { color:inherit; text-decoration:none; }
+
+    /* ---------- PRELOADER ---------- */
+    #preloader {
+      position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+      background: radial-gradient(circle at 30% 20%, rgba(244,197,66,0.08), transparent 20%),
+                  radial-gradient(circle at 80% 80%, rgba(66,180,244,0.04), transparent 18%),
+                  linear-gradient(160deg,var(--bg1),var(--bg2));
+      transition: opacity .6s cubic-bezier(.2,.9,.3,1);
+    }
+    #preloader.hidden { opacity:0; pointer-events:none; }
+
+    .preloader-triangle { width:110px; height:110px; position:relative; display:block; }
+    .preloader-triangle svg { width:100%; height:100%; display:block; }
+    /* small glow effect */
+    .preloader-glow {
+      position:absolute; inset: -24px; filter: blur(14px); opacity:0.28; pointer-events:none;
+      background: radial-gradient(circle at 30% 20%, rgba(244,197,66,0.28), transparent 20%);
+      transform: rotate(12deg);
+      border-radius:40px;
+    }
+
     /* ---------- NAVBAR ---------- */
-    .nav {
-      position:fixed; inset:0 0 auto 0; z-index:80;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:1rem 2rem; gap:1rem;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      backdrop-filter: blur(6px);
-      box-shadow: 0 8px 30px rgba(2,6,7,0.25);
+    header.nav {
+      position:fixed; top:12px; left:12px; right:12px; z-index:80;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:10px 18px; border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
     }
     .brand {
-      display:flex; align-items:center; gap:0.8rem;
+      display:flex; align-items:center; gap:12px;
     }
-    .brand .logo-mini { width:48px; height:48px; display:block; }
-    .brand .name {
-      font-family: 'Lobster', cursive; font-size:1.6rem; color:var(--gold); letter-spacing:0.5px;
-      text-shadow: 0 6px 20px rgba(13,30,14,0.25);
+    .logo-mini { width:50px; height:50px; display:block; }
+    .brand-name {
+      font-family:'Lobster', cursive; font-size:1.45rem; color:var(--accent); letter-spacing:0.5px;
+      text-shadow: 0 8px 24px rgba(0,0,0,0.45);
     }
-    .nav-links { display:flex; gap:1.1rem; align-items:center; }
-    .nav-links a {
-      color: rgba(255,255,255,0.92); text-decoration:none; font-weight:600; padding:0.4rem 0.6rem; border-radius:8px;
-      transition: all .22s ease;
-    }
-    .nav-links a:hover { color: var(--emerald); transform: translateY(-2px); }
+    nav.links { display:flex; gap:10px; align-items:center; }
+    nav.links a { color:rgba(255,255,255,0.92); padding:8px 10px; border-radius:8px; font-weight:600; font-size:0.95rem; transition:all .18s; }
+    nav.links a:hover { color:var(--bg2); background:linear-gradient(90deg, rgba(244,197,66,0.12), rgba(244,197,66,0.06)); transform:translateY(-3px); }
 
-    /* stylish hamburger */
-    .hambtn { display:none; width:44px; height:44px; border-radius:10px; align-items:center; justify-content:center; cursor:pointer;
-      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.04);
+    /* Hamburger stylish */
+    .hambtn {
+      width:48px; height:48px; border-radius:10px; display:none; align-items:center; justify-content:center; cursor:pointer;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
     }
-    .hambtn .bar { width:22px; height:2px; background:var(--gold); display:block; border-radius:2px; transition: all .35s cubic-bezier(.2,.9,.2,1); position:relative; }
-    .hambtn .bar::before, .hambtn .bar::after{ content:""; position:absolute; left:0; right:0; height:2px; background:var(--gold); border-radius:2px; }
+    .hambtn .bar { width:22px; height:2px; background:var(--accent); display:block; border-radius:2px; position:relative; transition: all .36s cubic-bezier(.2,.9,.2,1); }
+    .hambtn .bar::before, .hambtn .bar::after { content:""; position:absolute; left:0; right:0; height:2px; background:var(--accent); border-radius:2px; }
     .hambtn .bar::before { top:-7px; }
     .hambtn .bar::after { top:7px; }
     .hambtn.open .bar { background:transparent; }
     .hambtn.open .bar::before { transform: translateY(7px) rotate(45deg); top:0; }
     .hambtn.open .bar::after { transform: translateY(-7px) rotate(-45deg); top:0; }
 
-    @media (max-width: 900px){
-      .nav-links{ display:none; }
-      .hambtn{ display:flex; }
+    @media (max-width: 920px){
+      nav.links { display:none; }
+      .hambtn { display:flex; }
     }
 
     /* ---------- HERO (reduced height) ---------- */
     .hero {
-      position:relative; height:62vh; min-height:420px; display:flex; align-items:center; justify-content:center; padding:0 1.5rem;
-      overflow:hidden; z-index:10;
+      position:relative; height:56vh; min-height:360px; display:flex; align-items:center; justify-content:center; padding:0 18px; overflow:hidden;
     }
-
-    /* slideshow slides (uses repo root images: picture1.jpg ... picture6.jpg) */
+    /* slides */
     .slide {
-      position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity .9s ease;
-      filter: saturate(1.05) contrast(1.03);
+      position:absolute; inset:0; background-size:cover; background-position:center; filter:contrast(1.02) saturate(1.05); opacity:0; transition:opacity .85s ease;
     }
     .slide.active { opacity:1; }
-
-    /* dark overlay & gradient band for hero text */
+    /* overlay band for text legibility */
     .hero::after {
-      content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(1,8,6,0.42), rgba(0,0,0,0.28)); z-index:2;
+      content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(4,6,8,0.55), rgba(3,6,12,0.25)); z-index:2;
     }
 
-    /* logo group — moved up a bit */
-    .hero-inner { position:relative; z-index:4; text-align:center; transform: translateY(-8%); }
-    .triangle-wrap { width:160px; height:160px; margin:0 auto; position:relative; }
-    svg.tri { width:100%; height:100%; display:block; }
+    /* triangle logo (hero) */
+    .triangle-wrap { width:170px; height:170px; margin:0 auto; position:relative; z-index:4; transform:translateY(-18px); }
+    .tri-svg { width:100%; height:100%; display:block; }
 
-    /* company name bigger and bolder */
     .brand-title {
-      font-family:'Lobster', cursive; font-size:3.6rem; color:var(--gold); margin-top:14px; letter-spacing:1px;
-      text-shadow: 0 10px 40px rgba(0,0,0,0.45);
+      margin-top:8px; font-family:'Lobster',cursive; font-size:3.8rem; color:var(--accent); text-shadow: 0 8px 30px rgba(0,0,0,0.45);
+      letter-spacing:1px; z-index:4;
     }
 
-    /* ticker news-style slogan */
-    .ticker {
-      margin-top:12px; width:100%; overflow:hidden; white-space:nowrap; display:block; z-index:5;
-      border-radius:999px; background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      padding:8px 12px; display:inline-block;
+    /* typing slogan (Typed.js) inside a capsule */
+    .slogan {
+      margin-top:12px; display:inline-block; background: rgba(255,255,255,0.02); padding:10px 18px; border-radius:999px; z-index:4;
+      font-style:italic; font-weight:700; color:#dfffe6; font-size:1.05rem; border:1px solid rgba(255,255,255,0.02);
     }
-    .ticker .line {
-      display:inline-block; font-style:italic; font-weight:700; color: #e6f9ef; padding-left:2rem;
-      animation: ticker 13s linear infinite;
-      text-shadow: 0 2px 12px rgba(11,179,120,0.12);
-      font-size:1.05rem;
-    }
-    @keyframes ticker { 0%{ transform: translateX(0); } 100%{ transform: translateX(-100%);} }
 
-    /* ---------- CONTENT: flying playcards ---------- */
-    .container { max-width:1200px; margin:0 auto; padding:2.5rem 1.1rem; }
+    /* floating particles and triangles (decorative) */
+    .particle, .triangle-deco { position:absolute; z-index:1; pointer-events:none; opacity:0.85; filter: blur(0.6px); }
+    .particle { width:220px; height:120px; border-radius:80px; background: radial-gradient(circle at 20% 20%, rgba(244,197,66,0.12), transparent 15%), radial-gradient(circle at 80% 80%, rgba(120,72,199,0.06), transparent 20%); }
+    .triangle-deco svg { width:160px; height:160px; opacity:0.6; }
 
-    .card-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:1.5rem; margin-top: -3.5rem; }
+    /* ---------- CONTENT (flying playcards) ---------- */
+    .container { max-width:1180px; margin:0 auto; padding:22px 18px; }
+    .card-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:-44px; }
     .card {
-      background: var(--card-bg); border-radius:14px; padding:1.6rem; box-shadow: 0 18px 40px rgba(2,8,18,0.12);
-      transform-origin:center; transition: transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .25s;
-      position:relative; overflow:visible;
+      background:var(--card); color:#0b1320; border-radius:14px; padding:18px; box-shadow: 0 18px 50px rgba(3,10,26,0.12);
+      transition: transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .25s;
     }
-    .card:hover { transform: translateY(-10px) rotate(-0.5deg); box-shadow: 0 30px 70px rgba(2,8,18,0.18); }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 28px 80px rgba(2,10,26,0.18); }
 
-    /* flying decorative playcards (absolute, decorative) */
-    .floating {
-      position:absolute; width:220px; height:140px; background:linear-gradient(135deg, rgba(255,255,255,0.96), rgba(245,245,245,0.96));
-      border-radius:12px; box-shadow: 0 20px 50px rgba(3,10,26,0.12); transform:rotate(-8deg);
-      display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--deep); left:12%; top:12%;
-      opacity:0.9; z-index:1;
-      animation: floaty 6s ease-in-out infinite;
+    /* decorative floating playcard (absolute) */
+    .float-card {
+      position:absolute; width:240px; height:140px; border-radius:12px; background: linear-gradient(135deg,#fff,#fafafa); box-shadow: 0 20px 50px rgba(3,10,26,0.12);
+      display:flex; align-items:center; justify-content:center; color:var(--bg1); font-weight:800;
+      z-index:2; transform:rotate(-8deg);
     }
-    .floating.alt { left:auto; right:10%; top:8%; transform:rotate(6deg); animation-duration:7s; }
-    .floating.small{ width:160px; height:110px; top:62%; left:8%; animation-duration:5.5s; }
-    @keyframes floaty { 0%{ transform: translateY(0) rotate(-6deg);} 50%{ transform: translateY(-14px) rotate(-3deg);} 100%{ transform: translateY(0) rotate(-6deg);} }
+    .float-card.alt { right:6%; top:18%; transform:rotate(6deg); }
 
-    /* responsive */
-    @media (max-width: 1024px){ .card-grid{ grid-template-columns: repeat(2, 1fr);} .brand-title{ font-size:3rem; } }
-    @media (max-width: 640px){
-      .hero{ height:56vh; min-height:380px;}
-      .card-grid{ grid-template-columns: 1fr; }
-      .brand-title{ font-size:2.6rem; }
-      .floating{ display:none; } /* hide decorative floats on small screens */
+    /* service icons row */
+    .services { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; }
+    .svc {
+      background: linear-gradient(180deg, rgba(255,255,255,0.99), rgba(245,245,245,0.99));
+      padding:14px; border-radius:12px; box-shadow: 0 12px 30px rgba(3,10,26,0.06); color:var(--bg1);
+      display:flex; gap:12px; align-items:center;
     }
+    .svc .label { font-weight:700; font-size:0.98rem; }
 
-    /* portfolio thumbnails */
-    .work {
-      height:160px; border-radius:10px; overflow:hidden; background:#efefef; display:block; position:relative;
-      background-size:cover; background-position:center;
+    /* portfolio grid */
+    .portfolio { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+    .thumb { height:160px; border-radius:10px; background-size:cover; background-position:center; overflow:hidden; transition:transform .28s, box-shadow .28s; }
+    .thumb:hover { transform:scale(1.03); box-shadow: 0 30px 60px rgba(2,10,26,0.18); }
+
+    /* testimonials carousel */
+    .testimonials { margin-top:22px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; box-shadow: 0 12px 40px rgba(3,10,26,0.08); }
+    .testimonial { display:flex; gap:12px; align-items:center; }
+
+    /* contact card */
+    .contact {
+      margin-top:22px; background:var(--card); color:var(--bg1); padding:18px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:12px;
     }
+    .cta-primary { background: linear-gradient(90deg,var(--accent), #6ee1c8); color:#04110a; padding:12px 18px; border-radius:10px; font-weight:800; border:none; cursor:pointer; }
+    .mail-btn { padding:10px 14px; border-radius:10px; border:1px solid rgba(2,6,8,0.04); background:transparent; cursor:pointer; }
 
-    /* contact / footer */
-    .contact-card { display:flex; gap:1.2rem; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:1.2rem; }
-    .contact-left { max-width:60%; }
-    .cta-primary { background: linear-gradient(90deg, var(--gold), var(--emerald)); color:#04110a; padding:12px 18px; border-radius:10px; font-weight:700; }
-    footer { padding:2rem 1rem; color: #cdefd9; background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.12)); text-align:center; margin-top:2.4rem; }
+    /* CTA big */
+    .big-cta { margin-top:24px; text-align:center; }
+    .big-cta .btn { padding:14px 26px; border-radius:12px; background:linear-gradient(90deg,var(--accent), #8be6d8); color:#04110a; font-weight:900; font-size:1.05rem; box-shadow: 0 18px 50px rgba(7,18,12,0.12); }
 
-    /* floating WhatsApp circular */
-    .whats-float {
-      position:fixed; right:20px; bottom:20px; width:64px; height:64px; border-radius:50%; background:#25D366; color:white;
-      display:flex; align-items:center; justify-content:center; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index:140;
+    /* footer */
+    footer.site {
+      margin-top:36px; padding:28px 18px; background: linear-gradient(180deg, rgba(15,12,28,0.08), rgba(6,4,10,0.12)); color:rgba(255,255,255,0.8);
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+    footer .f-grid { display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
+    footer .social a { margin-left:8px; color:rgba(255,255,255,0.92); transition:all .18s; }
+    footer .social a:hover { color:var(--accent); transform: translateY(-3px); }
+
+    /* floating WhatsApp button */
+    .whats {
+      position:fixed; right:18px; bottom:18px; width:64px; height:64px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; z-index:200; box-shadow: 0 18px 40px rgba(2,8,26,0.28);
       transition: transform .18s ease;
     }
-    .whats-float:hover{ transform: translateY(-6px); }
+    .whats:hover { transform: translateY(-6px); }
+
+    /* AI chat bubble design (non-functional) */
+    .ai-bubble {
+      position:fixed; right:94px; bottom:22px; width:56px; height:56px; border-radius:50%; background:linear-gradient(180deg,#6b2bd7,#2bd6a3); display:flex; align-items:center; justify-content:center; z-index:180; box-shadow: 0 18px 40px rgba(2,8,26,0.18);
+    }
+    .ai-bubble:hover { transform: translateY(-6px); }
+
+    /* responsive adjustments */
+    @media (max-width: 1000px) {
+      .card-grid, .portfolio { grid-template-columns: repeat(2,1fr); }
+      .brand-title { font-size:3rem; }
+    }
+    @media (max-width: 680px) {
+      .card-grid, .portfolio { grid-template-columns: 1fr; }
+      .triangle-wrap { width:120px; height:120px; transform:translateY(-8px); }
+      .brand-title { font-size:2.6rem; }
+      .hero { height:50vh; min-height:320px; }
+      .slogan { font-size:0.95rem; }
+      .logo-mini { display:none; }
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <header class="nav" role="banner">
-    <div class="brand">
-      <!-- small dynamic logo (SVG) -->
+  <!-- PRELOADER (shows 3 seconds then fades) -->
+  <div id="preloader" role="status" aria-live="polite" aria-label="Loading">
+    <div class="preloader-glow"></div>
+    <div class="preloader-triangle" aria-hidden="true">
+      <!-- three stroke triangle, will rotate asynchronously -->
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g id="p1"><path d="M60 10 L110 102 H10 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round" /></g>
+        <g id="p2"><path d="M60 18 L100 92 H20 Z" stroke="#f4c542" stroke-width="2.6" fill="none" stroke-linejoin="round" /></g>
+        <g id="p3"><path d="M60 26 L90 82 H30 Z" stroke="#ffffff" stroke-width="1.6" fill="none" stroke-linejoin="round" /></g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- HEADER / NAV -->
+  <header class="nav" role="banner" aria-label="Site header">
+    <div class="brand" aria-hidden="false">
       <div class="logo-mini" aria-hidden="true">
-        <svg viewBox="0 0 120 120" class="tri" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangle Tech logo">
-          <!-- three rotating strokes (CSS + GSAP animate later) -->
-          <g id="s1"><path d="M60 8 L108 96 H12 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
-          <g id="s2"><path d="M60 16 L99 88 H21 Z" fill="none" stroke="#d4af37" stroke-width="2.4" stroke-linejoin="round"/></g>
-          <g id="s3"><path d="M60 24 L90 80 H30 Z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/></g>
+        <!-- compact logo -->
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="tri-svg">
+          <g id="sA"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round" /></g>
+          <g id="sB"><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none" stroke-linejoin="round" /></g>
+          <g id="sC"><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linejoin="round" /></g>
         </svg>
       </div>
-      <div class="name brand-title">Triangle Tech</div>
+      <div class="brand-name">Triangle Tech</div>
     </div>
 
     <nav aria-label="Main navigation">
-      <div class="nav-links" id="navLinksDesktop">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Portfolio</a>
-        <a href="#">Blog</a>
+      <div class="links" id="mainLinks">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
         <a href="#contact">Contact</a>
       </div>
 
-      <button class="hambtn" id="hambtn" aria-label="Toggle menu" aria-expanded="false">
+      <button class="hambtn" id="hambtn" aria-label="Open menu" aria-expanded="false">
         <span class="bar"></span>
       </button>
     </nav>
@@ -205,184 +268,227 @@
 
   <!-- HERO -->
   <section class="hero" id="home" role="region" aria-label="Hero">
-    <!-- slides (images in repo root) -->
-    <div class="slide active" style="background-image:url('picture1.jpg');"></div>
+    <!-- slides — images must exist at repo root as picture1.jpg..picture6.jpg -->
+    <div class="slide active" style="background-image:url('picture1.jpg');" role="img" aria-label="Hero image 1"></div>
     <div class="slide" style="background-image:url('picture2.jpg');"></div>
     <div class="slide" style="background-image:url('picture3.jpg');"></div>
     <div class="slide" style="background-image:url('picture4.jpg');"></div>
     <div class="slide" style="background-image:url('picture5.jpg');"></div>
     <div class="slide" style="background-image:url('picture6.jpg');"></div>
 
+    <!-- decorative floating particle and triangles -->
+    <div class="particle" style="left:8%; top:8%; width:320px; height:160px; opacity:0.18;"></div>
+    <div class="triangle-deco" style="right:4%; top:14%;"><svg viewBox="0 0 100 100"><polygon points="50,6 94,92 6,92" fill="rgba(244,197,66,0.04)"/></svg></div>
+
     <!-- hero content -->
-    <div class="hero-inner">
+    <div class="hero-inner" aria-hidden="false">
       <div class="triangle-wrap" aria-hidden="true">
-        <!-- simplified svg triangles for animation -->
-        <svg class="tri tri1" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" stroke="#000" stroke-width="3" fill="none"/></svg>
-        <svg class="tri tri2" viewBox="0 0 100 100" style="position:absolute; inset:0;"><polygon points="50,10 90,85 10,85" stroke="#d4af37" stroke-width="2.6" fill="none"/></svg>
-        <svg class="tri tri3" viewBox="0 0 100 100" style="position:absolute; inset:0;"><polygon points="50,10 90,85 10,85" stroke="#fff" stroke-width="1.6" fill="none"/></svg>
+        <!-- animated triangles (rotated with GSAP) -->
+        <svg class="tri tri1" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" stroke="#000" stroke-width="3" fill="none" /></svg>
+        <svg class="tri tri2" viewBox="0 0 100 100" style="position:absolute; inset:0;"><polygon points="50,10 90,85 10,85" stroke="#f4c542" stroke-width="2.6" fill="none" /></svg>
+        <svg class="tri tri3" viewBox="0 0 100 100" style="position:absolute; inset:0;"><polygon points="50,10 90,85 10,85" stroke="#fff" stroke-width="1.6" fill="none" /></svg>
       </div>
 
-      <div class="brand-title" id="brandTitle">TRIANGLE TECH</div>
+      <div class="brand-title" id="title">TRIANGLE TECH</div>
 
-      <div class="ticker" aria-live="polite"><span class="line">Innovating websites — Empowering brands — Launch faster with performance-first design —</span></div>
+      <div class="slogan" aria-live="polite">
+        <span id="typed-slogan"></span>
+      </div>
     </div>
   </section>
 
-  <!-- Decorative flying playcards (absolute) -->
-  <div class="floating" aria-hidden="true">Template</div>
-  <div class="floating alt" aria-hidden="true">Design</div>
-  <div class="floating small" aria-hidden="true">UI</div>
+  <!-- floating decorative playcards -->
+  <div class="float-card" aria-hidden="true" style="left:6%; top:18%;">Template</div>
+  <div class="float-card alt" aria-hidden="true">Design</div>
+  <div class="float-card small" aria-hidden="true" style="left:8%; top:62%;">UI</div>
 
-  <!-- MAIN CONTAINER -->
-  <main class="container">
+  <!-- MAIN CONTENT -->
+  <main class="container" id="main" role="main">
 
-    <!-- ABOUT card -->
-    <section class="card" id="about" role="region" aria-labelledby="about-title">
+    <!-- ABOUT -->
+    <section id="about" class="card" aria-labelledby="about-title">
       <h2 id="about-title">About Triangle Tech</h2>
-      <p style="color:var(--muted); margin-top:10px; line-height:1.6;">
-        Triangle Tech is a creative technology studio delivering bold, beautiful and performant websites.
-        We combine design systems, modern front-end engineering (React, Vite), and long-term maintenance so brands
-        can scale with confidence. We also build ready-made templates you can purchase and customize.
+      <p style="color:var(--muted); margin-top:8px; line-height:1.6;">
+        Triangle Tech is a creative web & tech studio focused on building modern, high-performance websites.
+        We combine design systems, fast React frontends, and professional maintenance so brands launch faster and scale easier.
       </p>
-      <div style="margin-top:18px; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-        <a href="about.html" class="cta-primary">Read more</a>
-        <a href="#portfolio" class="cta-primary" style="background:transparent;border:2px solid rgba(7,24,14,0.06); color:var(--deep);">See portfolio</a>
+      <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <a class="cta-primary" href="about.html">Read more</a>
+        <a class="mail-btn" href="mailto:triangletechweb@gmail.com" aria-label="Send email">Send Email</a>
       </div>
     </section>
 
-    <!-- SERVICES grid -->
-    <section style="margin-top:2.6rem;">
-      <h3 style="color:var(--card-bg); font-size:1.5rem; margin-bottom:10px;">Services</h3>
-      <div class="card-grid" aria-label="Services">
-        <article class="card" data-anim>
-          <h4 style="margin:0 0 8px;">Design & Branding</h4>
-          <p style="color:var(--muted); font-size:0.95rem;">Visual systems, UI components and brand identity that scale.</p>
-        </article>
+    <!-- SERVICES -->
+    <section id="services" style="margin-top:22px;">
+      <h3 style="color:var(--card);">Services</h3>
 
-        <article class="card" data-anim>
-          <h4 style="margin:0 0 8px;">Web Development</h4>
-          <p style="color:var(--muted); font-size:0.95rem;">Modern frontends (React), fast builds and SEO-friendly architecture.</p>
-        </article>
+      <!-- Lottie icons and small descriptions -->
+      <div class="services" role="list">
+        <div class="svc" role="listitem">
+          <!-- sample Lottie player using public animation (decorative) -->
+          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width:64px; height:64px;" loop autoplay></lottie-player>
+          <div>
+            <div class="label">Web Development</div>
+            <div style="color:var(--muted); font-size:0.92rem;">React, Vite, progressive builds & SEO.</div>
+          </div>
+        </div>
 
-        <article class="card" data-anim>
-          <h4 style="margin:0 0 8px;">Maintenance & Support</h4>
-          <p style="color:var(--muted); font-size:0.95rem;">Hosting, backups, updates and performance monitoring.</p>
-        </article>
+        <div class="svc">
+          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_iwmd6pyr.json" background="transparent" speed="1" style="width:64px; height:64px;" loop autoplay></lottie-player>
+          <div>
+            <div class="label">Design & Branding</div>
+            <div style="color:var(--muted); font-size:0.92rem;">Brand systems, UI kits & visual identity.</div>
+          </div>
+        </div>
 
-        <article class="card" data-anim>
-          <h4 style="margin:0 0 8px;">Templates for Sale</h4>
-          <p style="color:var(--muted); font-size:0.95rem;">Ready-made websites you can buy and deploy quickly.</p>
-        </article>
-
-        <article class="card" data-anim>
-          <h4 style="margin:0 0 8px;">AI Chat Integration</h4>
-          <p style="color:var(--muted); font-size:0.95rem;">Smart assistant on your site powered by OpenAI (optional integration).</p>
-        </article>
-
-        <article class="card" data-anim>
-          <h4 style="margin:0 0 8px;">Performance & SEO</h4>
-          <p style="color:var(--muted); font-size:0.95rem;">Fast page loads, optimized images and accessibility-first builds.</p>
-        </article>
+        <div class="svc">
+          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width:64px; height:64px;" loop autoplay></lottie-player>
+          <div>
+            <div class="label">AI Integration</div>
+            <div style="color:var(--muted); font-size:0.92rem;">Chat assistants, automations & smart UX.</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- PORTFOLIO -->
-    <section id="portfolio" style="margin-top:3rem;">
-      <h3 style="color:var(--card-bg); font-size:1.5rem; margin-bottom:12px;">Selected Works</h3>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;">
-        <div class="card" aria-hidden="false" data-anim>
-          <div class="work" style="background-image:url('picture2.jpg');"></div>
-          <h4 style="margin-top:10px;">Nova Corporate</h4>
-          <p style="color:var(--muted); font-size:0.9rem;">Enterprise site with CMS & analytics.</p>
-        </div>
+    <!-- FLYING PLAYCARDS / FEATURE GRID -->
+    <section style="margin-top:26px;">
+      <div class="card-grid" aria-label="Key features">
+        <div class="card" data-anim><h4 style="margin:0 0 6px;">Design Systems</h4><p style="color:var(--muted);">Scalable UI components and tokens for consistent products.</p></div>
+        <div class="card" data-anim><h4>Performance</h4><p style="color:var(--muted);">Optimized images, critical CSS, and fast time-to-first-byte.</p></div>
+        <div class="card" data-anim><h4>Maintenance</h4><p style="color:var(--muted);">Post-launch updates, backups and security monitoring.</p></div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO TEASER -->
+    <section id="portfolio" style="margin-top:28px;">
+      <h3 style="color:var(--card);">Selected Works</h3>
+      <div class="portfolio" role="list">
         <div class="card" data-anim>
-          <div class="work" style="background-image:url('picture3.jpg');"></div>
-          <h4 style="margin-top:10px;">Creative SaaS Landing</h4>
-          <p style="color:var(--muted); font-size:0.9rem;">Conversion focused landing design.</p>
+          <a class="thumb" style="background-image:url('picture2.jpg');" href="#"></a>
+          <h4 style="margin-top:8px;">Nova Corporate</h4>
+          <p style="color:var(--muted); font-size:0.92rem;">Enterprise site with CMS & analytics.</p>
         </div>
+
         <div class="card" data-anim>
-          <div class="work" style="background-image:url('picture4.jpg');"></div>
-          <h4 style="margin-top:10px;">E-commerce Template</h4>
-          <p style="color:var(--muted); font-size:0.9rem;">Fast, themeable online shop template.</p>
+          <a class="thumb" style="background-image:url('picture3.jpg');" href="#"></a>
+          <h4 style="margin-top:8px;">Creative SaaS Landing</h4>
+          <p style="color:var(--muted); font-size:0.92rem;">Conversion-focused landing design.</p>
         </div>
+
+        <div class="card" data-anim>
+          <a class="thumb" style="background-image:url('picture4.jpg');" href="#"></a>
+          <h4 style="margin-top:8px;">E-commerce Template</h4>
+          <p style="color:var(--muted); font-size:0.92rem;">Fast, themeable shop template.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section style="margin-top:28px;">
+      <h3 style="color:var(--card);">What clients say</h3>
+      <div class="testimonials" id="testimonials" aria-live="polite">
+        <!-- testimonial slides will be injected (JS) -->
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" style="margin-top:3rem;" class="card">
-      <div class="contact-card">
-        <div class="contact-left">
-          <h3 style="margin:0 0 6px;">Let's build something great</h3>
-          <p style="color:var(--muted); margin:0 0 8px;">Message us directly via WhatsApp or email and we'll get back promptly.</p>
-          <div style="display:flex; gap:12px; align-items:center; margin-top:8px; flex-wrap:wrap;">
+    <section id="contact" style="margin-top:26px;">
+      <div class="contact" role="region" aria-labelledby="contact-title">
+        <div>
+          <h3 id="contact-title" style="margin:0 0 6px;">Ready to work together?</h3>
+          <p style="color:var(--muted); margin:0 0 8px;">Get an estimate or ask a question — we reply fast.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <a class="cta-primary" href="https://wa.me/2349056658964" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
               <i class="fa-brands fa-whatsapp" style="margin-right:8px;"></i> Chat on WhatsApp
             </a>
-            <a href="mailto:triangletechweb@gmail.com" style="padding:10px 14px; background:transparent; border-radius:10px; border:1px solid rgba(2,16,10,0.04);">
-              <i class="fa-solid fa-envelope" style="margin-right:8px;"></i> triangletechweb@gmail.com
-            </a>
+            <a class="mail-btn" href="mailto:triangletechweb@gmail.com" aria-label="Send email">Email us</a>
           </div>
         </div>
-
         <div style="text-align:right;">
-          <div style="background:#f7f7f8; padding:12px; border-radius:8px; display:inline-block;">
-            <strong>WhatsApp:</strong><br/>
-            <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" style="color:var(--deep); text-decoration:none;">+234 905 665 8964</a>
+          <div style="background:#f7f7f8; padding:12px; border-radius:10px; display:inline-block; color:var(--bg1);">
+            <div style="font-weight:800;">WhatsApp</div>
+            <a href="https://wa.me/2349056658964" target="_blank" rel="noopener" style="color:var(--bg1); text-decoration:none;">+234 905 665 8964</a>
           </div>
         </div>
+      </div>
+
+      <!-- CTA big -->
+      <div class="big-cta">
+        <button class="btn" onclick="location.href='#contact'">Let’s Build Something Great Together</button>
       </div>
     </section>
 
   </main>
 
+  <!-- AI chat bubble (design only for now) -->
+  <div class="ai-bubble" title="AI Assistant (coming soon)" role="button" aria-label="Open AI assistant (coming soon)">
+    <i class="fa-solid fa-robot" style="color:white;font-size:20px;"></i>
+  </div>
+
   <!-- Floating WhatsApp -->
-  <a href="https://wa.me/2349056658964" class="whats-float" title="Chat with Triangle Tech on WhatsApp" target="_blank" rel="noopener">
-    <i class="fa-brands fa-whatsapp" style="font-size:22px;"></i>
+  <a class="whats" href="https://wa.me/2349056658964" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp" style="font-size:22px;color:#fff;"></i>
   </a>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+  <footer class="site" role="contentinfo">
+    <div class="f-grid" style="max-width:1180px;margin:0 auto;">
       <div>
-        <div style="font-weight:700; color:var(--gold); font-family:'Lobster',cursive;">Triangle Tech</div>
-        <div style="font-size:0.9rem; color:rgba(255,255,255,0.78); margin-top:6px;">Creative web & tech studio</div>
+        <div style="font-family:'Lobster',cursive;color:var(--accent);font-size:1.2rem;">Triangle Tech</div>
+        <div style="color:rgba(255,255,255,0.75);margin-top:6px;font-size:0.95rem;">Creative web & tech studio — design, build, maintain.</div>
       </div>
-      <div style="color:rgba(255,255,255,0.8); font-size:0.95rem;">
-        © <span id="yr"></span> Triangle Tech — All rights reserved.
+
+      <div style="display:flex;gap:12px;align-items:center;">
+        <div style="font-size:0.95rem;color:rgba(255,255,255,0.8);">Follow</div>
+        <div class="social">
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
       </div>
+
+      <div style="color:rgba(255,255,255,0.78);">© <span id="year"></span> Triangle Tech — All rights reserved.</div>
     </div>
   </footer>
 
-  <!-- ---------- SCRIPTS ---------- -->
+  <!-- ---------- SCRIPTS (behavior & animations) ---------- -->
   <script>
-    // set year
-    document.getElementById('yr').textContent = new Date().getFullYear();
+    // Helper: wait for window load to hide preloader after 3s
+    window.addEventListener('load', () => {
+      // keep preloader visible for at least 3s
+      const pre = document.getElementById('preloader');
+      setTimeout(() => {
+        pre.classList.add('hidden');
+        setTimeout(() => pre.remove(), 600);
+      }, 3000);
+    });
 
-    // hamburger toggle
+    // NAV: hamburger toggle & small mobile menu injection
     const hamb = document.getElementById('hambtn');
-    const navLinksDesktop = document.getElementById('navLinksDesktop');
     hamb.addEventListener('click', () => {
       const open = hamb.classList.toggle('open');
       hamb.setAttribute('aria-expanded', open ? 'true' : 'false');
 
-      // create a small mobile menu overlay if needed
+      // create/destroy mobile menu
       if (open) {
         const mobile = document.createElement('div');
         mobile.id = 'mobileMenu';
         mobile.style.position = 'fixed';
         mobile.style.top = '72px';
         mobile.style.right = '18px';
-        mobile.style.background = 'rgba(255,255,255,0.02)';
+        mobile.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))';
         mobile.style.backdropFilter = 'blur(8px)';
-        mobile.style.padding = '12px 14px';
+        mobile.style.padding = '12px';
         mobile.style.borderRadius = '12px';
-        mobile.style.boxShadow = '0 10px 30px rgba(0,0,0,0.25)';
+        mobile.style.boxShadow = '0 20px 60px rgba(4,6,12,0.35)';
         mobile.style.zIndex = 120;
         mobile.innerHTML = `
-          <a href="#" style="display:block;padding:8px 10px;color:#fff;text-decoration:none;">Home</a>
-          <a href="#about" style="display:block;padding:8px 10px;color:#fff;text-decoration:none;">About</a>
-          <a href="#portfolio" style="display:block;padding:8px 10px;color:#fff;text-decoration:none;">Portfolio</a>
-          <a href="#contact" style="display:block;padding:8px 10px;color:#fff;text-decoration:none;">Contact</a>
+          <a href="#home" style="display:block;padding:10px 12px;color:#fff;">Home</a>
+          <a href="#about" style="display:block;padding:10px 12px;color:#fff;">About</a>
+          <a href="#services" style="display:block;padding:10px 12px;color:#fff;">Services</a>
+          <a href="#portfolio" style="display:block;padding:10px 12px;color:#fff;">Portfolio</a>
+          <a href="#contact" style="display:block;padding:10px 12px;color:#fff;">Contact</a>
         `;
         document.body.appendChild(mobile);
       } else {
@@ -391,60 +497,100 @@
       }
     });
 
-    // slideshow
+    // BACKGROUND SLIDESHOW
     const slides = Array.from(document.querySelectorAll('.slide'));
-    let idx = 0;
-    function show(i){
-      slides.forEach((s, n) => s.classList.toggle('active', n === i));
+    let sidx = 0;
+    function showSlide(i){
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
     }
-    // pre-check existence and fallback to placeholders if missing
+    // fallback if images missing: replace with placeholder
     slides.forEach(s => {
       const bg = s.style.backgroundImage;
-      if (!bg || bg === 'none') {
-        s.style.backgroundImage = "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1920&auto=format&fit=crop')";
-      }
+      if(!bg || bg === 'none') s.style.backgroundImage = "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1920&auto=format&fit=crop')";
     });
-    setInterval(() => { idx = (idx + 1) % slides.length; show(idx); }, 4200);
+    setInterval(() => { sidx = (sidx + 1) % slides.length; showSlide(sidx); }, 4200);
 
-    // GSAP animations: rotate triangles at different speeds & scroll reveals
+    // GSAP animations: rotated triangles in hero & preloader rotations
     document.addEventListener('DOMContentLoaded', () => {
+      // preloader triangles rotate slowly (works while preloader displayed)
+      gsap.to('#p1 path', { rotation: 360, transformOrigin: '60px 60px', repeat: -1, duration: 10, ease: 'linear' });
+      gsap.to('#p2 path', { rotation: -360, transformOrigin: '60px 60px', repeat: -1, duration: 14, ease: 'linear' });
+      gsap.to('#p3 path', { rotation: 360, transformOrigin: '60px 60px', repeat: -1, duration: 18, ease: 'linear' });
+
+      // hero triangle rotations
       gsap.to('.tri1', { rotation: 360, transformOrigin: '50% 50%', repeat: -1, duration: 12, ease: 'linear' });
       gsap.to('.tri2', { rotation: -360, transformOrigin: '50% 50%', repeat: -1, duration: 18, ease: 'linear' });
-      gsap.to('.tri3', { rotation: 360, transformOrigin: '50% 50%', repeat: -1, duration: 22, ease: 'linear' });
+      gsap.to('.tri3', { rotation: 360, transformOrigin: '50% 50%', repeat: -1, duration: 24, ease: 'linear' });
 
-      // Floating playcards subtle 3D tilt based on mouse move (desktop)
-      const floats = document.querySelectorAll('.floating');
-      document.addEventListener('mousemove', (e) => {
-        const cx = window.innerWidth/2, cy = window.innerHeight/2;
-        const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
-        floats.forEach((el, i) => {
-          const mz = (i+1)*6;
-          el.style.transform = `translate3d(${dx*mz}px, ${-Math.abs(dy*mz)}px, 0) rotate(${i?6:-6}deg)`;
-        });
-      });
+      // floating decor: subtle bobbing
+      gsap.to('.float-card', { y: -12, repeat: -1, yoyo: true, ease: 'sine.inOut', duration: 5 });
+      gsap.to('.float-card.alt', { y: -18, repeat: -1, yoyo: true, ease: 'sine.inOut', duration: 6 });
 
-      // Scroll-trigger animate cards
+      // particle subtle movement
+      gsap.to('.particle', { x: 40, y: -10, repeat:-1, yoyo:true, duration: 12, ease: 'sine.inOut' });
+      gsap.to('.triangle-deco', { x: -30, y: 12, repeat:-1, yoyo:true, duration: 10, ease: 'sine.inOut' });
+
+      // reveal animations on scroll for cards
       gsap.utils.toArray('[data-anim]').forEach((el, i) => {
-        gsap.fromTo(el, { y: 30, opacity:0 }, {
-          y:0, opacity:1, delay: 0.08*i, duration:0.8, ease:'power3.out',
+        gsap.fromTo(el, { y: 24, opacity:0 }, {
+          y:0, opacity:1, duration:0.8, delay:0.06*i, ease:'power3.out',
           scrollTrigger: { trigger: el, start: 'top 85%' }
         });
       });
+
+      // Testimonials carousel: simple auto-rotate injection
+      const tdata = [
+        { quote: "Triangle Tech built our site in record time and the performance is top class.", who: "Ada N., Startup Founder" },
+        { quote: "Their design system saved us weeks — highly recommended.", who: "Mark E., Product Lead" },
+        { quote: "Support and maintenance have been excellent — reliable team.", who: "Rita K., Marketing Head" },
+      ];
+      const twrap = document.getElementById('testimonials');
+      twrap.innerHTML = '<div id="test-wrap" style="display:flex;gap:16px;width:100%;overflow:hidden;"></div>';
+      const twrap = document.getElementById('test-wrap');
+      tdata.forEach((t) => {
+        const el = document.createElement('div');
+        el.className = 'testimonial';
+        el.style.minWidth = '100%';
+        el.style.flex = '0 0 100%';
+        el.innerHTML = `<div style="background:#fff;padding:14px;border-radius:8px;color:#0b1320;"><div style="font-weight:700;margin-bottom:6px;">${t.quote}</div><div style="color:${'#6b7280'};font-size:0.92rem;">— ${t.who}</div></div>`;
+        twrap.appendChild(el);
+      });
+      // simple auto slide
+      let tidx = 0;
+      function showTest(i){
+        twrap.style.transform = `translateX(-${i*100}%)`;
+        twrap.style.transition = 'transform .7s cubic-bezier(.2,.9,.2,1)';
+      }
+      setInterval(() => { tidx = (tidx + 1) % tdata.length; showTest(tidx); }, 4500);
+
     });
 
-    // Accessibility: pause ticker on focus or reduced motion
-    const ticker = document.querySelector('.ticker .line');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      ticker.style.animation = 'none';
-    }
+    // Typed.js: typing slogan
+    const typed = new Typed('#typed-slogan', {
+      strings: ['Innovating websites — Empowering brands — Performance-first design.'],
+      typeSpeed: 45,
+      backSpeed: 0,
+      showCursor: false,
+      loop: true,
+      smartBackspace: true,
+      backDelay: 2400
+    });
 
-    // quick diag for images if not showing
+    // small helper: set footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // small image diagnostics (call checkImages() from console if images don't show)
     window.checkImages = () => {
-      slides.forEach((s, i) => {
-        const bg = s.style.backgroundImage;
-        console.log(i, bg);
-      });
+      const s = document.querySelectorAll('.slide');
+      s.forEach((el, i) => console.log(i, el.style.backgroundImage));
     };
+
+    // Accessibility: pause animations for reduced-motion users
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // stop GSAP animations by killing ScrollTrigger and tweens
+      try { gsap.globalTimeline.clear(); } catch(e){}
+      const typedEl = document.getElementById('typed-slogan'); if (typedEl) typedEl.style.animation = 'none';
+    }
   </script>
 </body>
-</html>
+    </html>
