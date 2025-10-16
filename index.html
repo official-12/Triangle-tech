@@ -86,9 +86,7 @@
     .hamburger.open span:nth-child(1) {
       transform: rotate(45deg) translateY(8px);
     }
-    .hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
+    .hamburger.open span:nth-child(2) {opacity: 0;}
     .hamburger.open span:nth-child(3) {
       transform: rotate(-45deg) translateY(-8px);
     }
@@ -116,13 +114,31 @@
 
     /* ===== Hero ===== */
     .hero {
-      height: 70vh; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; overflow: hidden;
+      height: 80vh;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a0044, #320067);
+    }
+    .hero-images {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 40%;
+      overflow: hidden;
+      border-top-left-radius: 80px;
+      border-top-right-radius: 80px;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.4);
     }
     .hero-images img {
-      position: absolute; width: 100%; height: 100%;
-      object-fit: cover; opacity: 0; transition: opacity 2s ease-in-out;
+      position: absolute;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
     }
     .hero-images img.active {opacity: 1;}
     #particle-canvas {
@@ -134,53 +150,97 @@
     .hero-content {
       position: relative;
       z-index: 2;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1.2s ease;
-    }
-    .hero-content.visible {
-      opacity: 1;
-      transform: translateY(0);
+      margin-top: 160px;
     }
     .hero-content h1 {
       font-family: 'Lobster', cursive;
-      font-size: 3rem; color: gold;
+      font-size: 3.5rem;
+      color: gold;
       text-shadow: 0 0 10px #000;
     }
     .hero-content p {
-      font-size: 1.2rem; font-style: italic; margin-top: 10px;
-      color: #ddd;
+      font-size: 1.3rem;
+      font-style: italic;
+      font-weight: 600;
+      margin-top: 15px;
+      color: #f1f1f1;
+      text-shadow: 0 0 5px rgba(0,0,0,0.4);
     }
 
-    /* ===== Services, Buttons, Footer remain same ===== */
-    .services {padding: 80px 10%; background: #fff; color: #000; text-align: center;}
+    /* ===== Services ===== */
+    .services {
+      padding: 80px 10%; background: #fff; color: #000; text-align: center;
+    }
     .services h2 {color: #111; margin-bottom: 40px; font-size: 2.5rem;}
-    .service-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;}
-    .service-card {background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.4s, box-shadow 0.4s;}
-    .service-card:hover {transform: translateY(-10px); box-shadow: 0 10px 25px rgba(255,215,0,0.3);}
+    .service-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .service-card {
+      background: #fff; border-radius: 15px; overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+    }
     .service-card img {width: 100%; height: 180px; object-fit: cover;}
     .service-card h3 {color: #111; margin: 15px 0 10px;}
     .service-card p {padding: 0 15px 20px; font-size: 0.95rem; color: #333;}
 
-    .float-btn {position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 999;}
-    .float-btn a {width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; font-size: 24px; transition: transform 0.3s;}
+    /* ===== Floating Buttons ===== */
+    .float-btn {
+      position: fixed; bottom: 30px; right: 30px;
+      display: flex; flex-direction: column; gap: 15px;
+      z-index: 999;
+    }
+    .float-btn a {
+      width: 55px; height: 55px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      color: #fff; font-size: 24px;
+      transition: transform 0.3s;
+    }
     .float-btn a:hover {transform: scale(1.1);}
     .wa {background: #25D366;}
     .ai {background: linear-gradient(135deg, gold, purple);}
+    .gm {background: #EA4335;}
 
-    #scrollTop {position: fixed; bottom: 100px; right: 30px; width: 55px; height: 55px; border-radius: 50%; border: none; background: gold; color: #000; font-size: 22px; cursor: pointer; display: none; animation: pulse 2s infinite; box-shadow: 0 0 10px gold; z-index: 999;}
-    @keyframes pulse {0%, 100% {box-shadow: 0 0 10px gold;} 50% {box-shadow: 0 0 25px gold;}}
+    /* ===== Scroll to Top Button ===== */
+    #scrollTop {
+      position: fixed; bottom: 140px; right: 30px;
+      width: 55px; height: 55px;
+      border-radius: 50%; border: none;
+      background: gold; color: #000;
+      font-size: 22px; cursor: pointer;
+      display: none;
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 10px gold;
+      z-index: 998;
+    }
+    @keyframes pulse {
+      0%, 100% {box-shadow: 0 0 10px gold;}
+      50% {box-shadow: 0 0 25px gold;}
+    }
 
-    footer {background: linear-gradient(135deg, #0a0f2c, #1c034e); color: #fff; text-align: center; padding: 40px 20px; margin-top: 60px; position: relative;}
-    footer::before {content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60%; height: 2px; background: gold;}
+    footer {
+      background: linear-gradient(135deg, #0a0f2c, #1c034e);
+      color: #fff; text-align: center;
+      padding: 40px 20px; margin-top: 60px;
+      position: relative;
+    }
+    footer::before {
+      content: ""; position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60%; height: 2px; background: gold;
+    }
   </style>
 </head>
 <body>
 
-  <!-- ===== Preloader ===== -->
   <div id="preloader"><div class="triangle"></div></div>
 
-  <!-- ===== Header ===== -->
   <header>
     <h1>Triangle Tech</h1>
     <div class="hamburger" id="hamburger">
@@ -189,7 +249,7 @@
     <nav id="nav">
       <ul>
         <li><a href="#">Home</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="#">About</a></li>
         <li><a href="#">Services</a></li>
         <li><a href="#">Projects</a></li>
         <li><a href="#">Blog</a></li>
@@ -198,8 +258,12 @@
     </nav>
   </header>
 
-  <!-- ===== Hero ===== -->
   <section class="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-content">
+      <h1>Triangle Tech</h1>
+      <p id="typed-text">Building the future of web and AI...</p>
+    </div>
     <div class="hero-images">
       <img src="picture1.jpg" class="active">
       <img src="picture2.jpg">
@@ -208,23 +272,23 @@
       <img src="picture5.jpg">
       <img src="picture6.jpg">
     </div>
-    <canvas id="particle-canvas"></canvas>
-    <div class="hero-content" id="hero-content">
-      <h1>Triangle Tech</h1>
-      <p id="typed-text">Building the future of web and AI...</p>
+  </section>
+
+  <!-- === Services and Footer Stay the Same === -->
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <!-- your existing services here -->
     </div>
   </section>
 
-  <!-- ===== Services ===== -->
-  <section class="services" id="services">
-    <h2>Our Services</h2>
-    <!-- Same services as before -->
-  </section>
-
-  <footer><p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p></footer>
+  <footer>
+    <p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p>
+  </footer>
 
   <div class="float-btn">
     <a href="https://wa.me/2349056658964" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
+    <a href="mailto:triangletechweb@gmail.com" class="gm"><i class="fas fa-envelope"></i></a>
     <a href="#" class="ai"><i class="fas fa-robot"></i></a>
   </div>
 
@@ -233,18 +297,47 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
-    // Preloader and Hero animation
+    // Preloader
     document.addEventListener("DOMContentLoaded", () => {
       const pre = document.getElementById("preloader");
-      const hero = document.getElementById("hero-content");
       setTimeout(() => {
         pre.classList.add("hidden");
         setTimeout(() => pre.remove(), 600);
-        setTimeout(() => hero.classList.add("visible"), 800);
       }, 3000);
     });
 
-    // Other scripts (hamburger, particles, etc.) same as before...
+    // Hamburger
+    const hamburger = document.getElementById("hamburger");
+    const nav = document.getElementById("nav");
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("open");
+      nav.classList.toggle("open");
+    });
+
+    // Hero rotation
+    const slides = document.querySelectorAll(".hero-images img");
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+    }, 4000);
+
+    // Typed text
+    new Typed("#typed-text", {
+      strings: ["Building the future of web and AI...", "Empowering brands with technology...", "We create. We innovate. We deliver."],
+      typeSpeed: 60, backSpeed: 40, loop: true
+    });
+
+    // Scroll Button
+    const scrollBtn = document.getElementById("scrollTop");
+    window.addEventListener("scroll", () => {
+      scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none";
+    });
+    scrollBtn.addEventListener("click", () => window.scrollTo({top: 0, behavior: "smooth"}));
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
