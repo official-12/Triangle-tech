@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Triangle Tech — Creative Web & Tech Studio</title>
-  <meta name="description" content="Triangle Tech — building websites, AI integrations, consulting & ready-made sites." />
+  <title>Triangle Tech — Building Intelligent Web Experiences</title>
+  <meta name="description" content="Triangle Tech — web design, AI integration, and digital consulting." />
 
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -12,366 +12,389 @@
 
   <style>
     :root{
-      --bg1:#070824; --bg2:#2b0b3d; --gold:#f4c542; --muted:#9aa3b2;
-      --gmail:#EA4335; --whats:#25D366; --ai-grad: linear-gradient(135deg,#f4c542,#8a2be2);
-      --glass: rgba(255,255,255,0.04);
+      --sesco-blue: #0059b2;
+      --sesco-blue-2:#0a66d1;
+      --gold: #f4c542;
+      --muted: #6b7b8b;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.06);
+      --gmail:#EA4335;
+      --whats:#25D366;
+      --ai-start:#f4c542;
+      --ai-end:#8a2be2;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
       font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background:linear-gradient(160deg,var(--bg1),var(--bg2));
-      color:#e9eef6; -webkit-font-smoothing:antialiased;
+      background:linear-gradient(180deg,#f6fbff,#f0f6ff);
+      color:#053042;
+      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
     }
 
-    /* ========== Preloader ========== */
+    /* ---------------- Preloader ---------------- */
     #preloader{
-      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-      background: radial-gradient(circle at 30% 20%, rgba(44,10,70,0.92), rgba(10,6,30,0.99)); z-index:9999;
-      transition:opacity .6s ease;
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(5,20,40,0.95),rgba(2,6,20,0.95));z-index:9999;transition:opacity .5s;
     }
     #preloader.hidden{opacity:0;pointer-events:none}
-    .pre-tri{width:120px;height:120px}
+    .pre-tri{width:110px;height:110px}
     .pre-tri svg{width:100%;height:100%}
-    .pre-rot1{animation:spin1 10s linear infinite}
-    .pre-rot2{animation:spin2 14s linear infinite}
-    .pre-rot3{animation:spin3 18s linear infinite}
-    @keyframes spin1{to{transform:rotate(360deg)}}
-    @keyframes spin2{to{transform:rotate(-360deg)}}
-    @keyframes spin3{to{transform:rotate(360deg)}}
+    .pre-spin{animation:spin 3s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ========== Header ========== */
+    /* ---------------- Header ---------------- */
     header{
-      position:fixed;left:12px;right:12px;top:12px;z-index:120;
-      display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-radius:12px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter:blur(8px);box-shadow:0 12px 40px rgba(2,6,20,0.45);
+      position:fixed;left:14px;right:14px;top:14px;z-index:120;display:flex;align-items:center;justify-content:space-between;
+      padding:10px 16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      backdrop-filter: blur(8px);box-shadow:0 10px 30px rgba(6,20,40,0.08);
     }
     .brand{display:flex;align-items:center;gap:12px}
-    .brand .mini{width:48px;height:48px}
-    .brand .title{font-family:'Lobster',cursive;color:var(--gold);font-size:1.35rem}
-    nav.links{display:flex;gap:14px;align-items:center}
-    nav.links a{color:rgba(255,255,255,0.92);padding:8px 10px;border-radius:8px;font-weight:600}
-    nav.links a:hover{background:rgba(255,255,255,0.03);color:var(--gold)}
+    .brand .mini{width:44px;height:44px}
+    .brand .title{font-family:'Lobster',cursive;color:var(--sesco-blue);font-size:1.25rem;letter-spacing:0.6px}
+    nav.links{display:flex;gap:16px;align-items:center}
+    nav.links a{color:rgba(3,20,40,0.95);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600}
+    nav.links a:hover{background:rgba(0,89,178,0.06);color:var(--sesco-blue)}
+    .cta-btn{background:var(--sesco-blue);color:#fff;padding:8px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
 
-    /* hamburger */
-    .hambtn{display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:var(--glass);border:1px solid rgba(255,255,255,0.03)}
-    .hambtn .bar{width:22px;height:2px;background:var(--gold);position:relative;border-radius:2px;display:block}
-    .hambtn .bar::before,.hambtn .bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--gold);border-radius:2px}
+    /* hamburger (Apple-like) */
+    .hambtn{
+      display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:transparent;border:1px solid rgba(3,10,26,0.04)
+    }
+    .hambtn .bar{width:22px;height:2px;background:var(--sesco-blue);position:relative;border-radius:2px;display:block}
+    .hambtn .bar::before,.hambtn .bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--sesco-blue);border-radius:2px}
     .hambtn .bar::before{top:-7px}.hambtn .bar::after{top:7px}
     .hambtn.open .bar{background:transparent}
     .hambtn.open .bar::before{transform:translateY(7px) rotate(45deg);top:0}
     .hambtn.open .bar::after{transform:translateY(-7px) rotate(-45deg);top:0}
+    @media(max-width:920px){ nav.links{display:none} .hambtn{display:flex} }
 
-    @media (max-width:920px){ nav.links{display:none} .hambtn{display:flex} }
-
-    /* ========== Slide-down menu (glass overlay) ========== */
-    .menu-overlay{
-      position:fixed;left:0;right:0;top:0;height:0;overflow:hidden;z-index:200;
-      background:linear-gradient(180deg, rgba(10,6,30,0.95), rgba(20,7,45,0.94));
-      backdrop-filter:blur(12px);transition:height .45s cubic-bezier(.2,.9,.2,1);
-      display:flex;align-items:flex-start;justify-content:center;
+    /* ---------------- Menu sliding panel (from left, out to right) ---------------- */
+    .menu-panel{
+      position:fixed;top:0;left:-100%;width:100%;height:100%;z-index:200;background:linear-gradient(180deg, #ffffff, #f5faff);backdrop-filter:blur(6px);
+      transition:transform .5s cubic-bezier(.2,.9,.2,1);display:flex;align-items:flex-start;justify-content:flex-start;
     }
-    .menu-overlay.open{height:100vh}
-    .menu-panel{width:100%;max-width:920px;padding:80px 18px;display:flex;flex-direction:column;align-items:center;gap:18px}
-    .menu-panel a{color:#fff;font-weight:700;font-size:1.15rem;text-decoration:none;padding:14px 10px;border-radius:8px;transition:transform .18s}
-    .menu-panel a:hover{color:var(--gold);transform:translateY(-4px)}
+    .menu-panel.open{transform:translateX(100%)} /* we'll toggle transform via JS to slide in from left to center and out to right */
+    .menu-inner{width:100%;max-width:440px;padding:56px 28px}
+    .menu-inner a{display:block;color:var(--sesco-blue);text-decoration:none;font-weight:700;padding:14px 6px;border-radius:8px}
+    .menu-inner a:hover{color:var(--sesco-blue-2)}
 
-    /* ========== Hero ========== */
+    /* ---------------- HERO (Prism-like with video) ---------------- */
     .hero{
-      position:relative;height:80vh;min-height:520px;display:flex;align-items:flex-start;justify-content:center;overflow:hidden;
-      background:linear-gradient(160deg,var(--bg1),var(--bg2));
+      position:relative;height:88vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(180deg,#f6fbff 0%,#eef7ff 100%);
     }
+    /* video background */
+    #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:contrast(105%) saturate(105%);}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,89,178,0.22), rgba(255,255,255,0.08));z-index:1;pointer-events:none}
 
-    /* hero content (upper half) */
-    .hero-inner{
-      position:relative;z-index:4;max-width:1200px;padding:44px 20px;display:flex;flex-direction:column;align-items:center;
-      margin-top:28px;
-    }
-    .logo-large{width:140px;height:140px;margin-top:2px}
-    .brand-title{font-family:'Lobster',cursive;font-size:3.6rem;color:var(--gold);text-shadow:0 10px 30px rgba(0,0,0,0.45);margin-top:6px}
-    .slogan-ticker{
-      margin-top:12px;width:100%;max-width:920px;overflow:hidden;border-radius:999px;padding:12px 18px;background:rgba(255,255,255,0.02);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .ticker-wrap{width:100%;overflow:hidden;position:relative}
-    .ticker-inner{display:flex;gap:48px;white-space:nowrap;align-items:center;animation:tick 18s linear infinite}
-    .ticker-item{font-style:italic;font-weight:900;color:#f6fff8;font-size:1.05rem}
+    /* animated logo (like Prism) + title */
+    .hero-inner{position:relative;z-index:3;max-width:1100px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .logo-animated{width:160px;height:160px;margin-bottom:8px}
+    /* subtle spin & stroke animations */
+    .logo-animated .rot{animation:spinSlow 12s linear infinite}
+    @keyframes spinSlow{to{transform:rotate(360deg)}}
+    .brand-title{font-family:'Lobster',cursive;font-size:3.8rem;color:var(--sesco-blue);text-shadow:0 12px 40px rgba(10,24,50,0.12);letter-spacing:1px}
+    .hero-sub{margin-top:12px;color:rgba(3,20,40,0.9);font-size:1.1rem;max-width:880px;line-height:1.5}
+    .hero-cta{margin-top:18px;display:flex;gap:12px;align-items:center}
+    .btn-primary{background:var(--sesco-blue);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,89,178,0.18)}
+    .btn-ghost{background:transparent;padding:12px 18px;border:1px solid rgba(3,20,40,0.06);border-radius:10px;cursor:pointer}
+
+    /* ticker like Prism (small) */
+    .ticker{margin-top:14px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.04);overflow:hidden}
+    .ticker-inner{display:inline-block;white-space:nowrap;animation:tick 18s linear infinite}
+    .ticker-item{font-weight:700;color:#fff;margin-right:40px}
     @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-    /* ========== Lower-half image slider (horizontal sliding) ========== */
-    .hero-images{
-      position:absolute;left:0;right:0;bottom:0;height:50%;z-index:2;border-top-left-radius:70px;border-top-right-radius:70px;overflow:hidden;
-      box-shadow:0 -18px 60px rgba(0,0,0,0.46);
-      background:linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.14));
+    /* ---------------- Particle canvas (hologram) ---------------- */
+    #particleCanvas{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.9}
+
+    /* ---------------- Intro section (read more) ---------------- */
+    .intro {
+      max-width:1100px;margin:-80px auto 20px;padding:20px;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(6,20,40,0.06);position:relative;z-index:6;
+      display:flex;gap:20px;align-items:center;
     }
-    .slider-track{height:100%;display:flex;transition:transform .9s cubic-bezier(.2,.9,.2,1);will-change:transform}
-    .slide{min-width:100%;height:100%;background-size:cover;background-position:center}
-    .slide::after{content:"";position:absolute;inset:auto 0 0 0;height:40px;background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.12));pointer-events:none}
+    .intro .left{flex:1}
+    .intro h2{font-size:1.9rem;color:var(--sesco-blue);margin-bottom:8px}
+    .intro p{color:var(--muted);line-height:1.6}
+    .intro .read{margin-top:12px;display:inline-block;background:var(--sesco-blue);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
 
-    /* ========== Particle canvas ========== */
-    #particleCanvas{position:absolute;inset:0;z-index:3;pointer-events:none}
+    /* ---------------- Services (Sesco-style) ---------------- */
+    .services{max-width:1180px;margin:36px auto;padding:40px 18px;text-align:center}
+    .services h3{font-size:2rem;color:var(--sesco-blue);margin-bottom:8px}
+    .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}
+    .service-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 16px 40px rgba(6,20,40,0.06);text-align:left}
+    .service-card h4{color:var(--sesco-blue);margin-bottom:8px}
+    .service-card p{color:var(--muted);line-height:1.55}
 
-    /* ========== Services ========== */
-    .container{max-width:1180px;margin:0 auto;padding:26px 18px}
-    .services{margin-top:26px;padding:36px;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:12px;color:#06202a;text-align:center}
-    .services h2{color:#06202a;margin-bottom:20px;font-size:2.25rem;font-weight:800}
-    .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start;justify-items:center}
-    .playcard{width:100%;max-width:360px;background:#fff;border-radius:12px;padding:16px;box-shadow:0 18px 50px rgba(3,10,26,0.06);transition:transform .28s}
-    .playcard:hover{transform:translateY(-8px)}
-    .playcard img{width:100%;height:160px;object-fit:cover;border-radius:8px 8px 0 0}
-    .playcard h3{margin:12px 0 6px;font-size:1.05rem}
-    .playcard p{color:var(--muted);font-size:0.95rem}
+    /* ---------------- Stats ---------------- */
+    .stats{max-width:1100px;margin:36px auto;padding:18px;display:flex;gap:14px;justify-content:space-between}
+    .stat{flex:1;background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 14px 36px rgba(6,20,40,0.06)}
+    .stat .num{font-size:2.1rem;color:var(--sesco-blue);font-weight:800}
+    .stat .lbl{color:var(--muted);margin-top:8px}
 
-    /* ========== Floating solid buttons (right vertical stack) ========== */
-    .float-stack{
-      position:fixed; right:22px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:14px; align-items:center; z-index:450;
-    }
-    .btn-circle{
-      width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,0.25);transition:transform .16s,box-shadow .16s;
-    }
-    .btn-circle:hover{transform:translateY(-6px)}
-    .btn-gmail{background:#fff;border:2px solid rgba(255,255,255,0.06);background:transparent} /* keep icon red but button transparent? user asked real — will make icon red and button subtle white border */
-    .btn-gmail i{color:var(--gmail);font-size:20px;filter:drop-shadow(0 6px 12px rgba(234,67,53,0.28))}
-    .btn-whats{background:var(--whats)} .btn-whats i{color:#fff}
-    .btn-ai{background:linear-gradient(135deg,#f4c542,#8a2be2)} .btn-ai i{color:#041018}
+    /* ---------------- Floating Buttons (bottom-right) ---------------- */
+    .float-group{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:12px;z-index:600}
+    .float-btn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;border:none;box-shadow:0 12px 34px rgba(3,20,40,0.18)}
+    .float-gmail{background:linear-gradient(180deg,#fff,#fff);border:2px solid rgba(0,0,0,0.06)}
+    .float-gmail i{color:var(--gmail);font-size:20px;filter:drop-shadow(0 6px 12px rgba(234,67,53,0.25))}
+    .float-whats{background:var(--whats)} .float-whats i{color:#fff}
+    .float-ai{background:linear-gradient(135deg,var(--ai-start),var(--ai-end))} .float-ai i{color:#041018}
+    .float-btn:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(3,20,40,0.2)}
 
-    /* Scroll button placed bottom-right and not overlapping float stack */
-    .scroll-top{position:fixed;right:22px;bottom:24px;width:56px;height:56px;border-radius:50%;background:var(--gold);color:#02060a;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:460;box-shadow:0 14px 36px rgba(244,197,66,0.18);opacity:0;transform:translateY(10px);transition:all .28s}
+    /* ai modal */
+    .ai-modal{position:fixed;right:18px;bottom:86px;width:360px;max-width:92%;background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(3,10,26,0.18);z-index:700;display:none;flex-direction:column;overflow:hidden}
+    .ai-modal.show{display:flex}
+    .ai-modal .hd{padding:12px 14px;background:linear-gradient(90deg,var(--sesco-blue),var(--sesco-blue-2));color:#fff;font-weight:700}
+    .ai-modal .body{padding:14px;color:#07202a;min-height:120px}
+    .ai-modal .ft{padding:10px 12px;border-top:1px solid rgba(0,0,0,0.04);text-align:right}
+
+    /* ---------------- Scroll top (not overlapping) ---------------- */
+    .scroll-top{position:fixed;right:18px;bottom:100px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:#051019;display:flex;align-items:center;justify-content:center;z-index:590;box-shadow:0 16px 40px rgba(244,197,66,0.16);opacity:0;transform:translateY(10px);transition:all .28s}
     .scroll-top.show{opacity:1;transform:translateY(0)}
 
-    /* ========== Responsive tweaks ========== */
-    @media (max-width:880px){
-      .float-stack{right:12px;top:auto;bottom:120px;transform:none}
-      .hero{height:70vh}
-      .brand-title{font-size:2.6rem}
-      .services h2{font-size:1.9rem}
-    }
-    @media (max-width:520px){
-      .hero{height:62vh}
-      .hero-images{height:56%}
-      .brand-title{font-size:2.1rem}
-      .ticker-item{font-size:0.95rem}
-      .cards-grid{grid-template-columns:1fr;gap:16px}
-      .playcard{max-width:420px}
-      .menu-panel{padding:68px 12px}
-    }
+    /* ---------------- Footer ---------------- */
+    footer{margin-top:40px;padding:32px 14px;background:linear-gradient(180deg,#f6fbff,#eef7ff);text-align:center;color:#073241}
 
-    footer{margin-top:34px;padding:28px 18px;color:rgba(255,255,255,0.9);background:linear-gradient(160deg,var(--bg1),var(--bg2))}
+    /* responsive tweaks */
+    @media(max-width:920px){
+      .hero{min-height:540px}
+      .brand-title{font-size:2.4rem}
+      .intro{flex-direction:column;gap:12px;margin:-60px 16px 20px}
+      .services{padding:24px}
+      .stats{flex-direction:column}
+      .menu-inner{padding-top:48px}
+    }
   </style>
 </head>
 <body>
 
   <!-- PRELOADER -->
-  <div id="preloader" aria-live="polite">
-    <div class="pre-tri" aria-hidden="true">
-      <svg viewBox="0 0 120 120" class="pre-rot1" aria-hidden="true"><path d="M60 8 L108 102 H12 Z" stroke="#000" stroke-width="3" fill="none"/></svg>
-      <svg viewBox="0 0 120 120" class="pre-rot2" aria-hidden="true"><path d="M60 16 L99 92 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/></svg>
-      <svg viewBox="0 0 120 120" class="pre-rot3" aria-hidden="true"><path d="M60 24 L90 82 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></svg>
+  <div id="preloader" aria-hidden="false">
+    <div class="pre-tri pre-spin" aria-hidden="true">
+      <svg viewBox="0 0 120 120"><path d="M60 8 L108 96 H12 Z" stroke="#fff" stroke-width="3" fill="none"/></svg>
     </div>
   </div>
 
-  <!-- MENU OVERLAY (slides down) -->
-  <div id="menuOverlay" class="menu-overlay" aria-hidden="true" role="dialog" aria-label="Main menu">
-    <div class="menu-panel" role="menu">
-      <a href="#home" role="menuitem">Home</a>
-      <a href="#about" role="menuitem">About</a>
-      <a href="#services" role="menuitem">Services</a>
-      <a href="#portfolio" role="menuitem">Portfolio</a>
-      <a href="#contact" role="menuitem">Contact</a>
+  <!-- MENU PANEL (will slide in/out) -->
+  <div id="menuPanel" class="menu-panel" aria-hidden="true">
+    <div class="menu-inner">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
+      <div style="margin-top:20px"><button class="cta-btn" onclick="location.href='#contact'">Get in touch</button></div>
     </div>
   </div>
 
   <!-- HEADER -->
-  <header role="banner">
-    <div class="brand">
+  <header role="banner" aria-label="Top Navigation">
+    <div class="brand" role="img" aria-label="Triangle Tech logo">
       <div class="mini" aria-hidden="true">
-        <svg viewBox="0 0 120 120" width="48" height="48" aria-hidden="true"><g><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/></g><g><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/></g><g><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></g></svg>
+        <!-- small triangle icon -->
+        <svg viewBox="0 0 120 120" width="44" height="44"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></svg>
       </div>
       <div class="title">Triangle Tech</div>
     </div>
 
     <nav class="links" role="navigation" aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
       <a href="#services">Services</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#contact">Contact</a>
+      <button class="cta-btn" onclick="location.href='#contact'">Get in touch</button>
     </nav>
 
-    <button class="hambtn" id="hambtn" aria-label="Open menu" aria-expanded="false"><span class="bar"></span></button>
+    <button id="hambtn" class="hambtn" aria-label="Open menu" aria-expanded="false"><span class="bar"></span></button>
   </header>
 
   <!-- HERO -->
-  <main id="home" class="hero" role="main">
-    <div class="hero-inner" role="presentation">
-      <div class="logo-large" aria-hidden="true">
-        <svg viewBox="0 0 120 120" width="140" height="140" aria-hidden="true"><g class="h1"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/></g><g class="h2"><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/></g><g class="h3"><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></g></svg>
-      </div>
+  <main class="hero" role="main" aria-label="Hero">
+    <!-- video background: replace 'hero-tech.mp4' with your chosen tech video file or URL -->
+    <video id="heroVideo" autoplay muted loop playsinline poster="picture1.jpg">
+      <source src="hero-tech.mp4" type="video/mp4">
+      <!-- fallback poster shown on devices or if video missing -->
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
 
-      <div class="brand-title" id="brandTitle">TRIANGLE TECH</div>
-
-      <div class="slogan-ticker" aria-hidden="false">
-        <div class="ticker-wrap">
-          <div class="ticker-inner" aria-hidden="true">
-            <div class="ticker-item">Innovating websites — Empowering brands — Performance-first design.</div>
-            <div class="ticker-item">We build, maintain & sell premium websites — Fast, secure, beautiful.</div>
-            <div class="ticker-item">Consulting for tech & media — Product strategy & AI integrations.</div>
-            <!-- duplicate items for seamless loop -->
-            <div class="ticker-item">Innovating websites — Empowering brands — Performance-first design.</div>
-            <div class="ticker-item">We build, maintain & sell premium websites — Fast, secure, beautiful.</div>
-            <div class="ticker-item">Consulting for tech & media — Product strategy & AI integrations.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <!-- particle hologram canvas -->
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-    <div class="hero-images" aria-hidden="true">
-      <div class="slider-track" id="sliderTrack">
-        <div class="slide" style="background-image:url('picture1.jpg')"></div>
-        <div class="slide" style="background-image:url('picture2.jpg')"></div>
-        <div class="slide" style="background-image:url('picture3.jpg')"></div>
-        <div class="slide" style="background-image:url('picture4.jpg')"></div>
-        <div class="slide" style="background-image:url('picture5.jpg')"></div>
-        <div class="slide" style="background-image:url('picture6.jpg')"></div>
+    <div class="hero-inner" aria-hidden="false">
+      <!-- Animated Triangle logo -->
+      <div class="logo-animated" aria-hidden="true">
+        <svg viewBox="0 0 120 120" width="160" height="160">
+          <g class="rot" transform-origin="60 60">
+            <path d="M60 8 L108 96 H12 Z" stroke="#001f4d" stroke-width="3" fill="none"/>
+            <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>
+            <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none" opacity="0.9"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="brand-title">Triangle Tech</div>
+
+      <div class="hero-sub">Building intelligent, beautiful web experiences — we combine web engineering, AI, and design to scale brands and products.</div>
+
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="location.href='#services'">Explore Services</button>
+        <button class="btn-ghost" onclick="document.getElementById('introRead').scrollIntoView({behavior:'smooth'})">Read About Us</button>
+      </div>
+
+      <div class="ticker" aria-hidden="true" style="margin-top:18px">
+        <div class="ticker-inner" aria-hidden="true">
+          <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>
+          <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>
+          <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>
+          <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- SERVICES -->
-  <section id="services" class="container services" aria-labelledby="services-title">
-    <h2 id="services-title">Our Services</h2>
-    <div class="cards-grid" role="list">
-      <article class="playcard" role="listitem" data-aos="fade-up">
-        <img src="service1.jpg" alt="Web Development">
-        <h3>Web Development</h3>
-        <p>Professional websites for all businesses — React, performance-first, SEO-friendly.</p>
-      </article>
-
-      <article class="playcard" role="listitem" data-aos="fade-up">
-        <img src="service2.jpg" alt="UI/UX">
-        <h3>UI / UX Design</h3>
-        <p>Human-centered design and prototypes that convert.</p>
-      </article>
-
-      <article class="playcard" role="listitem" data-aos="fade-up">
-        <img src="service3.jpg" alt="AI Integration">
-        <h3>AI Integration</h3>
-        <p>Smart assistants, automations and chatbots tailored to your workflows.</p>
-      </article>
-
-      <article class="playcard" role="listitem" data-aos="fade-up">
-        <img src="service4.jpg" alt="Brand Strategy">
-        <h3>Brand Strategy</h3>
-        <p>Identity, messaging and positioning for trust and growth.</p>
-      </article>
-
-      <article class="playcard" role="listitem" data-aos="fade-up">
-        <img src="service5.jpg" alt="Consulting">
-        <h3>Tech & Media Consulting</h3>
-        <p>Advisory for product roadmaps, media strategy and scaling technology.</p>
-      </article>
-
-      <article class="playcard" role="listitem" data-aos="fade-up">
-        <img src="service6.jpg" alt="Ready-made">
-        <h3>Ready-Made Websites</h3>
-        <p>Premium templates ready to deploy, with optional customization and support.</p>
-      </article>
+  <!-- Intro (read more) -->
+  <section id="introRead" class="intro" role="region" aria-labelledby="insideTitle">
+    <div class="left">
+      <h2 id="insideTitle">Inside Triangle Tech</h2>
+      <p>Triangle Tech is a creative technology studio redefining how brands connect with the digital world. We blend web design, AI innovation, and smart strategy to craft experiences that are bold, beautiful, and built for the future.</p>
+      <a class="read" href="about.html">Read More →</a>
+    </div>
+    <div class="right" style="width:280px">
+      <img src="picture1.jpg" alt="Triangle Tech preview" style="width:100%;border-radius:10px;object-fit:cover;height:160px">
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer role="contentinfo"><div style="max-width:1180px;margin:0 auto;padding:10px 18px;text-align:center;">© <span id="year"></span> Triangle Tech — All rights reserved.</div></footer>
+  <!-- Services -->
+  <section id="services" class="services" role="region" aria-labelledby="servicesTitle">
+    <h3 id="servicesTitle">Our Services</h3>
+    <div class="service-grid" role="list">
+      <div class="service-card" role="listitem">
+        <h4>Website Design & Development</h4>
+        <p>Modern responsive websites built with React, performance optimization, SEO, and accessibility.</p>
+      </div>
+      <div class="service-card" role="listitem">
+        <h4>AI Integration</h4>
+        <p>Chat assistants, automation, and smart workflows using hybrid AI integrations tailored to your business.</p>
+      </div>
+      <div class="service-card" role="listitem">
+        <h4>Tech & Media Consulting</h4>
+        <p>Strategy, product design, and technical leadership to scale your digital presence and ops.</p>
+      </div>
+      <div class="service-card" role="listitem">
+        <h4>Ready-Made Websites</h4>
+        <p>Pre-built premium templates you can buy and launch quickly — or get them fully customized.</p>
+      </div>
+    </div>
+  </section>
 
-  <!-- FLOATING ICON STACK (solid colored buttons) -->
-  <div class="float-stack" role="group" aria-label="Quick contact">
-    <a id="btnGmail" class="btn-circle btn-gmail" href="https://mail.google.com/chat/" target="_blank" rel="noopener" title="Open Gmail Chat" aria-label="Open Gmail Chat">
+  <!-- Stats -->
+  <section class="stats" role="region" aria-label="Stats">
+    <div class="stat">
+      <div class="num" data-target="80">0</div>
+      <div class="lbl">Projects Delivered</div>
+    </div>
+    <div class="stat">
+      <div class="num" data-target="20">0</div>
+      <div class="lbl">Global Clients</div>
+    </div>
+    <div class="stat">
+      <div class="num" data-target="6">0</div>
+      <div class="lbl">Years of Innovation</div>
+    </div>
+    <div class="stat">
+      <div class="num" data-target="99">0</div>
+      <div class="lbl">Client Satisfaction (%)</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div style="max-width:1100px;margin:0 auto;padding:8px 16px;">
+      <div style="margin-bottom:8px">Triangle Tech — Building the future of Web & AI</div>
+      <div style="color:var(--muted)">© <span id="year"></span> Triangle Tech. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Floating buttons -->
+  <div class="float-group" role="group" aria-label="Quick contact">
+    <button class="float-btn float-gmail" id="btnGmail" title="Open Gmail Chat" aria-label="Open Gmail Chat" onclick="window.open('https://mail.google.com/chat/','_blank')">
       <i class="fa-solid fa-envelope"></i>
-    </a>
+    </button>
 
-    <a id="btnWhats" class="btn-circle btn-whats" href="https://wa.me/2349056658964" target="_blank" rel="noopener" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+    <button class="float-btn float-whats" id="btnWhats" title="Chat on WhatsApp" aria-label="Chat on WhatsApp" onclick="window.open('https://wa.me/2349056658964','_blank')">
       <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    </button>
 
-    <button id="btnAI" class="btn-circle btn-ai" title="AI Assistant (coming soon)" aria-label="AI Assistant">
+    <button class="float-btn float-ai" id="btnAI" title="AI Assistant" aria-label="AI Assistant">
       <i class="fa-solid fa-robot"></i>
     </button>
   </div>
 
-  <!-- SCROLL-TO-TOP (not overlapping) -->
+  <!-- AI Modal (placeholder) -->
+  <div id="aiModal" class="ai-modal" role="dialog" aria-hidden="true">
+    <div class="hd">Triangle Tech AI</div>
+    <div class="body">
+      <p style="margin:0 0 8px">AI assistant is a placeholder for now. When you're ready we'll connect it to OpenAI (or your preferred model) and it will respond to visitors instantly.</p>
+      <small style="color:var(--muted)">Tip: To integrate later I will add a chat UI and instructions to plug your OpenAI key securely.</small>
+    </div>
+    <div class="ft"><button onclick="closeAIModal()" style="background:var(--sesco-blue);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer">Close</button></div>
+  </div>
+
+  <!-- Scroll to top -->
   <button id="scrollTop" class="scroll-top" aria-label="Scroll to top" title="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-  <!-- SCRIPTS -->
+  <!-- Scripts -->
   <script>
-    /* ---------- Preloader hide ---------- */
-    document.addEventListener('DOMContentLoaded', () => {
+    // Preloader hide
+    document.addEventListener('DOMContentLoaded', ()=> {
       const pre = document.getElementById('preloader');
-      setTimeout(()=>{ if(pre){ pre.classList.add('hidden'); setTimeout(()=>pre.remove(),650); } }, 3000);
+      setTimeout(()=>{ if(pre){ pre.classList.add('hidden'); setTimeout(()=>pre.remove(), 600); } }, 2200);
     });
 
-    /* ---------- Menu slide-down control ---------- */
+    // Menu slide logic (slide in from left, out to right)
     const hambtn = document.getElementById('hambtn');
-    const menuOverlay = document.getElementById('menuOverlay');
-    hambtn.addEventListener('click', () => {
-      const open = hambtn.classList.toggle('open');
-      hambtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if(open){
-        menuOverlay.classList.add('open');
-        menuOverlay.setAttribute('aria-hidden','false');
+    const menuPanel = document.getElementById('menuPanel');
+    let menuOpen = false;
+    hambtn.addEventListener('click', ()=> {
+      menuOpen = !menuOpen;
+      hambtn.classList.toggle('open', menuOpen);
+      hambtn.setAttribute('aria-expanded', menuOpen ? 'true' : 'false');
+      if(menuOpen){
+        // move panel to center (from left)
+        menuPanel.style.transform = 'translateX(100%)';
+        menuPanel.classList.add('open');
+        menuPanel.setAttribute('aria-hidden','false');
       } else {
-        menuOverlay.classList.remove('open');
-        menuOverlay.setAttribute('aria-hidden','true');
+        // slide out to right (set transform back to 0 then hide)
+        menuPanel.style.transform = 'translateX(-100%)';
+        menuPanel.classList.remove('open');
+        menuPanel.setAttribute('aria-hidden','true');
+        // reset left after short delay
+        setTimeout(()=> menuPanel.style.transform = '', 520);
       }
     });
-    // close menu when clicking a menu link
-    document.querySelectorAll('.menu-panel a').forEach(a => a.addEventListener('click', () => {
-      hambtn.classList.remove('open'); menuOverlay.classList.remove('open'); menuOverlay.setAttribute('aria-hidden','true');
+
+    // Ensure links in menu close it (if they exist)
+    document.querySelectorAll('.menu-inner a').forEach(a => a.addEventListener('click', ()=> {
+      menuOpen = false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform = '';
     }));
 
-    /* ---------- Horizontal slider (lower half) ---------- */
-    (function(){
-      const track = document.getElementById('sliderTrack');
-      if(!track) return;
-      const slides = Array.from(track.children);
-      const total = slides.length;
-      let idx = 0;
-      // ensure images exist - fallback background
-      slides.forEach(s => {
-        const bg = s.style.backgroundImage;
-        if(!bg || bg === 'none') s.style.backgroundImage = "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1920&auto=format&fit=crop')";
-      });
-
-      // duplicate slides to allow smooth looping without flash (optional)
-      // We'll loop using translateX by index
-      function go(i){
-        track.style.transform = `translateX(-${i * 100}%)`;
-      }
-      go(0);
-
-      setInterval(()=>{
-        idx = (idx + 1) % total;
-        go(idx);
-      }, 2000); // 2 seconds per your request
-    })();
-
-    /* ---------- Particle hologram ---------- */
+    // Particle hologram (lightweight)
     (function(){
       const canvas = document.getElementById('particleCanvas');
       if(!canvas) return;
       const ctx = canvas.getContext('2d');
       let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight * 0.82;
-      window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight * 0.82; });
+      let h = canvas.height = window.innerHeight * 0.88;
+      window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight * 0.88; });
 
       const dots = [], tris = [];
-      const DOTS = Math.max(25, Math.floor((w*h)/110000));
+      const DOTS = Math.max(30, Math.floor((w*h)/85000));
       for(let i=0;i<DOTS;i++){
         dots.push({x:Math.random()*w,y:Math.random()*h,r:(Math.random()*1.4)+0.6,vx:(Math.random()-0.5)*0.35,vy:(Math.random()-0.5)*0.35,a:0.06+Math.random()*0.28});
       }
       for(let i=0;i<Math.max(6,Math.floor(DOTS/6));i++){
-        tris.push({x:Math.random()*w,y:Math.random()*h,size:14+Math.random()*36,vx:(Math.random()-0.5)*0.45,vy:(Math.random()-0.5)*0.45,rot:Math.random()*Math.PI*2,drot:(Math.random()-0.5)*0.012,a:0.06+Math.random()*0.12});
+        tris.push({x:Math.random()*w,y:Math.random()*h,size:12+Math.random()*28,vx:(Math.random()-0.5)*0.45,vy:(Math.random()-0.5)*0.45,rot:Math.random()*Math.PI*2,drot:(Math.random()-0.5)*0.012,a:0.06+Math.random()*0.12});
       }
 
       function draw(){
@@ -380,7 +403,7 @@
           d.x+=d.vx; d.y+=d.vy;
           if(d.x<-10) d.x = w+10; if(d.x>w+10) d.x=-10;
           if(d.y<-10) d.y = h+10; if(d.y>h+10) d.y=-10;
-          ctx.beginPath(); ctx.fillStyle=`rgba(255,255,255,${d.a})`; ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.fillStyle = `rgba(255,255,255,${d.a*0.6})`; ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fill();
         });
         tris.forEach(t=>{
           t.x+=t.vx; t.y+=t.vy; t.rot += t.drot;
@@ -389,49 +412,73 @@
           ctx.save(); ctx.translate(t.x,t.y); ctx.rotate(t.rot);
           ctx.beginPath(); const s = t.size;
           ctx.moveTo(0,-s/1.8); ctx.lineTo(s*0.9,s/1.6); ctx.lineTo(-s*0.9,s/1.6); ctx.closePath();
-          ctx.fillStyle=`rgba(244,197,66,${t.a})`; ctx.fill(); ctx.restore();
+          ctx.fillStyle = `rgba(244,197,66,${t.a*0.9})`; ctx.fill();
+          ctx.restore();
         });
         requestAnimationFrame(draw);
       }
       draw();
     })();
 
-    /* ---------- Ticker pause on hover ---------- */
+    // Stats counter when visible
     (function(){
-      const tw = document.querySelector('.ticker-wrap');
-      if(!tw) return;
-      tw.addEventListener('mouseenter', ()=> { const inner = tw.querySelector('.ticker-inner'); if(inner) inner.style.animationPlayState='paused'; });
-      tw.addEventListener('mouseleave', ()=> { const inner = tw.querySelector('.ticker-inner'); if(inner) inner.style.animationPlayState='running'; });
+      const stats = document.querySelectorAll('.stat .num');
+      const opts = {root:null,rootMargin:'0px',threshold:0.35};
+      const runCount = (el, target)=>{
+        const duration = 1400;
+        const start = performance.now();
+        const from = 0;
+        const to = Number(target);
+        function step(now){
+          const t = Math.min(1,(now-start)/duration);
+          const eased = t*(2-t);
+          el.textContent = Math.floor(from + (to-from)*eased);
+          if(t<1) requestAnimationFrame(step);
+          else if(target===99) el.textContent = to + '+';
+        }
+        requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver((entries, observer)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            const el = entry.target;
+            const target = el.getAttribute('data-target') || el.textContent;
+            runCount(el, target);
+            observer.unobserve(el);
+          }
+        });
+      }, opts);
+      stats.forEach(s=> io.observe(s));
     })();
 
-    /* ---------- Floating buttons: AI placeholder ---------- */
+    // Floating AI modal (placeholder)
     const btnAI = document.getElementById('btnAI');
+    const aiModal = document.getElementById('aiModal');
     btnAI.addEventListener('click', ()=> {
-      btnAI.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:360});
-      // Future: open AI chat modal/iframe here
+      aiModal.classList.toggle('show');
+      aiModal.setAttribute('aria-hidden', !aiModal.classList.contains('show'));
     });
+    function closeAIModal(){ aiModal.classList.remove('show'); aiModal.setAttribute('aria-hidden','true'); }
 
-    /* ---------- Scroll to top and avoid overlap ---------- */
+    // Scroll to top button behavior
     const scrollBtn = document.getElementById('scrollTop');
     window.addEventListener('scroll', ()=> {
-      if(window.scrollY > 300) scrollBtn.classList.add('show'); else scrollBtn.classList.remove('show');
+      if(window.scrollY > 360) scrollBtn.classList.add('show'); else scrollBtn.classList.remove('show');
     });
     scrollBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 
-    /* ---------- Footer year ---------- */
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* ---------- Accessibility fallback: keyboard close menu ---------- */
-    document.addEventListener('keydown', (e)=>{
+    // Accessibility: close AI modal on Escape & close menu on Escape
+    document.addEventListener('keydown', e => {
       if(e.key === 'Escape'){
-        hambtn.classList.remove('open');
-        menuOverlay.classList.remove('open');
-        menuOverlay.setAttribute('aria-hidden','true');
+        aiModal.classList.remove('show'); aiModal.setAttribute('aria-hidden','true');
+        if(menuOpen){ menuOpen=false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform=''; }
       }
     });
 
-    /* ---------- Quick debug helper (open console run window.checkHero()) ---------- */
-    window.checkHero = ()=> { document.querySelectorAll('.hero-images .slide').forEach((s,i)=>console.log(i,s.style.backgroundImage)); };
+    // Helpful: if video not available, it will show poster image automatically.
   </script>
 </body>
 </html>
