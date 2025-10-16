@@ -8,33 +8,29 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
 
-  <!-- FontAwesome Icons -->
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <!-- AOS Animation -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
       font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
-      background: linear-gradient(135deg, #002244, #003366);
+      background: #f5f7fb;
       color: #fff;
+      overflow-x: hidden;
     }
 
     /* ===== Preloader ===== */
     #preloader {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100vh;
-      background: radial-gradient(circle at center, #001122, #000);
+      background: radial-gradient(circle at center, #1e0040, #0a0f2c);
       display: flex; align-items: center; justify-content: center;
       z-index: 9999;
     }
     .triangle {
       width: 100px; height: 100px;
-      background: conic-gradient(from 180deg, gold, white, black);
+      background: conic-gradient(from 180deg, #007bff, white, #0a0f2c);
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
       animation: spin 3s linear infinite;
     }
@@ -44,30 +40,38 @@
     /* ===== Header ===== */
     header {
       position: fixed; top: 0; left: 0; width: 100%;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(10px);
       display: flex; justify-content: space-between; align-items: center;
       padding: 15px 40px;
       z-index: 1000;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+    header .logo {
+      display: flex; align-items: center; gap: 10px;
     }
     header h1 {
       font-family: 'Lobster', cursive;
-      font-size: 2.2rem;
-      color: gold;
+      font-size: 2rem; color: #00aaff;
     }
-
+    header h1 span {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
     nav ul {
       list-style: none;
       display: flex;
       gap: 25px;
     }
     nav ul li a {
-      color: white;
+      color: #fff;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s;
     }
-    nav ul li a:hover {color: gold;}
+    nav ul li a:hover {color: #00aaff;}
 
     /* ===== Hamburger ===== */
     .hamburger {
@@ -84,124 +88,111 @@
       border-radius: 5px;
       transition: 0.4s;
     }
-    .hamburger.open span:nth-child(1) {transform: rotate(45deg) translateY(8px);}
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
     .hamburger.open span:nth-child(2) {opacity: 0;}
-    .hamburger.open span:nth-child(3) {transform: rotate(-45deg) translateY(-8px);}
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
 
     @media (max-width: 900px) {
       nav {
         position: absolute;
-        top: 70px;
-        left: 0;
+        top: 70px; left: 0;
         width: 100%;
-        background: rgba(0,0,0,0.85);
+        background: rgba(0,0,0,0.9);
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.5s ease-in-out;
         text-align: center;
       }
       nav.open {max-height: 300px;}
-      nav ul {flex-direction: column; gap: 15px; padding: 20px 0;}
+      nav ul {
+        flex-direction: column;
+        padding: 20px 0;
+        gap: 15px;
+      }
       .hamburger {display: flex;}
     }
 
-    /* ===== Hero Section ===== */
+    /* ===== Hero ===== */
     .hero {
-      height: 70vh; position: relative;
+      height: 100vh;
+      position: relative;
       display: flex; align-items: center; justify-content: center;
-      text-align: center; overflow: hidden;
+      text-align: center;
+      overflow: hidden;
+      background: #000;
     }
-    video#heroVideo {
-      position: absolute; top: 0; left: 0;
+    .hero video {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      z-index: -1;
-    }
-    .overlay {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,50,0.5);
       z-index: 0;
     }
-
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(10,10,30,0.9));
+      z-index: 1;
+    }
     .hero-content {
       position: relative;
       z-index: 2;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1.2s ease;
-    }
-    .hero-content.visible {
-      opacity: 1; transform: translateY(0);
+      padding: 0 20px;
     }
     .hero-content h1 {
       font-family: 'Lobster', cursive;
-      font-size: 3.5rem; color: gold;
-      text-shadow: 0 0 10px #000;
+      font-size: 3.5rem;
+      color: #00aaff;
+      margin-bottom: 15px;
     }
     .hero-content p {
-      font-size: 1.3rem; font-style: italic;
-      margin-top: 15px; color: #ddd;
-      font-weight: 500;
+      font-size: 1.3rem;
+      color: #e0e0e0;
+      font-weight: 400;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
     }
 
-    /* ===== Glow Animation for Cards ===== */
-    @keyframes glowPulse {
-      0% { box-shadow: 0 0 10px rgba(0,89,178,0.2), 0 0 20px rgba(0,89,178,0.1); }
-      50% { box-shadow: 0 0 20px rgba(0,89,178,0.35), 0 0 40px rgba(0,89,178,0.2); }
-      100% { box-shadow: 0 0 10px rgba(0,89,178,0.2), 0 0 20px rgba(0,89,178,0.1); }
+    @media (max-width: 768px) {
+      .hero-content h1 {font-size: 2.4rem;}
+      .hero-content p {font-size: 1rem;}
     }
-
-    .service-card, .intro, .stat {
-      animation: glowPulse 5s ease-in-out infinite;
-      transition: transform 0.3s ease;
-    }
-    .service-card:hover, .intro:hover, .stat:hover {
-      transform: translateY(-6px);
-    }
-
-    /* ===== Services ===== */
-    .services {padding: 80px 10%; background: #fff; color: #000; text-align: center;}
-    .services h2 {color: #111; margin-bottom: 40px; font-size: 2.5rem;}
-    .service-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;}
-    .service-card {background: #fff; border-radius: 15px; overflow: hidden; transition: transform 0.4s, box-shadow 0.4s;}
-    .service-card img {width: 100%; height: 180px; object-fit: cover;}
-    .service-card h3 {color: #111; margin: 15px 0 10px;}
-    .service-card p {padding: 0 15px 20px; font-size: 0.95rem; color: #333;}
 
     /* ===== Floating Buttons ===== */
-    .float-btn {position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 999;}
+    .float-btn {
+      position: fixed;
+      bottom: 25px; right: 25px;
+      display: flex; flex-direction: column;
+      gap: 15px; z-index: 999;
+    }
     .float-btn a {
-      width: 55px; height: 55px; display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; color: #fff; font-size: 24px; transition: transform 0.3s;
-    }
-    .float-btn a:hover {transform: scale(1.1);}
-    .wa {background: #25D366;}
-    .ai {background: linear-gradient(135deg, gold, purple);}
-    .gmail {background: #D93025;}
-
-    /* ===== Scroll Top ===== */
-    #scrollTop {
-      position: fixed; bottom: 180px; right: 30px;
       width: 55px; height: 55px;
-      border-radius: 50%; border: none;
-      background: gold; color: #000;
-      font-size: 22px; cursor: pointer; display: none;
-      animation: pulse 2s infinite;
-      box-shadow: 0 0 10px gold;
-      z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 24px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: #000;
     }
-    @keyframes pulse {0%, 100% {box-shadow: 0 0 10px gold;} 50% {box-shadow: 0 0 25px gold;}}
+    .float-btn a:hover {transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.4);}
+    .wa {background: #25D366;}
+    .ai {background: linear-gradient(135deg, #00aaff, #007bff);}
+    .gm {background: #d93025;}
 
     /* ===== Footer ===== */
     footer {
-      background: linear-gradient(135deg, #002244, #003366);
-      color: #fff; text-align: center;
-      padding: 40px 20px; margin-top: 60px; position: relative;
-    }
-    footer::before {
-      content: ""; position: absolute; top: 0; left: 50%;
-      transform: translateX(-50%); width: 60%; height: 2px; background: gold;
+      background: #0a0f2c;
+      color: #fff;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -212,7 +203,10 @@
 
   <!-- ===== Header ===== -->
   <header>
-    <h1>Triangle of Tech</h1>
+    <div class="logo">
+      <h1>Triangle Tech</h1>
+      <span>Triangle of Tech</span>
+    </div>
     <div class="hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </div>
@@ -230,71 +224,48 @@
 
   <!-- ===== Hero Section ===== -->
   <section class="hero">
-    <video id="heroVideo" autoplay muted loop playsinline>
-      <source src="assets/video.mp4" type="video/mp4">
-      <source src="assets/video1.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline>
+      <source src="video1.mp4" type="video/mp4">
     </video>
-    <div class="overlay"></div>
-    <div class="hero-content" id="hero-content">
+    <div class="hero-content">
       <h1>Triangle Tech</h1>
       <p>Building intelligent, beautiful web experiences — we combine web engineering, AI, and design to scale brands and products.</p>
     </div>
   </section>
 
-  <!-- ===== Services ===== -->
-  <section class="services" id="services">
-    <h2>Our Services</h2>
-    <div class="service-grid">
-      <div class="service-card"><img src="assets/service1.jpg"><h3>Web Design</h3><p>Modern and responsive website design for brands and businesses.</p></div>
-      <div class="service-card"><img src="assets/service2.jpg"><h3>AI Integration</h3><p>Smart AI chatbots and systems to power engagement.</p></div>
-      <div class="service-card"><img src="assets/service3.jpg"><h3>Consulting</h3><p>Professional advice for tech, media, and web solutions.</p></div>
-      <div class="service-card"><img src="assets/service4.jpg"><h3>Ready Websites</h3><p>Buy pre-built professional websites ready for deployment.</p></div>
-    </div>
-  </section>
-
-  <footer><p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p></footer>
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p>
+  </footer>
 
   <!-- ===== Floating Buttons ===== -->
   <div class="float-btn">
-    <a href="https://wa.me/2349056658964" target="_blank" class="wa" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-    <a href="#" class="ai" title="AI Assistant"><i class="fas fa-robot"></i></a>
-    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=triangletechweb@gmail.com" target="_blank" class="gmail" title="Send Email"><i class="fa-solid fa-envelope"></i></a>
+    <a href="https://wa.me/2349056658964" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" class="gm"><i class="fab fa-google"></i></a>
+    <a href="#" class="ai"><i class="fas fa-robot"></i></a>
   </div>
 
-  <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
-    // Preloader
+    // ===== Preloader =====
     document.addEventListener("DOMContentLoaded", () => {
       const pre = document.getElementById("preloader");
-      const hero = document.getElementById("hero-content");
       setTimeout(() => {
         pre.classList.add("hidden");
         setTimeout(() => pre.remove(), 600);
-        setTimeout(() => hero.classList.add("visible"), 800);
       }, 3000);
     });
 
-    // Hamburger toggle
-    const hambtn = document.getElementById('hamburger');
+    // ===== Hamburger Menu =====
+    const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
-    let menuOpen = false;
-    hambtn.addEventListener('click', ()=> {
-      menuOpen = !menuOpen;
-      hambtn.classList.toggle('open', menuOpen);
-      nav.classList.toggle('open', menuOpen);
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      nav.classList.toggle('open');
     });
 
-    // Scroll to top
-    const scrollBtn = document.getElementById("scrollTop");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) scrollBtn.style.display = "block";
-      else scrollBtn.style.display = "none";
-    });
-    scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-
+    // ===== Year =====
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
