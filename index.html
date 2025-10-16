@@ -14,52 +14,53 @@
     :root{
       --sesco-blue: #0059b2;
       --sesco-blue-2:#0a66d1;
-      --gold: #f4c542;
-      --muted: #6b7b8b;
-      --white: #ffffff;
-      --glass: rgba(255,255,255,0.06);
+      --gold:#f4c542;
+      --muted:#6b7b8b;
+      --white:#ffffff;
       --gmail:#EA4335;
       --whats:#25D366;
       --ai-start:#f4c542;
       --ai-end:#8a2be2;
+      --glass: rgba(255,255,255,0.06);
+      --bg-start: #f6fbff;
+      --bg-end: #eef7ff;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
       font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background:linear-gradient(180deg,#f6fbff,#f0f6ff);
+      background:linear-gradient(180deg,var(--bg-start),var(--bg-end));
       color:#053042;
-      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+      -webkit-font-smoothing:antialiased;
     }
 
-    /* ---------------- Preloader ---------------- */
+    /* ---------- PRELOADER (3s) ---------- */
     #preloader{
-      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(5,20,40,0.95),rgba(2,6,20,0.95));z-index:9999;transition:opacity .5s;
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg,rgba(2,6,20,0.96),rgba(2,6,20,0.96));z-index:9999;transition:opacity .5s ease;
     }
     #preloader.hidden{opacity:0;pointer-events:none}
-    .pre-tri{width:110px;height:110px}
+    .pre-tri{width:120px;height:120px;display:flex;align-items:center;justify-content:center}
     .pre-tri svg{width:100%;height:100%}
-    .pre-spin{animation:spin 3s linear infinite}
+    .pre-spin{animation:spin 3s linear}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ---------------- Header ---------------- */
+    /* ---------- HEADER (Apple-ish) ---------- */
     header{
-      position:fixed;left:14px;right:14px;top:14px;z-index:120;display:flex;align-items:center;justify-content:space-between;
-      padding:10px 16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      position:fixed;left:14px;right:14px;top:14px;z-index:140;display:flex;align-items:center;justify-content:space-between;
+      padding:10px 18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
       backdrop-filter: blur(8px);box-shadow:0 10px 30px rgba(6,20,40,0.08);
     }
     .brand{display:flex;align-items:center;gap:12px}
-    .brand .mini{width:44px;height:44px}
-    .brand .title{font-family:'Lobster',cursive;color:var(--sesco-blue);font-size:1.25rem;letter-spacing:0.6px}
+    .brand .mini{width:48px;height:48px}
+    .brand .title{font-family:'Lobster',cursive;color:var(--sesco-blue);font-size:1.25rem}
     nav.links{display:flex;gap:16px;align-items:center}
     nav.links a{color:rgba(3,20,40,0.95);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600}
     nav.links a:hover{background:rgba(0,89,178,0.06);color:var(--sesco-blue)}
     .cta-btn{background:var(--sesco-blue);color:#fff;padding:8px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
 
-    /* hamburger (Apple-like) */
-    .hambtn{
-      display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:transparent;border:1px solid rgba(3,10,26,0.04)
-    }
+    /* hamburger -> X (mobile) */
+    .hambtn{display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:transparent;border:1px solid rgba(3,10,26,0.04)}
     .hambtn .bar{width:22px;height:2px;background:var(--sesco-blue);position:relative;border-radius:2px;display:block}
     .hambtn .bar::before,.hambtn .bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--sesco-blue);border-radius:2px}
     .hambtn .bar::before{top:-7px}.hambtn .bar::after{top:7px}
@@ -68,48 +69,54 @@
     .hambtn.open .bar::after{transform:translateY(-7px) rotate(-45deg);top:0}
     @media(max-width:920px){ nav.links{display:none} .hambtn{display:flex} }
 
-    /* ---------------- Menu sliding panel (from left, out to right) ---------------- */
+    /* ---------- MENU PANEL (slide in from left, out to right) ---------- */
     .menu-panel{
-      position:fixed;top:0;left:-100%;width:100%;height:100%;z-index:200;background:linear-gradient(180deg, #ffffff, #f5faff);backdrop-filter:blur(6px);
-      transition:transform .5s cubic-bezier(.2,.9,.2,1);display:flex;align-items:flex-start;justify-content:flex-start;
+      position:fixed;top:0;left:0;width:100%;height:100%;z-index:210;pointer-events:none;
+      background:linear-gradient(180deg,#ffffff,#f5fbff);backdrop-filter:blur(8px);
+      transition:transform .6s cubic-bezier(.2,.9,.2,1),opacity .4s; transform: translateX(-120%); opacity:0;
+      display:flex;align-items:flex-start;justify-content:flex-start;
     }
-    .menu-panel.open{transform:translateX(100%)} /* we'll toggle transform via JS to slide in from left to center and out to right */
-    .menu-inner{width:100%;max-width:440px;padding:56px 28px}
+    .menu-panel.open{transform: translateX(0); opacity:1; pointer-events:auto}
+    .menu-panel.exit-right{transform: translateX(120%); opacity:0; pointer-events:none}
+    .menu-inner{width:100%;max-width:480px;padding:80px 28px}
     .menu-inner a{display:block;color:var(--sesco-blue);text-decoration:none;font-weight:700;padding:14px 6px;border-radius:8px}
     .menu-inner a:hover{color:var(--sesco-blue-2)}
 
-    /* ---------------- HERO (Prism-like with video) ---------------- */
+    /* ---------- HERO (Prism-like) ---------- */
     .hero{
-      position:relative;height:88vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(180deg,#f6fbff 0%,#eef7ff 100%);
+      position:relative;height:92vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+      background:linear-gradient(180deg,var(--bg-start),var(--bg-end));
     }
-    /* video background */
-    #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:contrast(105%) saturate(105%);}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,89,178,0.22), rgba(255,255,255,0.08));z-index:1;pointer-events:none}
+    /* video */
+    #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:contrast(100%) saturate(105%)}
+    /* dark overlay gradient for text readability */
+    .hero-overlay{
+      position:absolute;inset:0;z-index:1;pointer-events:none;
+      background: linear-gradient(180deg, rgba(2,8,30,0.55), rgba(2,8,30,0.18));
+    }
 
-    /* animated logo (like Prism) + title */
-    .hero-inner{position:relative;z-index:3;max-width:1100px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
-    .logo-animated{width:160px;height:160px;margin-bottom:8px}
-    /* subtle spin & stroke animations */
-    .logo-animated .rot{animation:spinSlow 12s linear infinite}
-    @keyframes spinSlow{to{transform:rotate(360deg)}}
-    .brand-title{font-family:'Lobster',cursive;font-size:3.8rem;color:var(--sesco-blue);text-shadow:0 12px 40px rgba(10,24,50,0.12);letter-spacing:1px}
-    .hero-sub{margin-top:12px;color:rgba(3,20,40,0.9);font-size:1.1rem;max-width:880px;line-height:1.5}
-    .hero-cta{margin-top:18px;display:flex;gap:12px;align-items:center}
+    /* logo + big company name + ticker */
+    .hero-inner{position:relative;z-index:3;max-width:1200px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .logo-animated{width:180px;height:180px;margin-bottom:6px}
+    .logo-animated .rot{animation:spin 9s linear infinite}
+    .brand-title{font-family:'Lobster',cursive;font-size:4.6rem;color:#fff;text-shadow:0 18px 60px rgba(0,12,30,0.6);letter-spacing:1px}
+    .hero-sub{margin-top:12px;color:rgba(255,255,255,0.92);font-size:1.15rem;max-width:900px;line-height:1.5}
+
+    .hero-cta{margin-top:14px;display:flex;gap:12px;align-items:center}
     .btn-primary{background:var(--sesco-blue);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,89,178,0.18)}
-    .btn-ghost{background:transparent;padding:12px 18px;border:1px solid rgba(3,20,40,0.06);border-radius:10px;cursor:pointer}
+    .btn-ghost{background:transparent;padding:12px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;cursor:pointer}
 
-    /* ticker like Prism (small) */
-    .ticker{margin-top:14px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.04);overflow:hidden}
+    .ticker{margin-top:18px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.04);overflow:hidden}
     .ticker-inner{display:inline-block;white-space:nowrap;animation:tick 18s linear infinite}
     .ticker-item{font-weight:700;color:#fff;margin-right:40px}
     @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-    /* ---------------- Particle canvas (hologram) ---------------- */
+    /* ---------- particle hologram ---------- */
     #particleCanvas{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.9}
 
-    /* ---------------- Intro section (read more) ---------------- */
+    /* ---------- Intro playcard (Read more) ---------- */
     .intro {
-      max-width:1100px;margin:-80px auto 20px;padding:20px;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(6,20,40,0.06);position:relative;z-index:6;
+      max-width:1100px;margin:-90px auto 18px;padding:20px;background:#fff;border-radius:14px;box-shadow:0 18px 60px rgba(6,20,40,0.08);position:relative;z-index:6;
       display:flex;gap:20px;align-items:center;
     }
     .intro .left{flex:1}
@@ -117,7 +124,7 @@
     .intro p{color:var(--muted);line-height:1.6}
     .intro .read{margin-top:12px;display:inline-block;background:var(--sesco-blue);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
 
-    /* ---------------- Services (Sesco-style) ---------------- */
+    /* ---------- Services (Sesco-style) ---------- */
     .services{max-width:1180px;margin:36px auto;padding:40px 18px;text-align:center}
     .services h3{font-size:2rem;color:var(--sesco-blue);margin-bottom:8px}
     .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}
@@ -125,73 +132,86 @@
     .service-card h4{color:var(--sesco-blue);margin-bottom:8px}
     .service-card p{color:var(--muted);line-height:1.55}
 
-    /* ---------------- Stats ---------------- */
+    /* ---------- Stats ---------- */
     .stats{max-width:1100px;margin:36px auto;padding:18px;display:flex;gap:14px;justify-content:space-between}
     .stat{flex:1;background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 14px 36px rgba(6,20,40,0.06)}
     .stat .num{font-size:2.1rem;color:var(--sesco-blue);font-weight:800}
     .stat .lbl{color:var(--muted);margin-top:8px}
 
-    /* ---------------- Floating Buttons (bottom-right) ---------------- */
+    /* ---------- Floating Buttons (bottom-right) ---------- */
     .float-group{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:12px;z-index:600}
     .float-btn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;border:none;box-shadow:0 12px 34px rgba(3,20,40,0.18)}
-    .float-gmail{background:linear-gradient(180deg,#fff,#fff);border:2px solid rgba(0,0,0,0.06)}
+    .float-gmail{background:#fff;border:2px solid rgba(0,0,0,0.06)}
     .float-gmail i{color:var(--gmail);font-size:20px;filter:drop-shadow(0 6px 12px rgba(234,67,53,0.25))}
     .float-whats{background:var(--whats)} .float-whats i{color:#fff}
     .float-ai{background:linear-gradient(135deg,var(--ai-start),var(--ai-end))} .float-ai i{color:#041018}
-    .float-btn:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(3,20,40,0.2)}
+    .float-btn:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(3,20,40,0.22)}
 
-    /* ai modal */
+    /* ---------- AI modal (placeholder) ---------- */
     .ai-modal{position:fixed;right:18px;bottom:86px;width:360px;max-width:92%;background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(3,10,26,0.18);z-index:700;display:none;flex-direction:column;overflow:hidden}
     .ai-modal.show{display:flex}
     .ai-modal .hd{padding:12px 14px;background:linear-gradient(90deg,var(--sesco-blue),var(--sesco-blue-2));color:#fff;font-weight:700}
     .ai-modal .body{padding:14px;color:#07202a;min-height:120px}
     .ai-modal .ft{padding:10px 12px;border-top:1px solid rgba(0,0,0,0.04);text-align:right}
 
-    /* ---------------- Scroll top (not overlapping) ---------------- */
-    .scroll-top{position:fixed;right:18px;bottom:100px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:#051019;display:flex;align-items:center;justify-content:center;z-index:590;box-shadow:0 16px 40px rgba(244,197,66,0.16);opacity:0;transform:translateY(10px);transition:all .28s}
+    /* ---------- Scroll top (not overlapping) ---------- */
+    .scroll-top{position:fixed;right:18px;bottom:110px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:#051019;display:flex;align-items:center;justify-content:center;z-index:590;box-shadow:0 16px 40px rgba(244,197,66,0.16);opacity:0;transform:translateY(10px);transition:all .28s}
     .scroll-top.show{opacity:1;transform:translateY(0)}
 
-    /* ---------------- Footer ---------------- */
-    footer{margin-top:40px;padding:32px 14px;background:linear-gradient(180deg,#f6fbff,#eef7ff);text-align:center;color:#073241}
+    /* ---------- Footer ---------- */
+    footer{margin-top:40px;padding:32px 14px;background:linear-gradient(180deg,var(--bg-start),var(--bg-end));text-align:center;color:#073241}
 
-    /* responsive tweaks */
+    /* responsive */
     @media(max-width:920px){
       .hero{min-height:540px}
-      .brand-title{font-size:2.4rem}
+      .brand .title{display:none}
       .intro{flex-direction:column;gap:12px;margin:-60px 16px 20px}
       .services{padding:24px}
       .stats{flex-direction:column}
       .menu-inner{padding-top:48px}
+      .brand .mini{width:40px;height:40px}
+      .brand{gap:8px}
+      .brand-title{font-size:2.6rem}
+    }
+    @media(max-width:520px){
+      .brand-title{font-size:2.2rem}
     }
   </style>
 </head>
 <body>
 
   <!-- PRELOADER -->
-  <div id="preloader" aria-hidden="false">
+  <div id="preloader" role="status" aria-live="polite">
     <div class="pre-tri pre-spin" aria-hidden="true">
-      <svg viewBox="0 0 120 120"><path d="M60 8 L108 96 H12 Z" stroke="#fff" stroke-width="3" fill="none"/></svg>
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <path d="M60 8 L108 96 H12 Z" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>
+        <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>
+        <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>
+      </svg>
     </div>
   </div>
 
-  <!-- MENU PANEL (will slide in/out) -->
-  <div id="menuPanel" class="menu-panel" aria-hidden="true">
-    <div class="menu-inner">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="#services">Services</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#contact">Contact</a>
-      <div style="margin-top:20px"><button class="cta-btn" onclick="location.href='#contact'">Get in touch</button></div>
+  <!-- MENU PANEL -->
+  <div id="menuPanel" class="menu-panel" aria-hidden="true" role="dialog" aria-label="Main menu">
+    <div class="menu-inner" role="menu">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="about.html" role="menuitem">About</a>
+      <a href="#services" role="menuitem">Services</a>
+      <a href="#portfolio" role="menuitem">Portfolio</a>
+      <a href="#contact" role="menuitem">Contact</a>
+      <div style="margin-top:18px"><button class="cta-btn" onclick="location.href='#contact'">Get in touch</button></div>
     </div>
   </div>
 
   <!-- HEADER -->
-  <header role="banner" aria-label="Top Navigation">
-    <div class="brand" role="img" aria-label="Triangle Tech logo">
+  <header role="banner" aria-label="Top navigation">
+    <div class="brand" aria-hidden="false">
       <div class="mini" aria-hidden="true">
-        <!-- small triangle icon -->
-        <svg viewBox="0 0 120 120" width="44" height="44"><path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/><path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/><path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/></svg>
+        <svg viewBox="0 0 120 120" width="48" height="48" aria-hidden="true">
+          <path d="M60 8 L108 96 H12 Z" stroke="#001f4d" stroke-width="3" fill="none"/>
+          <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/>
+          <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>
+        </svg>
       </div>
       <div class="title">Triangle Tech</div>
     </div>
@@ -210,39 +230,41 @@
 
   <!-- HERO -->
   <main class="hero" role="main" aria-label="Hero">
-    <!-- video background: replace 'hero-tech.mp4' with your chosen tech video file or URL -->
+    <!-- video: replace 'hero-tech.mp4' with your video file -->
     <video id="heroVideo" autoplay muted loop playsinline poster="picture1.jpg">
       <source src="hero-tech.mp4" type="video/mp4">
-      <!-- fallback poster shown on devices or if video missing -->
+      <!-- fallback image shown -->
     </video>
+
+    <!-- dark overlay -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
-    <!-- particle hologram canvas -->
+    <!-- particle hologram -->
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-    <div class="hero-inner" aria-hidden="false">
-      <!-- Animated Triangle logo -->
+    <div class="hero-inner">
+      <!-- animated triangle logo -->
       <div class="logo-animated" aria-hidden="true">
-        <svg viewBox="0 0 120 120" width="160" height="160">
+        <svg viewBox="0 0 120 120" width="180" height="180" aria-hidden="true">
           <g class="rot" transform-origin="60 60">
-            <path d="M60 8 L108 96 H12 Z" stroke="#001f4d" stroke-width="3" fill="none"/>
+            <path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/>
             <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>
-            <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none" opacity="0.9"/>
+            <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none" opacity="0.95"/>
           </g>
         </svg>
       </div>
 
-      <div class="brand-title">Triangle Tech</div>
+      <div class="brand-title">TRIANGLE TECH</div>
 
       <div class="hero-sub">Building intelligent, beautiful web experiences — we combine web engineering, AI, and design to scale brands and products.</div>
 
-      <div class="hero-cta">
+      <div class="hero-cta" aria-hidden="true">
         <button class="btn-primary" onclick="location.href='#services'">Explore Services</button>
-        <button class="btn-ghost" onclick="document.getElementById('introRead').scrollIntoView({behavior:'smooth'})">Read About Us</button>
+        <button class="btn-ghost" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">Read About Us</button>
       </div>
 
-      <div class="ticker" aria-hidden="true" style="margin-top:18px">
-        <div class="ticker-inner" aria-hidden="true">
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-inner">
           <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>
           <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>
           <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>
@@ -252,10 +274,10 @@
     </div>
   </main>
 
-  <!-- Intro (read more) -->
-  <section id="introRead" class="intro" role="region" aria-labelledby="insideTitle">
+  <!-- Intro (Read more) -->
+  <section id="intro" class="intro" role="region" aria-labelledby="introTitle">
     <div class="left">
-      <h2 id="insideTitle">Inside Triangle Tech</h2>
+      <h2 id="introTitle">Inside Triangle Tech</h2>
       <p>Triangle Tech is a creative technology studio redefining how brands connect with the digital world. We blend web design, AI innovation, and smart strategy to craft experiences that are bold, beautiful, and built for the future.</p>
       <a class="read" href="about.html">Read More →</a>
     </div>
@@ -309,7 +331,7 @@
 
   <!-- Footer -->
   <footer role="contentinfo">
-    <div style="max-width:1100px;margin:0 auto;padding:8px 16px;">
+    <div style="max-width:1100px;margin:0 auto;padding:8px 16px;text-align:center;">
       <div style="margin-bottom:8px">Triangle Tech — Building the future of Web & AI</div>
       <div style="color:var(--muted)">© <span id="year"></span> Triangle Tech. All rights reserved.</div>
     </div>
@@ -334,8 +356,8 @@
   <div id="aiModal" class="ai-modal" role="dialog" aria-hidden="true">
     <div class="hd">Triangle Tech AI</div>
     <div class="body">
-      <p style="margin:0 0 8px">AI assistant is a placeholder for now. When you're ready we'll connect it to OpenAI (or your preferred model) and it will respond to visitors instantly.</p>
-      <small style="color:var(--muted)">Tip: To integrate later I will add a chat UI and instructions to plug your OpenAI key securely.</small>
+      <p style="margin:0 0 8px">This is a placeholder chat. When you're ready I will connect this UI to OpenAI or your model and secure the key for production.</p>
+      <small style="color:var(--muted)">Tip: I can wire this frontend to OpenAI with a server-side proxy when you provide the API key.</small>
     </div>
     <div class="ft"><button onclick="closeAIModal()" style="background:var(--sesco-blue);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer">Close</button></div>
   </div>
@@ -345,13 +367,13 @@
 
   <!-- Scripts -->
   <script>
-    // Preloader hide
+    // Preloader hide (3s)
     document.addEventListener('DOMContentLoaded', ()=> {
       const pre = document.getElementById('preloader');
-      setTimeout(()=>{ if(pre){ pre.classList.add('hidden'); setTimeout(()=>pre.remove(), 600); } }, 2200);
+      setTimeout(()=>{ if(pre){ pre.classList.add('hidden'); setTimeout(()=>pre.remove(), 600); } }, 3000);
     });
 
-    // Menu slide logic (slide in from left, out to right)
+    // Menu slide behaviour: open from left, close to right
     const hambtn = document.getElementById('hambtn');
     const menuPanel = document.getElementById('menuPanel');
     let menuOpen = false;
@@ -360,38 +382,41 @@
       hambtn.classList.toggle('open', menuOpen);
       hambtn.setAttribute('aria-expanded', menuOpen ? 'true' : 'false');
       if(menuOpen){
-        // move panel to center (from left)
-        menuPanel.style.transform = 'translateX(100%)';
+        // open: slide in from left (transform set to 0)
+        menuPanel.classList.remove('exit-right');
         menuPanel.classList.add('open');
         menuPanel.setAttribute('aria-hidden','false');
       } else {
-        // slide out to right (set transform back to 0 then hide)
-        menuPanel.style.transform = 'translateX(-100%)';
+        // close: animate exit to right, then reset to off-left
+        menuPanel.classList.add('exit-right');
         menuPanel.classList.remove('open');
         menuPanel.setAttribute('aria-hidden','true');
-        // reset left after short delay
-        setTimeout(()=> menuPanel.style.transform = '', 520);
+        // after animation, set to off-left state (keeps consistent)
+        setTimeout(()=> {
+          menuPanel.classList.remove('exit-right');
+          menuPanel.style.transform = 'translateX(-120%)';
+        }, 520);
       }
     });
-
-    // Ensure links in menu close it (if they exist)
+    // close menu when clicking any menu link
     document.querySelectorAll('.menu-inner a').forEach(a => a.addEventListener('click', ()=> {
-      menuOpen = false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform = '';
+      menuOpen = false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true');
+      menuPanel.style.transform = 'translateX(-120%)';
     }));
 
-    // Particle hologram (lightweight)
+    // Particle hologram (lightweight canvas)
     (function(){
       const canvas = document.getElementById('particleCanvas');
       if(!canvas) return;
       const ctx = canvas.getContext('2d');
       let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight * 0.88;
-      window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight * 0.88; });
+      let h = canvas.height = window.innerHeight * 0.92;
+      window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight * 0.92; });
 
       const dots = [], tris = [];
       const DOTS = Math.max(30, Math.floor((w*h)/85000));
       for(let i=0;i<DOTS;i++){
-        dots.push({x:Math.random()*w,y:Math.random()*h,r:(Math.random()*1.4)+0.6,vx:(Math.random()-0.5)*0.35,vy:(Math.random()-0.5)*0.35,a:0.06+Math.random()*0.28});
+        dots.push({x:Math.random()*w,y:Math.random()*h,r:(Math.random()*1.6)+0.6,vx:(Math.random()-0.5)*0.35,vy:(Math.random()-0.5)*0.35,a:0.06+Math.random()*0.28});
       }
       for(let i=0;i<Math.max(6,Math.floor(DOTS/6));i++){
         tris.push({x:Math.random()*w,y:Math.random()*h,size:12+Math.random()*28,vx:(Math.random()-0.5)*0.45,vy:(Math.random()-0.5)*0.45,rot:Math.random()*Math.PI*2,drot:(Math.random()-0.5)*0.012,a:0.06+Math.random()*0.12});
@@ -420,7 +445,7 @@
       draw();
     })();
 
-    // Stats counter when visible
+    // Stats counters (IntersectionObserver)
     (function(){
       const stats = document.querySelectorAll('.stat .num');
       const opts = {root:null,rootMargin:'0px',threshold:0.35};
@@ -451,7 +476,7 @@
       stats.forEach(s=> io.observe(s));
     })();
 
-    // Floating AI modal (placeholder)
+    // AI modal placeholder
     const btnAI = document.getElementById('btnAI');
     const aiModal = document.getElementById('aiModal');
     btnAI.addEventListener('click', ()=> {
@@ -460,7 +485,7 @@
     });
     function closeAIModal(){ aiModal.classList.remove('show'); aiModal.setAttribute('aria-hidden','true'); }
 
-    // Scroll to top button behavior
+    // Scroll-to-top (avoid overlap)
     const scrollBtn = document.getElementById('scrollTop');
     window.addEventListener('scroll', ()=> {
       if(window.scrollY > 360) scrollBtn.classList.add('show'); else scrollBtn.classList.remove('show');
@@ -470,15 +495,15 @@
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Accessibility: close AI modal on Escape & close menu on Escape
-    document.addEventListener('keydown', e => {
+    // Close menu & AI modal on Esc
+    document.addEventListener('keydown', e=>{
       if(e.key === 'Escape'){
         aiModal.classList.remove('show'); aiModal.setAttribute('aria-hidden','true');
-        if(menuOpen){ menuOpen=false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform=''; }
+        if(menuOpen){ menuOpen=false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform='translateX(-120%)'; }
       }
     });
 
-    // Helpful: if video not available, it will show poster image automatically.
+    // If video fails, poster is shown automatically via 'poster' attribute.
   </script>
 </body>
 </html>
