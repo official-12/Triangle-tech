@@ -15,11 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
@@ -29,38 +25,27 @@
 
     /* ===== Preloader ===== */
     #preloader {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100vh;
       background: radial-gradient(circle at center, #1e0040, #0a0f2c);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       z-index: 9999;
     }
     .triangle {
-      width: 100px;
-      height: 100px;
+      width: 100px; height: 100px;
       background: conic-gradient(from 180deg, gold, white, black);
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
       animation: spin 3s linear infinite;
     }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    #preloader.hidden { opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+    @keyframes spin {from {transform: rotate(0deg);} to {transform: rotate(360deg);}}
+    #preloader.hidden {opacity: 0; transition: opacity 0.6s ease; pointer-events: none;}
 
-    /* ===== Navbar ===== */
+    /* ===== Header ===== */
     header {
-      position: fixed;
-      width: 100%;
-      top: 0; left: 0;
-      background: rgba(0,0,0,0.3);
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 15px 40px;
       z-index: 1000;
     }
@@ -69,10 +54,12 @@
       font-size: 2rem;
       color: gold;
     }
+
+    /* ===== Nav ===== */
     nav ul {
-      display: flex;
-      gap: 20px;
       list-style: none;
+      display: flex;
+      gap: 25px;
     }
     nav ul li a {
       color: white;
@@ -80,93 +67,95 @@
       font-weight: 500;
       transition: color 0.3s;
     }
-    nav ul li a:hover { color: gold; }
+    nav ul li a:hover {color: gold;}
+
+    /* ===== Hamburger ===== */
     .hamburger {
       display: none;
       flex-direction: column;
       cursor: pointer;
+      gap: 5px;
     }
     .hamburger span {
+      display: block;
+      width: 30px;
       height: 3px;
-      width: 25px;
       background: white;
-      margin: 4px 0;
       border-radius: 5px;
       transition: 0.4s;
     }
-
-    /* ===== Hero Section ===== */
-    .hero {
-      height: 70vh;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
     }
-    .hero-images {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
+        text-align: center;
+      }
+      nav.open {max-height: 300px;}
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px 0;
+      }
+      .hamburger {display: flex;}
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      height: 70vh; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
     }
     .hero-images img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 2s ease-in-out;
+      position: absolute; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0; transition: opacity 2s ease-in-out;
     }
-    .hero-images img.active { opacity: 1; }
+    .hero-images img.active {opacity: 1;}
     #particle-canvas {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0; left: 0;
-      z-index: 1;
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
       pointer-events: none;
     }
     .hero-content {
       position: relative;
       z-index: 2;
-      color: #fff;
     }
     .hero-content h1 {
       font-family: 'Lobster', cursive;
-      font-size: 3rem;
-      color: gold;
+      font-size: 3rem; color: gold;
       text-shadow: 0 0 10px #000;
     }
     .hero-content p {
-      font-size: 1.2rem;
-      font-style: italic;
-      margin-top: 10px;
+      font-size: 1.2rem; font-style: italic; margin-top: 10px;
       color: #ddd;
     }
 
-    /* ===== Services Section ===== */
+    /* ===== Services ===== */
     .services {
-      padding: 80px 10%;
-      background: white;
-      color: #000;
-      text-align: center;
+      padding: 80px 10%; background: #fff; color: #000; text-align: center;
     }
-    .services h2 {
-      color: #111;
-      margin-bottom: 40px;
-      font-size: 2.5rem;
-    }
+    .services h2 {color: #111; margin-bottom: 40px; font-size: 2.5rem;}
     .service-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
     }
     .service-card {
-      background: #fff;
-      border-radius: 15px;
-      overflow: hidden;
+      background: #fff; border-radius: 15px; overflow: hidden;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       transition: transform 0.4s, box-shadow 0.4s;
     }
@@ -174,77 +163,304 @@
       transform: translateY(-10px);
       box-shadow: 0 10px 25px rgba(255,215,0,0.3);
     }
-    .service-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .service-card h3 {
-      color: #111;
-      margin: 15px 0 10px;
-    }
-    .service-card p {
-      padding: 0 15px 20px;
-      font-size: 0.95rem;
-      color: #333;
-    }
+    .service-card img {width: 100%; height: 180px; object-fit: cover;}
+    .service-card h3 {color: #111; margin: 15px 0 10px;}
+    .service-card p {padding: 0 15px 20px; font-size: 0.95rem; color: #333;}
 
     /* ===== Floating Buttons ===== */
     .float-btn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      position: fixed; bottom: 25px; right: 25px;
+      display: flex; flex-direction: column; gap: 15px;
       z-index: 999;
     }
     .float-btn a {
-      width: 55px;
-      height: 55px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      color: #fff;
-      font-size: 24px;
+      width: 55px; height: 55px; display: flex;
+      align-items: center; justify-content: center;
+      border-radius: 50%; color: #fff; font-size: 24px;
       transition: transform 0.3s;
     }
-    .float-btn a:hover { transform: scale(1.1); }
-    .wa { background: #25D366; }
-    .ai { background: linear-gradient(135deg, gold, purple); }
+    .float-btn a:hover {transform: scale(1.1);}
+    .wa {background: #25D366;}
+    .ai {background: linear-gradient(135deg, gold, purple);}
+
+    /* ===== Scroll to Top Button ===== */
+    #scrollTop {
+      position: fixed; bottom: 100px; right: 30px;
+      width: 55px; height: 55px;
+      border-radius: 50%; border: none;
+      background: gold; color: #000;
+      font-size: 22px; cursor: pointer;
+      display: none;
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 10px gold;
+      z-index: 999;
+    }
+    @keyframes pulse {
+      0%, 100% {box-shadow: 0 0 10px gold;}
+      50% {box-shadow: 0 0 25px gold;}
+    }
 
     /* ===== Footer ===== */
     footer {
       background: linear-gradient(135deg, #0a0f2c, #1c034e);
-      color: #fff;
-      text-align: center;
-      padding: 40px 20px;
-      margin-top: 60px;
+      color: #fff; text-align: center;
+      padding: 40px 20px; margin-top: 60px;
       position: relative;
     }
     footer::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 50%;
+      content: ""; position: absolute; top: 0; left: 50%;
       transform: translateX(-50%);
-      width: 60%;
-      height: 2px;
-      background: gold;
+      width: 60%; height: 2px; background: gold;
     }
   </style>
 </head>
 <body>
 
   <!-- ===== Preloader ===== -->
-  <div id="preloader">
-    <div class="triangle"></div>
-  </div>
+  <div id="preloader"><div class="triangle"></div></div>
 
   <!-- ===== Header ===== -->
   <header>
     <h1>Triangle Tech</h1>
-    <nav>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="nav">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triangle Tech | Building the Future of Web & AI</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- AOS (Animate on Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0a0f2c, #1c034e);
+      color: #fff;
+    }
+
+    /* ===== Preloader ===== */
+    #preloader {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: radial-gradient(circle at center, #1e0040, #0a0f2c);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .triangle {
+      width: 100px; height: 100px;
+      background: conic-gradient(from 180deg, gold, white, black);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      animation: spin 3s linear infinite;
+    }
+    @keyframes spin {from {transform: rotate(0deg);} to {transform: rotate(360deg);}}
+    #preloader.hidden {opacity: 0; transition: opacity 0.6s ease; pointer-events: none;}
+
+    /* ===== Header ===== */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 40px;
+      z-index: 1000;
+    }
+    header h1 {
+      font-family: 'Lobster', cursive;
+      font-size: 2rem;
+      color: gold;
+    }
+
+    /* ===== Nav ===== */
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {color: gold;}
+
+    /* ===== Hamburger ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger span {
+      display: block;
+      width: 30px;
+      height: 3px;
+      background: white;
+      border-radius: 5px;
+      transition: 0.4s;
+    }
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
+        text-align: center;
+      }
+      nav.open {max-height: 300px;}
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px 0;
+      }
+      .hamburger {display: flex;}
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      height: 70vh; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+    }
+    .hero-images img {
+      position: absolute; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0; transition: opacity 2s ease-in-out;
+    }
+    .hero-images img.active {opacity: 1;}
+    #particle-canvas {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .hero-content h1 {
+      font-family: 'Lobster', cursive;
+      font-size: 3rem; color: gold;
+      text-shadow: 0 0 10px #000;
+    }
+    .hero-content p {
+      font-size: 1.2rem; font-style: italic; margin-top: 10px;
+      color: #ddd;
+    }
+
+    /* ===== Services ===== */
+    .services {
+      padding: 80px 10%; background: #fff; color: #000; text-align: center;
+    }
+    .services h2 {color: #111; margin-bottom: 40px; font-size: 2.5rem;}
+    .service-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .service-card {
+      background: #fff; border-radius: 15px; overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+    }
+    .service-card img {width: 100%; height: 180px; object-fit: cover;}
+    .service-card h3 {color: #111; margin: 15px 0 10px;}
+    .service-card p {padding: 0 15px 20px; font-size: 0.95rem; color: #333;}
+
+    /* ===== Floating Buttons ===== */
+    .float-btn {
+      position: fixed; bottom: 25px; right: 25px;
+      display: flex; flex-direction: column; gap: 15px;
+      z-index: 999;
+    }
+    .float-btn a {
+      width: 55px; height: 55px; display: flex;
+      align-items: center; justify-content: center;
+      border-radius: 50%; color: #fff; font-size: 24px;
+      transition: transform 0.3s;
+    }
+    .float-btn a:hover {transform: scale(1.1);}
+    .wa {background: #25D366;}
+    .ai {background: linear-gradient(135deg, gold, purple);}
+
+    /* ===== Scroll to Top Button ===== */
+    #scrollTop {
+      position: fixed; bottom: 100px; right: 30px;
+      width: 55px; height: 55px;
+      border-radius: 50%; border: none;
+      background: gold; color: #000;
+      font-size: 22px; cursor: pointer;
+      display: none;
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 10px gold;
+      z-index: 999;
+    }
+    @keyframes pulse {
+      0%, 100% {box-shadow: 0 0 10px gold;}
+      50% {box-shadow: 0 0 25px gold;}
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: linear-gradient(135deg, #0a0f2c, #1c034e);
+      color: #fff; text-align: center;
+      padding: 40px 20px; margin-top: 60px;
+      position: relative;
+    }
+    footer::before {
+      content: ""; position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60%; height: 2px; background: gold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Preloader ===== -->
+  <div id="preloader"><div class="triangle"></div></div>
+
+  <!-- ===== Header ===== -->
+  <header>
+    <h1>Triangle Tech</h1>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="nav">
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">About</a></li>
@@ -256,7 +472,7 @@
     </nav>
   </header>
 
-  <!-- ===== Hero Section ===== -->
+  <!-- ===== Hero ===== -->
   <section class="hero">
     <div class="hero-images">
       <img src="picture1.jpg" class="active">
@@ -321,18 +537,27 @@
     <a href="#" class="ai"><i class="fas fa-robot"></i></a>
   </div>
 
+  <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
   <!-- ===== JS ===== -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
-    // Fix preloader
+    // Preloader
     document.addEventListener("DOMContentLoaded", () => {
       const pre = document.getElementById("preloader");
-      if (!pre) return;
       setTimeout(() => {
         pre.classList.add("hidden");
         setTimeout(() => pre.remove(), 600);
       }, 3000);
+    });
+
+    // Hamburger Toggle
+    const hamburger = document.getElementById("hamburger");
+    const nav = document.getElementById("nav");
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("open");
+      nav.classList.toggle("open");
     });
 
     // Hero rotation
@@ -347,35 +572,21 @@
     // Typed text
     new Typed("#typed-text", {
       strings: ["Building the future of web and AI...", "Empowering brands with technology...", "We create. We innovate. We deliver."],
-      typeSpeed: 60,
-      backSpeed: 40,
-      loop: true
+      typeSpeed: 60, backSpeed: 40, loop: true
     });
 
-    // Particles (hologram)
+    // Particles
     const canvas = document.getElementById("particle-canvas");
     const ctx = canvas.getContext("2d");
     let particles = [];
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight * 0.7;
-    };
+    const resize = () => {canvas.width = window.innerWidth; canvas.height = window.innerHeight * 0.7;};
     window.addEventListener("resize", resize);
     resize();
-
     for (let i = 0; i < 60; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 3 + 1,
-        speedX: (Math.random() - 0.5) * 0.5,
-        speedY: (Math.random() - 0.5) * 0.5,
-        triangle: Math.random() < 0.3
-      });
+      particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*3+1, speedX: (Math.random()-0.5)*0.5, speedY:(Math.random()-0.5)*0.5, triangle: Math.random()<0.3});
     }
-
     function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
       particles.forEach(p => {
         ctx.beginPath();
         if (p.triangle) {
@@ -383,11 +594,11 @@
           ctx.lineTo(p.x - p.size, p.y + p.size);
           ctx.lineTo(p.x + p.size, p.y + p.size);
           ctx.closePath();
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+          ctx.strokeStyle = "rgba(255,255,255,0.4)";
           ctx.stroke();
         } else {
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+          ctx.fillStyle = "rgba(255,255,255,0.5)";
           ctx.fill();
         }
         p.x += p.speedX;
@@ -399,11 +610,121 @@
     }
     drawParticles();
 
-    // Footer year
+    // Scroll to Top
+    const scrollBtn = document.getElementById("scrollTop");
+    window.addEventListener("scroll", () => {
+      scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none";
+    });
+    scrollBtn.addEventListener("click", () => window.scrollTo({top: 0, behavior: "smooth"}));
+
+    // Footer Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // AOS
-    AOS.init({ duration: 1000 });
+    AOS.init({duration: 1000});
   </script>
 </body>
-</html>
+</html>￼Enter      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero-images">
+      <img src="picture1.jpg" class="active">
+      <img src="picture2.jpg">
+      <img src="picture3.jpg">
+      <img src="picture4.jpg">
+      <img src="picture5.jpg">
+      <img src="picture6.jpg">
+    </div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-content">
+      <h1>Triangle Tech</h1>
+      <p id="typed-text">Building the future of web and AI...</p>
+    </div>
+  </section>
+
+  <!-- ===== Services ===== -->
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card" data-aos="fade-up">
+        <img src="service1.jpg" alt="">
+        <h3>Web Development</h3>
+        <p>We create professional websites for every brand and business type with modern, responsive design.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service2.jpg" alt="">
+        <h3>UI/UX Design</h3>
+        <p>Delivering beautiful and user-centered design experiences that engage audiences across all devices.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service3.jpg" alt="">
+        <h3>AI Integration</h3>
+        <p>Integrating AI tools and chatbots to boost efficiency and enhance customer engagement.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service4.jpg" alt="">
+        <h3>Brand Strategy</h3>
+        <p>We help companies shape strong digital identities and powerful brand voices.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service5.jpg" alt="">
+        <h3>Tech & Media Consulting</h3>
+        <p>Offering expert guidance to help brands grow through technology and digital media innovation.</p>
+      </div>
+      <div class="service-card" data-aos="fade-up">
+        <img src="service6.jpg" alt="">
+  <h3>Ready-Made Websites</h3>
+        <p>Buy pre-designed professional websites ready to go live or get custom-built solutions for your business.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ===== Floating Buttons ===== -->
+  <div class="float-btn">
+    <a href="https://wa.me/2349056658964" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" class="ai"><i class="fas fa-robot"></i></a>
+  </div>
+
+  <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== JS ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    // Preloader
+    document.addEventListener("DOMContentLoaded", () => {
+      const pre = document.getElementById("preloader");
+      setTimeout(() => {
+        pre.classList.add("hidden");
+        setTimeout(() => pre.remove(), 600);
+      }, 3000);
+    });
+
+    // Hamburger Toggle
+    const hamburger = document.getElementById("hamburger");
+    const nav = document.getElementById("nav");
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("open");
+      nav.classList.toggle("open");
+    });
+
+    // Hero rotation
+    const slides = document.querySelectorAll(".hero-images img");
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+    }, 4000);
+
+    // Typed text
+    new Typed("#typed-text", {
+      strings: ["Building the future of web and AI...", "Empowering brands with technology...", "We create. We innovate. We deliver."],
