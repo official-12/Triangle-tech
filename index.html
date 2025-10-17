@@ -3,269 +3,265 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Triangle Tech | Building the Future of Web & AI</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
+  <title>Triangle Tech — Home</title>
   <style>
-    * {margin: 0; padding: 0; box-sizing: border-box;}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #f5f7fb;
-      color: #fff;
+      background: #0b0b0b;
+      color: white;
       overflow-x: hidden;
     }
 
-    /* ===== Preloader ===== */
+    /* Preloader */
     #preloader {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100vh;
-      background: radial-gradient(circle at center, #1e0040, #0a0f2c);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-    }
-    .triangle {
-      width: 100px; height: 100px;
-      background: conic-gradient(from 180deg, #007bff, white, #0a0f2c);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-      animation: spin 3s linear infinite;
-    }
-    @keyframes spin {from {transform: rotate(0deg);} to {transform: rotate(360deg);}}
-    #preloader.hidden {opacity: 0; transition: opacity 0.6s ease; pointer-events: none;}
-
-    /* ===== Header ===== */
-    header {
-      position: fixed; top: 0; left: 0; width: 100%;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 15px 40px;
-      z-index: 1000;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(10px);
-    }
-    header .logo {
-      display: flex; align-items: center; gap: 10px;
-    }
-    header h1 {
-      font-family: 'Lobster', cursive;
-      font-size: 2rem; color: #00aaff;
-    }
-    header h1 span {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      color: #fff;
-      font-size: 1rem;
-      letter-spacing: 1px;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    nav ul li a:hover {color: #00aaff;}
-
-    /* ===== Hamburger ===== */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-    }
-    .hamburger span {
-      display: block;
-      width: 30px;
-      height: 3px;
-      background: white;
-      border-radius: 5px;
-      transition: 0.4s;
-    }
-    .hamburger.open span:nth-child(1) {
-      transform: rotate(45deg) translateY(8px);
-    }
-    .hamburger.open span:nth-child(2) {opacity: 0;}
-    .hamburger.open span:nth-child(3) {
-      transform: rotate(-45deg) translateY(-8px);
-    }
-
-    @media (max-width: 900px) {
-      nav {
-        position: absolute;
-        top: 70px; left: 0;
-        width: 100%;
-        background: rgba(0,0,0,0.9);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease-in-out;
-        text-align: center;
-      }
-      nav.open {max-height: 300px;}
-      nav ul {
-        flex-direction: column;
-        padding: 20px 0;
-        gap: 15px;
-      }
-      .hamburger {display: flex;}
-    }
-
-    /* ===== Hero ===== */
-    .hero {
-      height: 100vh;
-      position: relative;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center;
-      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
     }
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-left: 40px solid transparent;
+      border-right: 40px solid transparent;
+      border-bottom: 70px solid #00e0ff;
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
     .hero video {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       z-index: 0;
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(rgba(0,0,0,0.4), rgba(10,10,30,0.9));
-      z-index: 1;
-    }
+
     .hero-content {
       position: relative;
       z-index: 2;
-      padding: 0 20px;
-    }
-    .hero-content h1 {
-      font-family: 'Lobster', cursive;
-      font-size: 3.5rem;
-      color: #00aaff;
-      margin-bottom: 15px;
-    }
-    .hero-content p {
-      font-size: 1.3rem;
-      color: #e0e0e0;
-      font-weight: 400;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 768px) {
-      .hero-content h1 {font-size: 2.4rem;}
-      .hero-content p {font-size: 1rem;}
-    }
-
-    /* ===== Floating Buttons ===== */
-    .float-btn {
-      position: fixed;
-      bottom: 25px; right: 25px;
-      display: flex; flex-direction: column;
-      gap: 15px; z-index: 999;
-    }
-    .float-btn a {
-      width: 55px; height: 55px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 50%;
-      color: #fff;
-      font-size: 24px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      background: #000;
-    }
-    .float-btn a:hover {transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.4);}
-    .wa {background: #25D366;}
-    .ai {background: linear-gradient(135deg, #00aaff, #007bff);}
-    .gm {background: #d93025;}
-
-    /* ===== Footer ===== */
-    footer {
-      background: #0a0f2c;
-      color: #fff;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 30px 20px;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      background: linear-gradient(90deg, #00e0ff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #eee;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+
+    .news-form {
+      display: flex;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      overflow: hidden;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .news-form input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      color: white;
+      background: transparent;
+    }
+
+    .news-form button {
+      background: linear-gradient(90deg, #00e0ff, #ff00ff);
+      border: none;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .news-form button:hover {
+      opacity: 0.8;
+    }
+
+    /* Stats Section */
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 3rem 1rem;
+      background: #111;
+    }
+
+    .stat {
+      text-align: center;
+      margin: 1rem;
+    }
+
+    .stat h2 {
+      font-size: 2.5rem;
+      color: #00e0ff;
+    }
+
+    .stat p {
+      color: #ccc;
+    }
+
+    /* Services Section */
+    .services {
+      padding: 4rem 1rem;
+      text-align: center;
+      background: #0d0d0d;
+    }
+
+    .services h2 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #00e0ff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    .service {
+      padding: 2rem;
+      border-radius: 20px;
+      background: linear-gradient(145deg, #111, #222);
+      transition: 0.3s;
+    }
+
+    .service:hover {
+      background: radial-gradient(circle at top left, #00e0ff, #111);
+      transform: translateY(-10px);
+    }
+
+    .service h3 {
+      color: #00e0ff;
+      margin-bottom: 1rem;
+    }
+
+    .service p {
+      color: #ccc;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #0b0b0b;
+      text-align: center;
+      padding: 2rem 1rem;
       font-size: 0.9rem;
+      color: #777;
     }
   </style>
 </head>
 <body>
+  <div id="preloader">
+    <div class="triangle"></div>
+  </div>
 
-  <!-- ===== Preloader ===== -->
-  <div id="preloader"><div class="triangle"></div></div>
-
-  <!-- ===== Header ===== -->
-  <header>
-    <div class="logo">
-      <h1>Triangle Tech</h1>
-      <span>Triangle of Tech</span>
-    </div>
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
-    <nav id="nav">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- ===== Hero Section ===== -->
+  <!-- Hero Section -->
   <section class="hero">
     <video autoplay muted loop playsinline>
       <source src="video1.mp4" type="video/mp4">
     </video>
     <div class="hero-content">
       <h1>Triangle Tech</h1>
-      <p>Building intelligent, beautiful web experiences — we combine web engineering, AI, and design to scale brands and products.</p>
+      <p>Building futuristic AI-driven websites, apps, and creative digital solutions that inspire innovation and deliver excellence.</p>
+      <form class="news-form">
+        <input type="email" placeholder="Enter your email to stay updated" required />
+        <button type="submit">Join Us</button>
+      </form>
     </div>
   </section>
 
-  <!-- ===== Footer ===== -->
+  <!-- Stats -->
+  <section class="stats">
+    <div class="stat"><h2>80+</h2><p>Projects Delivered</p></div>
+    <div class="stat"><h2>20+</h2><p>Global Clients</p></div>
+    <div class="stat"><h2>6+</h2><p>Years of Innovation</p></div>
+    <div class="stat"><h2>99%</h2><p>Client Satisfaction</p></div>
+    <div class="stat"><h2>Fast</h2><p>Delivery</p></div>
+  </section>
+
+  <!-- Services -->
+  <section class="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service">
+        <h3>AI-Powered Web Design</h3>
+        <p>Smart, adaptive, and user-focused web experiences powered by AI innovation.</p>
+      </div>
+      <div class="service">
+        <h3>Creative Branding</h3>
+        <p>We build strong brand identities that capture your vision and stand out globally.</p>
+      </div>
+      <div class="service">
+        <h3>App Development</h3>
+        <p>High-performing mobile and desktop apps for your modern business needs.</p>
+      </div>
+      <div class="service">
+        <h3>Automation & AI Integration</h3>
+        <p>Streamline workflows and boost productivity with intelligent automation tools.</p>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    <p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p>
+    © 2025 Triangle Tech — Innovating the Future with AI.
   </footer>
 
-  <!-- ===== Floating Buttons ===== -->
-  <div class="float-btn">
-    <a href="https://wa.me/2349056658964" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
-    <a href="#" class="gm"><i class="fab fa-google"></i></a>
-    <a href="#" class="ai"><i class="fas fa-robot"></i></a>
-  </div>
-
   <script>
-    // ===== Preloader =====
-    document.addEventListener("DOMContentLoaded", () => {
-      const pre = document.getElementById("preloader");
-      setTimeout(() => {
-        pre.classList.add("hidden");
-        setTimeout(() => pre.remove(), 600);
-      }, 3000);
+    const preloader = document.getElementById('preloader');
+    window.addEventListener('load', () => {
+      preloader.style.display = 'none';
     });
-
-    // ===== Hamburger Menu =====
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      nav.classList.toggle('open');
-    });
-
-    // ===== Year =====
-    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
-
 </body>
 </html>
