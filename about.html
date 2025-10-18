@@ -3,337 +3,298 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inside Triangle Tech | About Us</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <!-- AOS Animation -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-
+  <title>About | Triangle Tech</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a0f2c, #122060);
-      color: #fff;
+      margin: 0;
+      background-color: #fff;
+      color: #333;
       overflow-x: hidden;
     }
 
-    /* ===== Preloader ===== */
-    #preloader {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100vh;
-      background: radial-gradient(circle at center, #1e0040, #0a0f2c);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-    }
-    .triangle {
-      width: 100px; height: 100px;
-      background: conic-gradient(from 180deg, #00b2ff, #0044ff, #0a0f2c);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-      animation: spin 3s linear infinite;
-    }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    #preloader.hidden { opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
-
-    /* ===== Header ===== */
     header {
       position: fixed;
       width: 100%;
-      top: 0; left: 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(12px);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 15px 40px;
-      z-index: 1000;
+      top: 0;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 999;
     }
-    header h1 {
-      font-family: 'Lobster', cursive;
-      color: #00b2ff;
-      font-size: 2rem;
-      letter-spacing: 1px;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
-    nav ul li a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    nav ul li a:hover { color: #00b2ff; }
 
-    /* ===== Hamburger ===== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .navbar a.logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #0072ff;
+    }
+
     .hamburger {
       display: none;
       flex-direction: column;
       cursor: pointer;
-      gap: 5px;
     }
-    .hamburger span {
-      width: 28px;
-      height: 3px;
-      background: white;
-      border-radius: 5px;
-      transition: all 0.3s;
-    }
-    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
 
-    @media (max-width: 900px) {
-      nav {
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      margin: 4px;
+      transition: 0.4s;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
         position: absolute;
-        top: 70px;
-        left: 0;
+        top: 60px;
+        right: 0;
+        background: #fff;
         width: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease-in-out;
         text-align: center;
       }
-      nav.open { max-height: 280px; }
-      nav ul { flex-direction: column; padding: 20px 0; gap: 20px; }
-      .hamburger { display: flex; }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
     }
 
-    /* ===== Hero ===== */
-    .hero {
-      height: 70vh;
-      background: radial-gradient(circle at center, rgba(0,178,255,0.2), rgba(10,15,44,1));
+    section.hero {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 10%;
-      position: relative;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: 0;
-    }
-    .hero h1 {
-      font-family: 'Lobster', cursive;
-      font-size: 3rem;
-      color: #00b2ff;
-      z-index: 1;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 15px;
-      color: #dfe9ff;
-      z-index: 1;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(90deg, rgba(0,114,255,0.1), rgba(0,198,255,0.1));
     }
 
-    /* ===== About Section ===== */
-    section {
-      padding: 80px 10%;
+    .hero h1 {
+      font-size: 2.5rem;
+      color: #0072ff;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    section.about {
+      padding: 4rem 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .about h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #0072ff;
+      margin-bottom: 2rem;
+    }
+
+    .about p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #444;
+      text-align: justify;
+    }
+
+    section.team {
+      background: #f9f9f9;
+      padding: 4rem 2rem;
       text-align: center;
     }
-    .about p {
-      max-width: 800px;
-      margin: 20px auto;
-      line-height: 1.7;
-      color: #eaeaea;
+
+    .team h2 {
+      font-size: 2rem;
+      color: #0072ff;
+      margin-bottom: 2rem;
     }
 
-    /* ===== Mission & Vision ===== */
-    .mv-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    .mv-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0,178,255,0.3);
-      border-radius: 15px;
-      padding: 25px;
-      box-shadow: 0 0 20px rgba(0,178,255,0.2);
-    }
-    .mv-box h3 {
-      color: #00b2ff;
-      margin-bottom: 10px;
-    }
-
-    /* ===== Fast Delivery ===== */
-    .fast {
-      margin-top: 60px;
-      font-size: 1.4rem;
-      color: #fff;
-      font-weight: 500;
-      text-shadow: 0 0 15px rgba(0,178,255,0.8);
-    }
-
-    /* ===== Stats Section ===== */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 30px;
-      margin-top: 60px;
-    }
-    .stat-box {
-      background: rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 15px rgba(0,178,255,0.3);
+    .team-card {
+      background: #fff;
+      display: inline-block;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
       transition: transform 0.3s;
     }
-    .stat-box:hover { transform: translateY(-8px); }
-    .stat-box h2 {
-      font-size: 2.5rem;
-      color: #00b2ff;
-    }
-    .stat-box p { color: #fff; font-weight: 500; }
 
-    /* ===== Floating Buttons ===== */
-    .float-btn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      z-index: 999;
+    .team-card:hover {
+      transform: translateY(-5px);
     }
-    .float-btn a {
-      width: 55px; height: 55px;
-      display: flex; align-items: center; justify-content: center;
+
+    .team-card img {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
-      color: #fff; font-size: 24px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      object-fit: cover;
+      margin-bottom: 1rem;
     }
-    .float-btn a:hover { transform: scale(1.1); }
-    .wa { background: #25D366; box-shadow: 0 0 15px #25D366; }
-    .ai { background: linear-gradient(135deg, #00b2ff, #0044ff); box-shadow: 0 0 15px #00b2ff; }
-    .gm { background: #D44638; box-shadow: 0 0 15px #D44638; }
 
-    /* ===== Footer ===== */
-    footer {
-      background: linear-gradient(135deg, #0a0f2c, #122060);
-      text-align: center;
-      padding: 40px 20px;
-      color: #fff;
-      position: relative;
+    .team-card h3 {
+      color: #0072ff;
+      margin-bottom: 0.3rem;
     }
-    footer::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 60%; height: 2px;
-      background: #00b2ff;
+
+    .team-card p.role {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-card p.desc {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    section.cta {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(90deg, rgba(0,198,255,0.05), rgba(0,114,255,0.05));
+    }
+
+    .cta h2 {
+      font-size: 2rem;
+      color: #0072ff;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+
+    .cta a:hover {
+      transform: translateY(-3px);
+    }
+
+    footer {
+      background: #111;
+      color: #ccc;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: #00c6ff;
+      text-decoration: none;
+      margin: 0 0.5rem;
     }
   </style>
 </head>
 <body>
-
-  <!-- ===== Preloader ===== -->
-  <div id="preloader"><div class="triangle"></div></div>
-
-  <!-- ===== Header ===== -->
   <header>
-    <h1>Triangle of Tech</h1>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    <nav id="nav">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html" style="color:#00b2ff;">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
+    <div class="navbar">
+      <a href="index.html" class="logo">TRIANGLE TECH</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="services.html">Services</a>
+        <a href="marketplace.html">Marketplace</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
   </header>
 
-  <!-- ===== Hero Section ===== -->
   <section class="hero">
-    <h1 data-aos="fade-up">Inside Triangle Tech</h1>
-    <p data-aos="fade-up" data-aos-delay="200">
-      Building the bridge between technology, creativity, and intelligence.
-    </p>
-  </section>
-
-  <!-- ===== About Section ===== -->
-  <section class="about" data-aos="fade-up">
-    <h2>Who We Are</h2>
-    <p>
-      Triangle Tech is a creative technology company that builds modern, AI-powered, and visually stunning web solutions for individuals, brands, and enterprises. 
-      We fuse design, strategy, and engineering to deliver innovation that scales.
-    </p>
-
-    <div class="mv-container">
-      <div class="mv-box" data-aos="fade-right">
-        <h3>Our Mission</h3>
-        <p>To create scalable, intelligent, and human-centered digital experiences that empower brands and people.</p>
-      </div>
-      <div class="mv-box" data-aos="fade-left">
-        <h3>Our Vision</h3>
-        <p>To be the global catalyst for merging design, AI, and technology into one seamless digital future.</p>
-      </div>
-    </div>
-
-    <div class="fast" data-aos="zoom-in">
-      Speed meets precision — every Triangle Tech project is delivered with efficiency and excellence.
-    </div>
-
-    <div class="stats" data-aos="fade-up">
-      <div class="stat-box"><h2>80</h2><p>Projects Delivered</p></div>
-      <div class="stat-box"><h2>20</h2><p>Global Clients</p></div>
-      <div class="stat-box"><h2>6</h2><p>Years of Innovation</p></div>
-      <div class="stat-box"><h2>99%</h2><p>Client Satisfaction</p></div>
+    <div>
+      <h1>Empowering Innovation, Building Digital Futures</h1>
+      <p>At Triangle Tech, we bridge creativity and technology to help businesses, brands, and organizations thrive in the digital age.</p>
     </div>
   </section>
 
-  <!-- ===== Floating Buttons ===== -->
-  <div class="float-btn">
-    <a href="https://wa.me/2349056658964" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
-    <a href="#" class="gm"><i class="fab fa-google"></i></a>
-    <a href="#" class="ai"><i class="fas fa-robot"></i></a>
-  </div>
+  <section class="about">
+    <h2>About Triangle Tech</h2>
+    <p>Triangle Tech is a forward-thinking technology company dedicated to transforming ideas into powerful digital experiences. We believe technology is more than code and design—it's a language of connection, innovation, and opportunity.</p>
+    <p>Our team works closely with clients to build websites, applications, and systems that are not only functional but deeply aligned with brand values. Whether you're a startup looking to establish your online presence, a business ready to scale digitally, or a church hoping to reach more people with excellence, Triangle Tech is your trusted partner.</p>
+    <p>We help organizations achieve visibility, trust, and engagement through clean design, intelligent development, and user-focused experiences. By combining cutting-edge tools with creative vision, we make your brand stand out and your digital goals attainable.</p>
+    <p>From brand identity and web design to full-stack development and digital marketing, we are committed to pushing boundaries and ensuring our clients succeed in a fast-evolving technological landscape.</p>
+  </section>
 
-  <!-- ===== Footer ===== -->
+  <section class="team">
+    <h2>Meet Our Team</h2>
+    <div class="team-card">
+      <img src="assets/team.jpg" alt="Okewunmi Timileyin">
+      <h3>Okewunmi Timileyin</h3>
+      <p class="role">Lead Developer</p>
+      <p class="desc">Passionate about building intelligent, human-centered digital solutions that inspire growth and connection.</p>
+    </div>
+    <p style="margin-top:2rem; max-width:700px; margin-left:auto; margin-right:auto; line-height:1.8; color:#555;">Our team combines creativity, technology, and strategy to deliver tailored solutions. We brainstorm, design, and develop together—turning challenges into opportunities and ideas into realities. Collaboration is our engine; innovation is our result.</p>
+  </section>
+
+  <section class="cta">
+    <h2>Ready to Build Something Great?</h2>
+    <p>Let's create digital experiences that elevate your business, engage your audience, and grow your vision.</p>
+    <a href="index.html#contact">Contact Us</a>
+    <a href="marketplace.html">Buy Ready-Made Website Template</a>
+  </section>
+
   <footer>
-    <p>&copy; <span id="year"></span> Triangle Tech. All Rights Reserved.</p>
+    <p>&copy; 2025 Triangle Tech. All rights reserved.</p>
+    <p>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a> |
+      <a href="marketplace.html">Marketplace</a> |
+      <a href="contact.html">Contact</a>
+    </p>
   </footer>
 
-  <!-- ===== JS ===== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
-    AOS.init({ duration: 1000 });
-
-    // Preloader
-    document.addEventListener("DOMContentLoaded", () => {
-      const pre = document.getElementById("preloader");
-      setTimeout(() => {
-        pre.classList.add("hidden");
-        setTimeout(() => pre.remove(), 600);
-      }, 3000);
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+      hamburger.classList.toggle('active');
     });
-
-    // Hamburger
-    const hamburger = document.getElementById("hamburger");
-    const nav = document.getElementById("nav");
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("open");
-      nav.classList.toggle("open");
-    });
-
-    // Year
-    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
