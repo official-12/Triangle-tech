@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Marketplace — Triangle Tech Templates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{
+      --accent-a:#00c6ff;
+      --accent-b:#0072ff;
+      --muted:#6b7b8b;
+      --card-bg:#fff;
+      --page-bg:#fff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:var(--page-bg);color:#141414;-webkit-font-smoothing:antialiased}
+
+    /* Header (same look as homepage) */
+    header{position:fixed;left:12px;right:12px;top:12px;z-index:140;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));backdrop-filter: blur(6px);box-shadow:0 8px 30px rgba(6,20,40,0.06)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .mini{width:44px;height:44px}
+    .brand .title{font-weight:700;color:var(--accent-b)}
+    nav.links{display:flex;gap:14px;align-items:center}
+    nav.links a{color:rgba(3,20,40,0.9);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600}
+    nav.links a.active{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .cta-btn{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#fff;padding:8px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+    .hambtn{display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:transparent;border:1px solid rgba(3,10,26,0.04)}
+    .hambtn .bar{width:22px;height:2px;background:var(--accent-b);position:relative;border-radius:2px}
+    .hambtn .bar::before,.hambtn .bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--accent-b);border-radius:2px}
+    .hambtn .bar::before{top:-7px}.hambtn .bar::after{top:7px}
+    .hambtn.open .bar{background:transparent}.hambtn.open .bar::before{transform:translateY(7px) rotate(45deg);top:0}.hambtn.open .bar::after{transform:translateY(-7px) rotate(-45deg);top:0}
+    @media(max-width:920px){ nav.links{display:none} .hambtn{display:flex} }
+
+    /* Page hero */
+    .hero{padding:120px 20px 28px;text-align:center}
+    .hero h1{font-size:2.6rem;color:var(--accent-b);margin-bottom:10px}
+    .hero p{max-width:980px;margin:0 auto;color:var(--muted);line-height:1.7}
+
+    /* Marketplace content - full preview layout */
+    .container{max-width:1180px;margin:36px auto;padding:0 18px}
+    .tpl-grid{display:grid;grid-template-columns:1fr;gap:22px}
+
+    .tpl-card{display:grid;grid-template-columns:420px 1fr;gap:18px;background:var(--card-bg);border-radius:12px;padding:18px;box-shadow:0 18px 40px rgba(6,20,40,0.06);align-items:start}
+    .tpl-card .thumb{width:100%;height:260px;border-radius:10px;overflow:hidden}
+    .tpl-card .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .tpl-card h3{color:var(--accent-b);margin-bottom:6px}
+    .meta{color:var(--muted);font-weight:600;margin-bottom:8px}
+    .tpl-card p{color:#374149;line-height:1.6}
+    .tpl-actions{margin-top:14px;display:flex;gap:10px;align-items:center}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+    .btn-ghost{background:transparent;border:1px solid rgba(3,20,40,0.06);padding:9px 12px;border-radius:8px;cursor:pointer}
+    .price{font-weight:800;color:#0b3556;margin-left:auto}
+
+    /* Small screens: stack */
+    @media(max-width:920px){
+      .tpl-card{grid-template-columns:1fr;}
+      .tpl-card .thumb{height:180px}
+    }
+
+    /* Footer */
+    footer{margin-top:40px;padding:28px 18px;background:linear-gradient(180deg,#f6fbff,#eef7ff);text-align:center;color:#073241}
+
+  </style>
+</head>
+<body>
+  <!-- header (same as homepage) -->
+  <header>
+    <div class="brand">
+      <div class="mini" aria-hidden="true">
+        <svg viewBox="0 0 120 120" width="44" height="44" aria-hidden="true">
+          <path d="M60 8 L108 96 H12 Z" stroke="#001f4d" stroke-width="3" fill="none"/>
+          <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/>
+          <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>
+        </svg>
+      </div>
+      <div class="title">Triangle Tech</div>
+    </div>
+
+    <nav class="links" role="navigation" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="marketplace.html" class="active">Marketplace</a>
+      <a href="index.html#contact">Contact</a>
+      <button class="cta-btn" onclick="location.href='index.html#contact'">Get in touch</button>
+    </nav>
+
+    <button id="hambtn" class="hambtn" aria-label="Open menu" aria-expanded="false"><span class="bar"></span></button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Marketplace — Ready‑Made Website Templates</h1>
+      <p>Hand-crafted website templates for businesses, churches, portfolios, e‑commerce stores and more. Each template is a complete, responsive design — ready to be customized and launched. Click "Buy Now" to contact us and purchase the template you like.</p>
+    </section>
+
+    <div class="container">
+      <div class="tpl-grid">
+        <!-- Template 1 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template1.jpg" alt="Hotel & Suites Website"></div>
+          <div>
+            <h3>Hotel & Suites Website</h3>
+            <div class="meta">Category: Hospitality • Demo available</div>
+            <p>This elegant hotel & suites template includes booking-ready pages, gallery, services, and contact sections optimized for conversions. Great for hotels, guesthouses and bed & breakfasts.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Hotel & Suites Website" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/hotel/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 2 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template2.jpg" alt="Restaurant & Bistro Website"></div>
+          <div>
+            <h3>Restaurant & Bistro Website</h3>
+            <div class="meta">Category: Food & Beverage</div>
+            <p>A tasteful template built for restaurants and cafes — includes menu pages, reservation CTA, team showcase and photo gallery to highlight your cuisine.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Restaurant & Bistro Website" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/restaurant/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 3 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template3.jpg" alt="E‑commerce Store"></div>
+          <div>
+            <h3>E‑commerce Store</h3>
+            <div class="meta">Category: E‑commerce</div>
+            <p>Complete store template with product pages, cart, and checkout-ready layouts. Designed for speed and conversions with clean product presentation.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="E‑commerce Store" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/ecommerce/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 4 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template4.jpg" alt="Corporate Business Website"></div>
+          <div>
+            <h3>Corporate Business Website</h3>
+            <div class="meta">Category: Business</div>
+            <p>A professional corporate template for agencies, consultancies, and enterprises — includes services, case studies, careers and contact sections.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Corporate Business Website" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/corporate/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 5 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template5.jpg" alt="Personal Portfolio"></div>
+          <div>
+            <h3>Personal Portfolio</h3>
+            <div class="meta">Category: Portfolio</div>
+            <p>Sleek portfolio layout for creatives and professionals — includes project galleries, case study pages and a clean contact section to attract clients.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Personal Portfolio" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/portfolio/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 6 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template6.jpg" alt="Church & Ministry Website"></div>
+          <div>
+            <h3>Church & Ministry Website</h3>
+            <div class="meta">Category: Church & Nonprofit</div>
+            <p>Designed for ministries and churches — includes sermon library, event calendar, giving page placeholders and outreach sections to grow congregation engagement.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Church & Ministry Website" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/church/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 7 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template7.jpg" alt="School & Academy Website"></div>
+          <div>
+            <h3>School & Academy Website</h3>
+            <div class="meta">Category: Education</div>
+            <p>A modern template for schools and training centers with programs, admissions, faculty pages and news updates to keep students and parents informed.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="School & Academy Website" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/school/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 8 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template8.jpg" alt="SaaS Landing Page"></div>
+          <div>
+            <h3>SaaS Product Landing</h3>
+            <div class="meta">Category: Product</div>
+            <p>High-converting SaaS landing page with feature sections, pricing tiers, testimonials and CTAs to capture signups and leads.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="SaaS Product Landing" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/saas/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 9 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template9.jpg" alt="Blog & Magazine"></div>
+          <div>
+            <h3>Blog & Magazine</h3>
+            <div class="meta">Category: Blog</div>
+            <p>Content-first template ideal for writers and publishers. Features article lists, categories, author pages and newsletter signups for audience building.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Blog & Magazine" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/blog/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Template 10 -->
+        <article class="tpl-card">
+          <div class="thumb"><img src="assets/template10.jpg" alt="Creative Agency"></div>
+          <div>
+            <h3>Creative Agency</h3>
+            <div class="meta">Category: Agency</div>
+            <p>Bold and visual template for agencies — portfolio case studies, services, team pages and contact forms built to showcase creative work.</p>
+            <div class="tpl-actions">
+              <button class="btn-primary" data-title="Creative Agency" data-price="100000" onclick="buyTemplate(this)">Buy Now</button>
+              <button class="btn-ghost" onclick="viewDemo('demos/agency/index.html')">View Demo</button>
+              <div class="price">₦100,000</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div style="max-width:1100px;margin:0 auto;padding:8px 16px;text-align:center;">
+      <div style="margin-bottom:8px">Triangle Tech — Ready‑Made Sites & Custom Work</div>
+      <div style="color:var(--muted)">© <span id="year"></span> Triangle Tech. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // header hamburger toggle (re-using homepage logic simplified)
+    const hambtn = document.getElementById('hambtn');
+    const links = document.querySelector('nav.links');
+    let menuOpen = false;
+    hambtn.addEventListener('click', ()=>{
+      menuOpen = !menuOpen;
+      hambtn.classList.toggle('open', menuOpen);
+      if(menuOpen) links.style.display = 'flex'; else links.style.display = '';
+    });
+
+    // buyTemplate: open Gmail compose with message identifying template
+    function buyTemplate(btn){
+      const title = btn.getAttribute('data-title') || 'Template';
+      const price = btn.getAttribute('data-price') || '';
+      const subject = `Purchase inquiry: ${title}`;
+      const body = `Hello Triangle Tech,%0D%0A%0D%0AI am interested in purchasing the template titled: ${title}.%0D%0APrice: ₦${price}%0D%0A%0D%0APlease let me know the next steps and any customization options.%0D%0A%0D%0AThanks,%0D%0A[Your name]`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=triangletechweb@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      // open in new tab if possible
+      try{ window.open(gmailUrl,'_blank'); }catch(e){ window.location.href = `mailto:triangletechweb@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; }
+    }
+
+    function viewDemo(url){
+      // open demo in new tab — placeholders for now
+      window.open(url, '_blank');
+    }
+
+    // set year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
