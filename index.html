@@ -1,356 +1,467 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Triangle Tech — Building Intelligent Web Experiences</title>
+<html lang="en">  
+<head>  
+  <meta charset="utf-8"/>  
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>  
+  <title>Triangle Tech — Building Intelligent Web Experiences</title>    
+  <!-- Fonts & icons -->    
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>    
+  <style>  
+    :root{  
+      --sesco-blue:#0059b2;  
+      --sesco-blue-2:#0a66d1;  
+      --gold:#f4c542;  
+      --muted:#6b7b8b;  
+      --white:#ffffff;  
+      --gmail:#EA4335;  
+      --whats:#25D366;  
+      --ai-start:#f4c542;  
+      --ai-end:#8a2be2;  
+      --glass: rgba(255,255,255,0.06);  
+      --bg-start:#f6fbff;  
+      --bg-end:#eef7ff;  
+    }  
+    *{box-sizing:border-box;margin:0;padding:0}  
+    html,body{height:100%}  
+    body{  
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;  
+      background:linear-gradient(180deg,var(--bg-start),var(--bg-end));  
+      color:#053042;  
+      -webkit-font-smoothing:antialiased;  
+    }  
 
-  <!-- Fonts & icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    /* --- Preloader --- */  
+    #preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(2,6,20,0.96),rgba(2,6,20,0.96));z-index:9999;transition:opacity .5s}  
+    #preloader.hidden{opacity:0;pointer-events:none}  
+    .pre-tri{width:120px;height:120px}  
+    .pre-tri svg{width:100%;height:100%;animation:spin 3s linear}  
+    @keyframes spin{to{transform:rotate(360deg)}}  
 
-  <style>
-    :root{
-      --sesco-blue:#0059b2;
-      --sesco-blue-2:#0a66d1;
-      --gold:#f4c542;
-      --muted:#6b7b8b;
-      --white:#ffffff;
-      --gmail:#EA4335;
-      --whats:#25D366;
-      --ai-start:#f4c542;
-      --ai-end:#8a2be2;
-      --glass: rgba(255,255,255,0.06);
-      --bg-start:#f6fbff;
-      --bg-end:#eef7ff;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background:linear-gradient(180deg,var(--bg-start),var(--bg-end));
-      color:#053042;
-      -webkit-font-smoothing:antialiased;
-    }
+    /* --- Header (Apple-like) --- */  
+    header{  
+      position:fixed;left:12px;right:12px;top:12px;z-index:140;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));backdrop-filter: blur(8px);box-shadow:0 10px 30px rgba(6,20,40,0.08);  
+    }  
+    .brand{display:flex;align-items:center;gap:12px}  
+    .brand .mini{width:48px;height:48px}  
+    .brand .title{font-family:'Montserrat',sans-serif;color:var(--sesco-blue);font-size:1.05rem;font-weight:700}  
+    .brand .subtitle{font-family:'Lobster',cursive;color:var(--gold);font-size:1rem;margin-left:6px}  
+    nav.links{display:flex;gap:14px;align-items:center}  
+    nav.links a{color:rgba(3,20,40,0.95);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600}  
+    nav.links a:hover{background:rgba(0,89,178,0.06);color:var(--sesco-blue)}  
+    .cta-btn{background:var(--sesco-blue);color:#fff;padding:8px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer}  
 
-    /* --- Preloader --- */
-    #preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(2,6,20,0.96),rgba(2,6,20,0.96));z-index:9999;transition:opacity .5s}
-    #preloader.hidden{opacity:0;pointer-events:none}
-    .pre-tri{width:120px;height:120px}
-    .pre-tri svg{width:100%;height:100%;animation:spin 3s linear}
-    @keyframes spin{to{transform:rotate(360deg)}}
+    /* hamburger -> X */  
+    .hambtn{display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:transparent;border:1px solid rgba(3,10,26,0.04)}  
+    .hambtn .bar{width:22px;height:2px;background:var(--sesco-blue);position:relative;border-radius:2px}  
+    .hambtn .bar::before,.hambtn .bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--sesco-blue);border-radius:2px}  
+    .hambtn .bar::before{top:-7px}.hambtn .bar::after{top:7px}  
+    .hambtn.open .bar{background:transparent}  
+    .hambtn.open .bar::before{transform:translateY(7px) rotate(45deg);top:0}  
+    .hambtn.open .bar::after{transform:translateY(-7px) rotate(-45deg);top:0}  
+    @media(max-width:920px){ nav.links{display:none} .hambtn{display:flex} }  
 
-    /* --- Header (Apple-like) --- */
-    header{
-      position:fixed;left:12px;right:12px;top:12px;z-index:140;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));backdrop-filter: blur(8px);box-shadow:0 10px 30px rgba(6,20,40,0.08);
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand .mini{width:48px;height:48px}
-    .brand .title{font-family:'Montserrat',sans-serif;color:var(--sesco-blue);font-size:1.05rem;font-weight:700}
-    .brand .subtitle{font-family:'Lobster',cursive;color:var(--gold);font-size:1rem;margin-left:6px}
-    nav.links{display:flex;gap:14px;align-items:center}
-    nav.links a{color:rgba(3,20,40,0.95);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600}
-    nav.links a:hover{background:rgba(0,89,178,0.06);color:var(--sesco-blue)}
-    .cta-btn{background:var(--sesco-blue);color:#fff;padding:8px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+    /* --- Slide menu panel (left in, right out) --- */  
+    .menu-panel{position:fixed;top:0;left:0;width:100%;height:100%;z-index:210;pointer-events:none;background:linear-gradient(180deg,#ffffff,#f5fbff);backdrop-filter:blur(8px);transition:transform .56s cubic-bezier(.2,.9,.2,1),opacity .4s;transform:translateX(-120%);opacity:0;display:flex;align-items:flex-start;justify-content:flex-start}  
+    .menu-panel.open{transform:translateX(0);opacity:1;pointer-events:auto}  
+    .menu-panel.exit-right{transform:translateX(120%);opacity:0;pointer-events:none}  
+    .menu-inner{width:100%;max-width:520px;padding:28px 28px}  
+    .menu-inner .close-x{position:absolute;right:18px;top:18px;width:44px;height:44px;border-radius:10px;border:none;background:transparent;cursor:pointer;font-size:22px}  
+    .menu-inner a{display:block;color:var(--sesco-blue);text-decoration:none;font-weight:700;padding:14px 6px;border-radius:8px}  
+    .menu-inner a:hover{color:var(--sesco-blue-2)}  
 
-    /* hamburger -> X */
-    .hambtn{display:none;width:48px;height:48px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;background:transparent;border:1px solid rgba(3,10,26,0.04)}
-    .hambtn .bar{width:22px;height:2px;background:var(--sesco-blue);position:relative;border-radius:2px}
-    .hambtn .bar::before,.hambtn .bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--sesco-blue);border-radius:2px}
-    .hambtn .bar::before{top:-7px}.hambtn .bar::after{top:7px}
-    .hambtn.open .bar{background:transparent}
-    .hambtn.open .bar::before{transform:translateY(7px) rotate(45deg);top:0}
-    .hambtn.open .bar::after{transform:translateY(-7px) rotate(-45deg);top:0}
-    @media(max-width:920px){ nav.links{display:none} .hambtn{display:flex} }
+    /* --- Hero (Prism-ish) --- */  
+    .hero{position:relative;height:92vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}  
+    #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:contrast(105%) saturate(106%)}  
+    .hero-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg, rgba(2,8,30,0.62), rgba(2,8,30,0.18));}  
 
-    /* --- Slide menu panel (left in, right out) --- */
-    .menu-panel{position:fixed;top:0;left:0;width:100%;height:100%;z-index:210;pointer-events:none;background:linear-gradient(180deg,#ffffff,#f5fbff);backdrop-filter:blur(8px);transition:transform .56s cubic-bezier(.2,.9,.2,1),opacity .4s;transform:translateX(-120%);opacity:0;display:flex;align-items:flex-start;justify-content:flex-start}
-    .menu-panel.open{transform:translateX(0);opacity:1;pointer-events:auto}
-    .menu-panel.exit-right{transform:translateX(120%);opacity:0;pointer-events:none}
-    .menu-inner{width:100%;max-width:520px;padding:28px 28px}
-    .menu-inner .close-x{position:absolute;right:18px;top:18px;width:44px;height:44px;border-radius:10px;border:none;background:transparent;cursor:pointer;font-size:22px}
-    .menu-inner a{display:block;color:var(--sesco-blue);text-decoration:none;font-weight:700;padding:14px 6px;border-radius:8px}
-    .menu-inner a:hover{color:var(--sesco-blue-2)}
+    #particleCanvas{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.9}  
 
-    /* --- Hero (Prism-ish) --- */
-    .hero{position:relative;height:92vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:contrast(105%) saturate(106%)}
-    .hero-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg, rgba(2,8,30,0.62), rgba(2,8,30,0.18));}
+    .hero-inner{position:relative;z-index:3;max-width:1200px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}  
+    .logo-animated{width:180px;height:180px;margin-bottom:6px}  
+    .logo-animated .rot{animation:spin 9s linear infinite;transform-origin:60px 60px}  
+    @keyframes spin{to{transform:rotate(360deg)}}  
 
-    #particleCanvas{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.9}
+    .brand-title{font-family:'Montserrat',sans-serif;font-size:4.6rem;color:#fff;text-shadow:0 18px 60px rgba(0,12,30,0.6);letter-spacing:1px;line-height:1}  
+    /* smaller and wrapping friendly on mobile */  
+    .hero-sub{margin-top:12px;color:rgba(255,255,255,0.92);font-size:1.125rem;max-width:920px;line-height:1.45;padding:0 12px}  
+    /* ensure good wrapping on small screens */  
+    @media(max-width:520px){ .brand-title{font-size:2.4rem} .hero-sub{font-size:0.95rem;max-width:320px} }  
 
-    .hero-inner{position:relative;z-index:3;max-width:1200px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
-    .logo-animated{width:180px;height:180px;margin-bottom:6px}
-    .logo-animated .rot{animation:spin 9s linear infinite;transform-origin:60px 60px}
-    @keyframes spin{to{transform:rotate(360deg)}}
+    .hero-cta{margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}  
+    .btn-primary{background:var(--sesco-blue);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,89,178,0.18)}  
+    .btn-ghost{background:transparent;padding:12px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;cursor:pointer}  
 
-    .brand-title{font-family:'Montserrat',sans-serif;font-size:4.6rem;color:#fff;text-shadow:0 18px 60px rgba(0,12,30,0.6);letter-spacing:1px;line-height:1}
-    /* smaller and wrapping friendly on mobile */
-    .hero-sub{margin-top:12px;color:rgba(255,255,255,0.92);font-size:1.125rem;max-width:920px;line-height:1.45;padding:0 12px}
-    /* ensure good wrapping on small screens */
-    @media(max-width:520px){ .brand-title{font-size:2.4rem} .hero-sub{font-size:0.95rem;max-width:320px} }
+    .ticker{margin-top:18px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.04);overflow:hidden}  
+    .ticker-inner{display:inline-block;white-space:nowrap;animation:tick 18s linear infinite}  
+    .ticker-item{font-weight:700;color:#fff;margin-right:40px}  
+    @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}  
 
-    .hero-cta{margin-top:14px;display:flex;gap:12px;align-items:center}
-    .btn-primary{background:var(--sesco-blue);color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,89,178,0.18)}
-    .btn-ghost{background:transparent;padding:12px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;cursor:pointer}
+    /* --- Intro card (Read more) --- */  
+    .intro{max-width:1100px;margin:-90px auto 18px;padding:20px;background:#fff;border-radius:14px;box-shadow:0 18px 60px rgba(6,20,40,0.08);position:relative;z-index:6;display:flex;gap:20px;align-items:center}  
+    .intro .left{flex:1}  
+    .intro h2{font-size:1.9rem;color:var(--sesco-blue);margin-bottom:8px}  
+    .intro p{color:var(--muted);line-height:1.6}  
+    .intro .read{margin-top:12px;display:inline-block;background:var(--sesco-blue);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}  
 
-    .ticker{margin-top:18px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.04);overflow:hidden}
-    .ticker-inner{display:inline-block;white-space:nowrap;animation:tick 18s linear infinite}
-    .ticker-item{font-weight:700;color:#fff;margin-right:40px}
-    @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    /* --- Services --- */  
+    .services{max-width:1180px;margin:36px auto;padding:40px 18px;text-align:center}  
+    .services h3{font-size:2rem;color:var(--sesco-blue);margin-bottom:8px}  
+    .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}  
+    .service-card{background:#fff;border-radius:12px;padding:0;box-shadow:0 16px 40px rgba(6,20,40,0.06);text-align:left;overflow:hidden;display:flex;flex-direction:column;min-height:220px}  
+    .service-card img{width:100%;height:140px;object-fit:cover;display:block}  
+    .service-card .body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px}  
+    .service-card h4{color:var(--sesco-blue);margin-bottom:4px}  
+    .service-card p{color:var(--muted);line-height:1.55;flex:1}  
+    .service-card .learn{margin-top:12px;align-self:flex-start;background:transparent;border:1px solid rgba(0,89,178,0.08);padding:8px 10px;border-radius:8px;color:var(--sesco-blue);cursor:pointer;font-weight:700}  
 
-    /* --- Intro card (Read more) --- */
-    .intro{max-width:1100px;margin:-90px auto 18px;padding:20px;background:#fff;border-radius:14px;box-shadow:0 18px 60px rgba(6,20,40,0.08);position:relative;z-index:6;display:flex;gap:20px;align-items:center}
-    .intro .left{flex:1}
-    .intro h2{font-size:1.9rem;color:var(--sesco-blue);margin-bottom:8px}
-    .intro p{color:var(--muted);line-height:1.6}
-    .intro .read{margin-top:12px;display:inline-block;background:var(--sesco-blue);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+    /* --- Stats --- */  
+    .stats{max-width:1100px;margin:36px auto;padding:18px;display:flex;gap:14px;justify-content:space-between}  
+    .stat{flex:1;background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 14px 36px rgba(6,20,40,0.06)}  
+    .stat .num{font-size:2.1rem;color:var(--sesco-blue);font-weight:800}  
+    .stat .lbl{color:var(--muted);margin-top:8px}  
 
-    /* --- Services --- */
-    .services{max-width:1180px;margin:36px auto;padding:40px 18px;text-align:center}
-    .services h3{font-size:2rem;color:var(--sesco-blue);margin-bottom:8px}
-    .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}
-    .service-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 16px 40px rgba(6,20,40,0.06);text-align:left}
-    .service-card h4{color:var(--sesco-blue);margin-bottom:8px}
-    .service-card p{color:var(--muted);line-height:1.55}
+    /* --- Contact --- */
+    .contact{max-width:1100px;margin:36px auto;padding:28px;background:#fff;border-radius:12px;box-shadow:0 18px 60px rgba(6,20,40,0.06);display:grid;grid-template-columns:1fr 420px;gap:18px}  
+    .contact h3{color:var(--sesco-blue);margin-bottom:8px}  
+    .contact form{display:flex;flex-direction:column;gap:12px}  
+    .contact input,.contact textarea{padding:10px;border-radius:8px;border:1px solid rgba(3,10,20,0.06);font-size:0.95rem}  
+    .contact button{background:var(--sesco-blue);color:#fff;padding:10px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700}  
+    .map-wrap iframe{width:100%;height:100%;border-radius:8px;border:0;min-height:260px}  
 
-    /* --- Stats --- */
-    .stats{max-width:1100px;margin:36px auto;padding:18px;display:flex;gap:14px;justify-content:space-between}
-    .stat{flex:1;background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 14px 36px rgba(6,20,40,0.06)}
-    .stat .num{font-size:2.1rem;color:var(--sesco-blue);font-weight:800}
-    .stat .lbl{color:var(--muted);margin-top:8px}
+    /* --- Floating buttons bottom-right --- */  
+    .float-group{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:12px;z-index:600}  
+    .float-btn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;border:none;box-shadow:0 12px 34px rgba(3,20,40,0.18)}  
+    .float-gmail{background:#fff;border:2px solid rgba(0,0,0,0.06)} .float-gmail i{color:var(--gmail);font-size:20px;filter:drop-shadow(0 6px 12px rgba(234,67,53,0.25))}  
+    .float-whats{background:var(--whats)} .float-whats i{color:#fff}  
+    .float-ai{background:linear-gradient(135deg,var(--ai-start),var(--ai-end))} .float-ai i{color:#041018}  
+    .float-btn:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(3,20,40,0.22)}  
 
-    /* --- Floating buttons bottom-right --- */
-    .float-group{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:12px;z-index:600}
-    .float-btn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;border:none;box-shadow:0 12px 34px rgba(3,20,40,0.18)}
-    .float-gmail{background:#fff;border:2px solid rgba(0,0,0,0.06)} .float-gmail i{color:var(--gmail);font-size:20px;filter:drop-shadow(0 6px 12px rgba(234,67,53,0.25))}
-    .float-whats{background:var(--whats)} .float-whats i{color:#fff}
-    .float-ai{background:linear-gradient(135deg,var(--ai-start),var(--ai-end))} .float-ai i{color:#041018}
-    .float-btn:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(3,20,40,0.22)}
+    .ai-modal{position:fixed;right:18px;bottom:86px;width:360px;max-width:92%;background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(3,10,26,0.18);z-index:700;display:none;flex-direction:column;overflow:hidden}  
+    .ai-modal.show{display:flex}  
+    .ai-modal .hd{padding:12px 14px;background:linear-gradient(90deg,var(--sesco-blue),var(--sesco-blue-2));color:#fff;font-weight:700}  
+    .ai-modal .body{padding:14px;color:#07202a;min-height:140px;max-height:320px;overflow:auto}  
+    .ai-modal .ft{padding:10px 12px;border-top:1px solid rgba(0,0,0,0.04);text-align:right}  
 
-    .ai-modal{position:fixed;right:18px;bottom:86px;width:360px;max-width:92%;background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(3,10,26,0.18);z-index:700;display:none;flex-direction:column;overflow:hidden}
-    .ai-modal.show{display:flex}
-    .ai-modal .hd{padding:12px 14px;background:linear-gradient(90deg,var(--sesco-blue),var(--sesco-blue-2));color:#fff;font-weight:700}
-    .ai-modal .body{padding:14px;color:#07202a;min-height:140px;max-height:320px;overflow:auto}
-    .ai-modal .ft{padding:10px 12px;border-top:1px solid rgba(0,0,0,0.04);text-align:right}
+    .ai-form{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(0,0,0,0.04)}  
+    .ai-form input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}  
+    .ai-form button{padding:8px 10px;border-radius:8px;border:none;background:var(--sesco-blue);color:#fff;cursor:pointer}  
 
-    .ai-form{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(0,0,0,0.04)}
-    .ai-form input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
-    .ai-form button{padding:8px 10px;border-radius:8px;border:none;background:var(--sesco-blue);color:#fff;cursor:pointer}
+    .scroll-top{position:fixed;right:90px;bottom:110px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:#051019;display:flex;align-items:center;justify-content:center;z-index:750;box-shadow:0 16px 40px rgba(244,197,66,0.16);opacity:0;transform:translateY(10px);transition:all .28s}  
+    .scroll-top.show{opacity:1;transform:translateY(0)}  
 
-    .scroll-top{position:fixed;right:18px;bottom:110px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:#051019;display:flex;align-items:center;justify-content:center;z-index:590;box-shadow:0 16px 40px rgba(244,197,66,0.16);opacity:0;transform:translateY(10px);transition:all .28s}
-    .scroll-top.show{opacity:1;transform:translateY(0)}
+    footer{margin-top:40px;padding:48px 14px;background:linear-gradient(180deg,var(--bg-start),var(--bg-end));color:#073241}  
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 220px;gap:18px;align-items:start}  
+    .footer-inner h4{color:var(--sesco-blue);margin-bottom:8px}  
+    .footer-inner p{color:var(--muted);line-height:1.6}  
+    .socials{display:flex;gap:8px;margin-top:8px}  
+    .socials a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;background:#fff;color:var(--sesco-blue);text-decoration:none}  
+    .footer-links{display:flex;flex-direction:column;gap:8px}  
 
-    footer{margin-top:40px;padding:32px 14px;background:linear-gradient(180deg,var(--bg-start),var(--bg-end));text-align:center;color:#073241}
+    @media(max-width:920px){  
+      .hero{min-height:520px}  
+      .intro{flex-direction:column;gap:12px;margin:-60px 16px 20px}  
+      .service-grid{grid-template-columns:repeat(1,1fr)}  
+      .stats{flex-direction:column}  
+      .menu-inner{padding-top:48px}  
+      .brand .mini{width:40px;height:40px}  
+      .brand .subtitle{display:none}  
+      .brand-title{font-size:2.6rem}  
+      .contact{grid-template-columns:1fr;}
+      .footer-inner{grid-template-columns:1fr;}
+    }  
+    @media(max-width:520px){  
+      .brand-title{font-size:2.1rem}  
+      .hero-sub{max-width:320px}  
+    }  
+  </style>  
+</head>  
+<body>    
+  <!-- PRELOADER -->    
+  <div id="preloader" role="status" aria-live="polite">  
+    <div class="pre-tri" aria-hidden="true">  
+      <svg viewBox="0 0 120 120" aria-hidden="true">  
+        <path d="M60 8 L108 96 H12 Z" stroke="#fff" stroke-width="3" fill="none"/>  
+        <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>  
+        <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>  
+      </svg>  
+    </div>  
+  </div>    
 
-    @media(max-width:920px){
-      .hero{min-height:520px}
-      .intro{flex-direction:column;gap:12px;margin:-60px 16px 20px}
-      .service-grid{grid-template-columns:repeat(1,1fr)}
-      .stats{flex-direction:column}
-      .menu-inner{padding-top:48px}
-      .brand .mini{width:40px;height:40px}
-      .brand .subtitle{display:none}
-      .brand-title{font-size:2.6rem}
-    }
-    @media(max-width:520px){
-      .brand-title{font-size:2.1rem}
-      .hero-sub{max-width:320px}
-    }
-  </style>
-</head>
-<body>
+  <!-- MENU PANEL -->    
+  <div id="menuPanel" class="menu-panel" aria-hidden="true" role="dialog" aria-label="Main menu">  
+    <div class="menu-inner" role="menu">  
+      <button class="close-x" id="menuClose" aria-label="Close menu">✕</button>  
+      <a href="index.html" role="menuitem">Home</a>  
+      <a href="about.html" role="menuitem">About</a>  
+      <a href="#services" role="menuitem">Services</a>  
+      <a href="#portfolio" role="menuitem">Portfolio</a>  
+      <a href="#contact" role="menuitem">Contact</a>  
+      <div style="margin-top:18px"><button class="cta-btn" onclick="location.href='#contact'">Get in touch</button></div>  
+    </div>  
+  </div>    
 
-  <!-- PRELOADER -->
-  <div id="preloader" role="status" aria-live="polite">
-    <div class="pre-tri" aria-hidden="true">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
-        <path d="M60 8 L108 96 H12 Z" stroke="#fff" stroke-width="3" fill="none"/>
-        <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>
-        <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- MENU PANEL -->
-  <div id="menuPanel" class="menu-panel" aria-hidden="true" role="dialog" aria-label="Main menu">
-    <div class="menu-inner" role="menu">
-      <button class="close-x" id="menuClose" aria-label="Close menu">✕</button>
-      <a href="index.html" role="menuitem">Home</a>
-      <a href="about.html" role="menuitem">About</a>
-      <a href="#services" role="menuitem">Services</a>
-      <a href="#portfolio" role="menuitem">Portfolio</a>
-      <a href="#contact" role="menuitem">Contact</a>
-      <div style="margin-top:18px"><button class="cta-btn" onclick="location.href='#contact'">Get in touch</button></div>
-    </div>
-  </div>
-
-  <!-- HEADER -->
-  <header role="banner" aria-label="Top navigation">
-    <div class="brand" aria-hidden="false">
-      <div class="mini" aria-hidden="true">
-        <svg viewBox="0 0 120 120" width="48" height="48" aria-hidden="true">
-          <path d="M60 8 L108 96 H12 Z" stroke="#001f4d" stroke-width="3" fill="none"/>
-          <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/>
-          <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>
-        </svg>
-      </div>
-      <div>
-        <div class="title">Triangle of Tech</div>
-        <div class="subtitle">Triangle Tech</div>
-      </div>
-    </div>
-
-    <nav class="links" role="navigation" aria-label="Main navigation">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="#services">Services</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#contact">Contact</a>
-      <button class="cta-btn" onclick="location.href='#contact'">Get in touch</button>
-    </nav>
+  <!-- HEADER -->    
+  <header role="banner" aria-label="Top navigation">  
+    <div class="brand" aria-hidden="false">  
+      <div class="mini" aria-hidden="true">  
+        <svg viewBox="0 0 120 120" width="48" height="48" aria-hidden="true">  
+          <path d="M60 8 L108 96 H12 Z" stroke="#001f4d" stroke-width="3" fill="none"/>  
+          <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.4" fill="none"/>  
+          <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>  
+        </svg>  
+      </div>  
+      <div>  
+        <div class="title">Triangle of Tech</div>  
+        <div class="subtitle">Triangle Tech</div>  
+      </div>  
+    </div>  
+    <nav class="links" role="navigation" aria-label="Main navigation">  
+      <a href="index.html">Home</a>  
+      <a href="about.html">About</a>  
+      <a href="#services">Services</a>  
+      <a href="#portfolio">Portfolio</a>  
+      <a href="#contact">Contact</a>  
+      <button class="cta-btn" onclick="location.href='#contact'">Get in touch</button>  
+    </nav>  
 
     <button id="hambtn" class="hambtn" aria-label="Open menu" aria-expanded="false"><span class="bar"></span></button>
-  </header>
 
-  <!-- HERO -->
-  <main class="hero" role="main" aria-label="Hero">
-    <!-- video — replace assets/hero-tech.mp4 with your downloaded clip -->
-    <video id="heroVideo" autoplay muted loop playsinline poster="assets/picture1.jpg">
-      <source src="assets/hero-tech.mp4" type="video/mp4">
-      <!-- if you prefer remote hosting, replace above with your remote mp4 url -->
-    </video>
+  </header>    
 
-    <!-- dark overlay -->
-    <div class="hero-overlay" aria-hidden="true"></div>
+  <!-- HERO -->    
+  <main class="hero" role="main" aria-label="Hero">  
+    <!-- video — replace assets/hero-tech.mp4 with your downloaded clip -->  
+    <video id="heroVideo" autoplay muted loop playsinline poster="assets/picture1.jpg">  
+      <source src="assets/hero-tech.mp4" type="video/mp4">  
+    </video>  
+    <div class="hero-overlay" aria-hidden="true"></div>  
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>  
 
-    <!-- particle hologram canvas -->
-    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="hero-inner">  
+      <div class="logo-animated" aria-hidden="true">  
+        <svg viewBox="0 0 120 120" width="180" height="180" aria-hidden="true">  
+          <g class="rot" transform-origin="60 60">  
+            <path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/>  
+            <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>  
+            <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>  
+          </g>  
+        </svg>  
+      </div>  
 
-    <div class="hero-inner">
-      <!-- animated triangle logo -->
-      <div class="logo-animated" aria-hidden="true">
-        <svg viewBox="0 0 120 120" width="180" height="180" aria-hidden="true">
-          <g class="rot" transform-origin="60 60">
-            <path d="M60 8 L108 96 H12 Z" stroke="#000" stroke-width="3" fill="none"/>
-            <path d="M60 16 L99 88 H21 Z" stroke="#f4c542" stroke-width="2.6" fill="none"/>
-            <path d="M60 24 L90 80 H30 Z" stroke="#fff" stroke-width="1.6" fill="none"/>
-          </g>
-        </svg>
+      <div class="brand-title">TRIANGLE TECH</div>  
+
+      <div class="hero-sub">Building intelligent, beautiful web experiences — we combine web engineering, AI, and design to scale brands and products.</div>  
+
+      <div class="hero-cta" aria-hidden="true">  
+        <button class="btn-primary" onclick="location.href='#services'">Explore Services</button>  
+        <button class="btn-ghost" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">Read About Us</button>  
+      </div>  
+
+      <div class="ticker" aria-hidden="true">  
+        <div class="ticker-inner">  
+          <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>  
+          <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>  
+          <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>  
+          <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>  
+        </div>  
+      </div>  
+    </div>  
+
+  </main>    
+
+  <!-- Intro -->    
+  <section id="intro" class="intro" role="region" aria-labelledby="introTitle">  
+    <div class="left">  
+      <h2 id="introTitle">Inside Triangle Tech</h2>  
+      <p>Triangle Tech is a creative technology studio redefining how brands connect to the digital world. We blend web design, AI innovation, and smart strategy to craft experiences that are bold, beautiful, and built for the future.</p>  
+      <a class="read" href="about.html">Read More →</a>  
+    </div>  
+    <div class="right" style="width:280px">  
+      <img src="assets/picture1.jpg" alt="Triangle Tech preview" style="width:100%;border-radius:10px;object-fit:cover;height:160px">  
+    </div>  
+  </section>    
+
+  <!-- Services -->    
+  <section id="services" class="services" role="region" aria-labelledby="servicesTitle">  
+    <h3 id="servicesTitle">Our Services</h3>  
+    <div class="service-grid" role="list">  
+      <!-- 10 service cards with images (picture1..picture6 reused) -->
+      <div class="service-card" role="listitem">
+        <img src="assets/picture1.jpg" alt="Website Design">
+        <div class="body"><h4>Website Design & Development</h4><p>Modern responsive websites built with React, optimized for speed and conversion.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
       </div>
-
-      <div class="brand-title">TRIANGLE TECH</div>
-
-      <div class="hero-sub">Building intelligent, beautiful web experiences — we combine web engineering, AI, and design to scale brands and products.</div>
-
-      <div class="hero-cta" aria-hidden="true">
-        <button class="btn-primary" onclick="location.href='#services'">Explore Services</button>
-        <button class="btn-ghost" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">Read About Us</button>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture2.jpg" alt="Mobile Apps">
+        <div class="body"><h4>Mobile App Development</h4><p>Cross-platform and native mobile apps focused on performance and UX.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
       </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture3.jpg" alt="Branding">
+        <div class="body"><h4>Branding & Visual Identity</h4><p>Logo, identity systems and brand guidelines that tell your story.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture4.jpg" alt="AI Integration">
+        <div class="body"><h4>AI Integration</h4><p>Chat assistants, automations and smart workflows tailored to your business.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture5.jpg" alt="E-commerce">
+        <div class="body"><h4>E‑commerce Solutions</h4><p>Scalable stores with secure payments and conversion-first design.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture6.jpg" alt="SEO">
+        <div class="body"><h4>SEO & Performance</h4><p>Technical SEO audits, speed optimizations and content strategy.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture2.jpg" alt="Content">
+        <div class="body"><h4>Content & Copywriting</h4><p>Clear messaging and conversion copy that speaks to your audience.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture3.jpg" alt="Cloud">
+        <div class="body"><h4>Cloud & DevOps</h4><p>Deployment, monitoring and infrastructure that scales with you.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture4.jpg" alt="Consulting">
+        <div class="body"><h4>Product & Tech Consulting</h4><p>Strategy, product discovery and technical roadmaps to de-risk your project.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+      <div class="service-card" role="listitem">
+        <img src="assets/picture5.jpg" alt="Templates">
+        <div class="body"><h4>Ready-Made Templates</h4><p>Premium templates you can buy and launch quickly or customize fully.</p><button class="learn" onclick="location.href='#contact'">Get started</button></div>
+      </div>
+    </div>  
+  </section>    
 
-      <div class="ticker" aria-hidden="true">
-        <div class="ticker-inner">
-          <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>
-          <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>
-          <span class="ticker-item">AI Assistants • Modern Web • Ready-made Templates</span>
-          <span class="ticker-item">Performance & UX • Brand Strategy • Full-stack Development</span>
+  <!-- Stats -->    
+  <section class="stats" role="region" aria-label="Stats">  
+    <div class="stat"><div class="num" data-target="80">0</div><div class="lbl">Projects Delivered</div></div>  
+    <div class="stat"><div class="num" data-target="20">0</div><div class="lbl">Global Clients</div></div>  
+    <div class="stat"><div class="num" data-target="6">0</div><div class="lbl">Years of Innovation</div></div>  
+    <div class="stat"><div class="num" data-target="99">0</div><div class="lbl">Client Satisfaction (%)</div></div>  
+  </section>    
+
+  <!-- Contact -->
+  <section id="contact" class="contact" role="region" aria-labelledby="contactTitle">
+    <div>
+      <h3 id="contactTitle">Contact Us</h3>
+      <p style="color:var(--muted);margin-bottom:10px">Have a project or an idea? Send us a message and we'll get back within 1 business day.</p>
+      <form id="contactForm" onsubmit="return handleContact(event)">
+        <input id="name" placeholder="Your name" required>
+        <input id="email" type="email" placeholder="Your email" required>
+        <input id="subject" placeholder="Subject (optional)">
+        <textarea id="message" placeholder="Tell us about your project" rows="6" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+    <div class="map-wrap">
+      <!-- Example embed (Lagos, Nigeria) -->
+      <iframe title="Triangle Tech - Location" src="https://www.google.com/maps?q=Ikeja%2C%20Lagos%2C%20Nigeria&output=embed" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->    
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <h4>Triangle Tech — Building the future of Web & AI</h4>
+        <p>We craft beautiful, high-performance digital products — web apps, mobile apps and AI integrations — with an emphasis on usability and measurable results.</p>
+        <div class="socials">
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" aria-label="Dribbble"><i class="fa-brands fa-dribbble"></i></a>
         </div>
       </div>
+      <div>
+        <h4>Quick Links</h4>
+        <div class="footer-links"><a href="about.html">About</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a></div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p style="color:var(--muted)">triangletechweb@gmail.com<br>+234 905 665 8964<br>Ikeja, Lagos, Nigeria</p>
+        <div style="margin-top:8px;color:var(--muted)">© <span id="year"></span> Triangle Tech. All rights reserved.</div>
+      </div>
     </div>
-  </main>
+  </footer>    
 
-  <!-- Intro -->
-  <section id="intro" class="intro" role="region" aria-labelledby="introTitle">
-    <div class="left">
-      <h2 id="introTitle">Inside Triangle Tech</h2>
-      <p>Triangle Tech is a creative technology studio redefining how brands connect to the digital world. We blend web design, AI innovation, and smart strategy to craft experiences that are bold, beautiful, and built for the future.</p>
-      <a class="read" href="about.html">Read More →</a>
-    </div>
-    <div class="right" style="width:280px">
-      <img src="assets/picture1.jpg" alt="Triangle Tech preview" style="width:100%;border-radius:10px;object-fit:cover;height:160px">
-    </div>
-  </section>
+  <!-- Floating buttons -->    
+  <div class="float-group" role="group" aria-label="Quick contact">  
+    <button class="float-btn float-gmail" id="btnGmail" title="Open Gmail Chat" aria-label="Email"><i class="fa-solid fa-envelope"></i></button>  
+    <button class="float-btn float-whats" id="btnWhats" title="Chat on WhatsApp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>  
+    <button class="float-btn float-ai" id="btnAI" title="AI Assistant" aria-label="AI"><i class="fa-solid fa-robot"></i></button>  
+  </div>    
 
-  <!-- Services -->
-  <section id="services" class="services" role="region" aria-labelledby="servicesTitle">
-    <h3 id="servicesTitle">Our Services</h3>
-    <div class="service-grid" role="list">
-      <div class="service-card" role="listitem"><h4>Website Design & Development</h4><p>Modern responsive websites built with React, optimized for speed and conversion.</p></div>
-      <div class="service-card" role="listitem"><h4>AI Integration</h4><p>Chat assistants, automations and smart workflows tailored to your business.</p></div>
-      <div class="service-card" role="listitem"><h4>Tech & Media Consulting</h4><p>Strategy, product design and technical leadership.</p></div>
-      <div class="service-card" role="listitem"><h4>Ready-Made Websites</h4><p>Premium templates you can buy and launch quickly or customize fully.</p></div>
-    </div>
-  </section>
+  <!-- AI Modal -->    
+  <div id="aiModal" class="ai-modal" role="dialog" aria-hidden="true">  
+    <div class="hd">Triangle Tech AI</div>  
+    <div class="body" id="aiBody">  
+      <div style="color:var(--muted);margin-bottom:8px">Ask anything about our services, pricing, or get quick website ideas.</div>  
+      <div id="aiMessages" style="display:flex;flex-direction:column;gap:10px"></div>  
+    </div>  
+    <div class="ai-form">  
+      <input id="aiInput" placeholder="Type your question..." aria-label="Ask AI">  
+      <button id="aiSend">Send</button>  
+    </div>  
+    <div class="ft" style="display:flex;justify-content:flex-end;gap:8px;padding:10px 12px">  
+      <button onclick="closeAIModal()" style="background:#eee;padding:8px 12px;border-radius:8px;border:none;cursor:pointer">Close</button>  
+    </div>  
+  </div>    
 
-  <!-- Stats -->
-  <section class="stats" role="region" aria-label="Stats">
-    <div class="stat"><div class="num" data-target="80">0</div><div class="lbl">Projects Delivered</div></div>
-    <div class="stat"><div class="num" data-target="20">0</div><div class="lbl">Global Clients</div></div>
-    <div class="stat"><div class="num" data-target="6">0</div><div class="lbl">Years of Innovation</div></div>
-    <div class="stat"><div class="num" data-target="99">0</div><div class="lbl">Client Satisfaction (%)</div></div>
-  </section>
-
-  <!-- Footer -->
-  <footer role="contentinfo"><div style="max-width:1100px;margin:0 auto;padding:8px 16px;text-align:center;"><div style="margin-bottom:8px">Triangle Tech — Building the future of Web & AI</div><div style="color:var(--muted)">© <span id="year"></span> Triangle Tech. All rights reserved.</div></div></footer>
-
-  <!-- Floating buttons -->
-  <div class="float-group" role="group" aria-label="Quick contact">
-    <button class="float-btn float-gmail" id="btnGmail" title="Open Gmail Chat" onclick="window.open('https://mail.google.com/chat/','_blank')"><i class="fa-solid fa-envelope"></i></button>
-    <button class="float-btn float-whats" id="btnWhats" title="Chat on WhatsApp" onclick="window.open('https://wa.me/2349056658964','_blank')"><i class="fa-brands fa-whatsapp"></i></button>
-    <button class="float-btn float-ai" id="btnAI" title="AI Assistant"><i class="fa-solid fa-robot"></i></button>
-  </div>
-
-  <!-- AI Modal -->
-  <div id="aiModal" class="ai-modal" role="dialog" aria-hidden="true">
-    <div class="hd">Triangle Tech AI</div>
-    <div class="body" id="aiBody">
-      <div style="color:var(--muted);margin-bottom:8px">Ask anything about our services, pricing, or get quick website ideas.</div>
-      <div id="aiMessages" style="display:flex;flex-direction:column;gap:10px"></div>
-    </div>
-    <div class="ai-form">
-      <input id="aiInput" placeholder="Type your question..." aria-label="Ask AI">
-      <button id="aiSend">Send</button>
-    </div>
-    <div class="ft" style="display:flex;justify-content:flex-end;gap:8px;padding:10px 12px">
-      <button onclick="closeAIModal()" style="background:#eee;padding:8px 12px;border-radius:8px;border:none;cursor:pointer">Close</button>
-    </div>
-  </div>
-
-  <!-- Scroll to top -->
+  <!-- Scroll to top -->  
   <button id="scrollTop" class="scroll-top" aria-label="Scroll to top" title="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-  <!-- Scripts -->
-  <script>
-    // Preloader
-    document.addEventListener('DOMContentLoaded', ()=> {
-      const pre = document.getElementById('preloader');
-      setTimeout(()=>{ if(pre){ pre.classList.add('hidden'); setTimeout(()=>pre.remove(),600); } }, 3000);
-    });
-
+  <!-- Scripts -->    
+  <script>  
+    // Preloader  
+    document.addEventListener('DOMContentLoaded', ()=> {  
+      const pre = document.getElementById('preloader');  
+      setTimeout(()=>{ if(pre){ pre.classList.add('hidden'); setTimeout(()=>pre.remove(),600); } }, 700);  
+    });  
+  
     // Menu open/close with hamburger -> X and close button inside menu
     const hambtn = document.getElementById('hambtn');
     const menuPanel = document.getElementById('menuPanel');
     const menuClose = document.getElementById('menuClose');
     let menuOpen = false;
-    hambtn.addEventListener('click', ()=> {
-      menuOpen = !menuOpen;
-      hambtn.classList.toggle('open', menuOpen);
-      hambtn.setAttribute('aria-expanded', menuOpen ? 'true':'false');
-      if(menuOpen){
-        menuPanel.classList.remove('exit-right');
-        menuPanel.classList.add('open');
-        menuPanel.setAttribute('aria-hidden','false');
-      } else {
-        menuPanel.classList.add('exit-right');
-        menuPanel.classList.remove('open');
-        menuPanel.setAttribute('aria-hidden','true');
-        setTimeout(()=>{ menuPanel.classList.remove('exit-right'); menuPanel.style.transform='translateX(-120%)'; },520);
+
+    function openMenu(){
+      menuOpen = true;
+      hambtn.classList.add('open');
+      hambtn.setAttribute('aria-expanded','true');
+      menuPanel.classList.remove('exit-right');
+      menuPanel.classList.add('open');
+      menuPanel.setAttribute('aria-hidden','false');
+    }
+    function closeMenu(){
+      menuOpen = false;
+      hambtn.classList.remove('open');
+      hambtn.setAttribute('aria-expanded','false');
+      // animate exit to right then reset
+      menuPanel.classList.add('exit-right');
+      menuPanel.classList.remove('open');
+      menuPanel.setAttribute('aria-hidden','true');
+      // remove exit-right after animation ends
+    }
+
+    hambtn.addEventListener('click', ()=>{
+      menuOpen ? closeMenu() : openMenu();
+    });
+
+    menuClose.addEventListener('click', ()=> closeMenu());
+
+    // ensure links inside menu close the panel reliably
+    document.querySelectorAll('.menu-inner a').forEach(a => a.addEventListener('click', ()=> { closeMenu(); }));
+
+    // cleanup class after transition so repeated toggles always work
+    menuPanel.addEventListener('transitionend', (e)=>{
+      // only run when transform transition ends
+      if(e.propertyName && e.propertyName.includes('transform')){
+        if(!menuPanel.classList.contains('open')){
+          // reset to hidden-left state
+          menuPanel.classList.remove('exit-right');
+          menuPanel.style.transform = 'translateX(-120%)';
+        } else {
+          menuPanel.style.transform = '';
+        }
       }
     });
-    menuClose.addEventListener('click', ()=> { menuOpen=false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform='translateX(-120%)'; });
-
-    // Close menu when clicking links
-    document.querySelectorAll('.menu-inner a').forEach(a => a.addEventListener('click', ()=> { menuOpen=false; hambtn.classList.remove('open'); menuPanel.classList.remove('open'); menuPanel.setAttribute('aria-hidden','true'); menuPanel.style.transform='translateX(-120%)'; }));
 
     // Particle hologram (lightweight canvas)
     (function(){
@@ -378,7 +489,7 @@
       stats.forEach(s=> io.observe(s));
     })();
 
-    // AI modal behavior — frontend -> calls /api/chat (server-proxy). If server not available, fallback to a mock reply.
+    // AI modal behavior
     const btnAI = document.getElementById('btnAI');
     const aiModal = document.getElementById('aiModal');
     const aiMessages = document.getElementById('aiMessages');
@@ -394,18 +505,15 @@
     async function askAI(question){
       appendMsg(question,'user');
       appendMsg('Thinking...', 'bot');
-      // try server proxy
       try{
         const res = await fetch('/api/chat', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:question})});
         if(!res.ok) throw new Error('server response not ok');
         const data = await res.json();
-        // remove last "Thinking..." placeholder
         aiMessages.lastChild.remove();
         appendMsg(data.reply || 'Sorry — no answer returned by the server.');
       }catch(err){
-        // fallback: local canned reply + suggestion to connect server
         aiMessages.lastChild.remove();
-        appendMsg("I'm running in demo mode — here's a suggested answer: Triangle Tech builds modern websites and integrates AI chat assistants. To enable live OpenAI responses, run the optional server proxy and add your OpenAI key (I provided server code).");
+        appendMsg("I'm running in demo mode — here's a suggested answer: Triangle Tech builds modern websites and integrates AI chat assistants. To enable live OpenAI responses, run the optional server proxy and add your OpenAI key.");
       }
     }
 
@@ -419,6 +527,30 @@
 
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+
+    // Gmail & WhatsApp buttons
+    const btnGmail = document.getElementById('btnGmail');
+    const btnWhats = document.getElementById('btnWhats');
+    btnGmail.addEventListener('click', ()=>{
+      // open Gmail compose (web) when possible, fallback to mailto
+      const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=triangletechweb@gmail.com';
+      try{ window.open(gmailUrl,'_blank'); }catch(e){ window.location.href = 'mailto:triangletechweb@gmail.com'; }
+    });
+    btnWhats.addEventListener('click', ()=>{ window.open('https://wa.me/2349056658964','_blank'); });
+
+    // Contact form handler (client-side demo)
+    function handleContact(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name||!email||!message){ alert('Please fill required fields'); return false; }
+      // demo behaviour: open mail client with prefilled message
+      const mailto = `mailto:triangletechweb@gmail.com?subject=${encodeURIComponent(subject||'Website inquiry from '+name)}&body=${encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+message)}`;
+      window.location.href = mailto;
+      return false;
+    }
+  </script>  
 </body>
 </html>
